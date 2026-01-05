@@ -16,7 +16,7 @@ module.exports = {
             await client.sendMessage(  
                 m.chat,  
                 {  
-                    text: `╭──❖─ DML-MD ─❖──╮\n│❒ Hi ${m.pushName}, just type *${prefix}menu* to see options.\n╰──────────────────╯`,  
+                    text: `╭──❖─ DML-MD ─❖──╮\n│❒ Hi ${m.pushName}, just type *${prefix}menu* to see options.\n╰───────────────────╯`,  
                 },  
                 { quoted: m, ad: true }  
             );  
@@ -39,18 +39,18 @@ module.exports = {
                 .join('');  
         };  
 
-        // Professional, clean menu text
-        const menuText = `╭──❖─ DML-MD MENU ─❖──╮
+        // Professional menu text
+        const menuText = `╭──── DML-MD MENU ───╮
 │👋 Hello, *@${m.pushName}*
 │ Welcome to the DML-MD Bot
-╰───────────────────╯
+╰────────────────────╯
 
-◈── BOT INFORMATION ──◈
-💡 *Bot Name:* DML-MD 
+◈── BOT INFORMATION ───◈
+💡 *Bot Name:* DML-MD (Bow Down)
 ⚡ *Prefix:* ${effectivePrefix}
 🔰 *Mode:* ${mode}
 
-◈─── SELECT AN OPTION ───◈
+◈── SELECT AN OPTION ──◈
 Please select a button below to navigate:
 
 🌟 Core Commands
@@ -76,7 +76,7 @@ Please select a button below to navigate:
   • *${prefix}+18menu* - NSFW commands (18+)
   • *${prefix}utilsmenu* - Utilities
 
-══════════════════════
+═════════════════════
 Powered by *${botname}*
 `;
 
@@ -156,20 +156,6 @@ Powered by *${botname}*
                                 }),  
                             },  
                         ],  
-                        messageParamsJson: JSON.stringify({  
-                            limited_time_offer: {  
-                                text: 'DML-MD',  
-                                url: 'https://github.com/MLILA17/DML-MD',  
-                                copy_code: 'DML',  
-                                expiration_time: Date.now() * 1000,  
-                            },  
-                            bottom_sheet: {  
-                                in_thread_buttons_limit: 2,  
-                                divider_indices: [1, 2],  
-                                list_title: 'Select Command',  
-                                button_title: 'DML-MD',  
-                            },  
-                        }),  
                     },  
                     contextInfo: {  
                         externalAdReply: {  
@@ -189,54 +175,6 @@ Powered by *${botname}*
         );  
 
         await client.relayMessage(m.chat, msg.message, { messageId: msg.key.id });  
-
-        const xhClintonPaths = [
-            path.join(__dirname, 'daudi_musa'),
-            path.join(process.cwd(), 'daudi_musa'),
-            path.join(__dirname, '..', 'daudi_musa')
-        ];
-
-        let audioFolder = null;
-        for (const folderPath of xhClintonPaths) {
-            if (fs.existsSync(folderPath)) {
-                audioFolder = folderPath;
-                break;
-            }
-        }
-
-        if (!audioFolder) return;
-
-        const possibleFiles = [];
-        const menuFiles = [
-            'menu1.mp3', 'menu2.mp3', 'menu3.mp3', 'menu4.mp3', 'menu5.mp3',
-            'menu6.mp3', 'menu7.mp3', 'menu8.mp3', 'menu9.mp3', 'menu10.mp3'
-        ];
-
-        for (const fileName of menuFiles) {
-            const fullPath = path.join(audioFolder, fileName);
-            if (fs.existsSync(fullPath)) possibleFiles.push(fullPath);
-        }
-
-        if (possibleFiles.length === 0) return;
-
-        const randomFile = possibleFiles[Math.floor(Math.random() * possibleFiles.length)];
-
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        try {
-            const audioBuffer = fs.readFileSync(randomFile);
-            await client.sendMessage(
-                m.chat,
-                { audio: audioBuffer, ptt: true, mimetype: 'audio/mpeg', fileName: 'fee-menu.mp3' },
-                { quoted: m }
-            );
-        } catch (error) {
-            await client.sendMessage(
-                m.chat,
-                { audio: { url: randomFile }, ptt: true, mimetype: 'audio/mpeg', fileName: 'fee-menu.mp3' },
-                { quoted: m }
-            );
-        }
     },
 };
 // DML
