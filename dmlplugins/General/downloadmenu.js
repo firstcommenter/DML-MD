@@ -8,7 +8,7 @@ module.exports = {
   description: 'Displays only the Download/Media menu',
   run: async (context) => {
     const { client, m, pict } = context;
-    const botname = '𝙳𝙼𝙻-𝚇𝙼𝙳';
+    const botname = 'DML-MD';
 
     const settings = await getSettings();
     const effectivePrefix = settings.prefix || '';
@@ -26,31 +26,31 @@ module.exports = {
         .join('');
     };
 
-    let menuText = `╭─❒ 「 ${botname} Command Menu ⚠ 」\n`;
+    let menuText = `╭┈❒ 「 ${botname} Command Menu ⚠ 」\n`;
     menuText += `│ Download Menu Only\n`;
     menuText += `│\n`;
-    menuText += `│ 🔣 *Pɾҽϝιx*: ${effectivePrefix || 'None'}\n`;
-    menuText += `╰─────────────\n\n`;
+    menuText += `│ 🔣 *PREFIX*: ${effectivePrefix || 'None'}\n`;
+    menuText += `╰┈┈┈┈━━━━━━┈┈┈┈◈\n\n`;
 
-    menuText += `╭─❒ 「 DOWNLOADMENU 🎬 」\n`;
+    menuText += `╭┈❒ 「 DOWNLOADMENU 🎬 」\n`;
 
     let commandFiles = fs.readdirSync('./dmlplugins/Media').filter(file => file.endsWith('.js'));
     for (const file of commandFiles) {
       const commandName = file.replace('.js', '');
       const fancyCommandName = toFancyFont(commandName);
-      menuText += `│ ✘ *${fancyCommandName}*\n`;
+      menuText += `┋ ✘ *${fancyCommandName}*\n`;
     }
 
-    menuText += `╰─────────────\n\n`;
-    menuText += `> Pσɯҽɾҽԃ Ⴆყ 𝙳𝙼𝙻-𝚇𝙼𝙳`;
+    menuText += `╰┈┈┈┈┈┈┈┈┈┈┈┈\n\n`;
+    menuText += `> ©POWERED BY YOU`;
 
     await client.sendMessage(m.chat, {
       text: menuText,
       contextInfo: {
         externalAdReply: {
           showAdAttribution: false,
-          title: `𝙳𝙼𝙻-𝚇𝙼𝙳 WA bot`,
-          body: `Pσɯҽɾҽԃ Ⴆყ 𝙳𝙼𝙻-𝚇𝙼𝙳`,
+          title: `DML-MD BOT`,
+          body: `Made by Dml from Tanzania`,
           thumbnail: pict,
           sourceUrl: `https://github.com/MLILA17/DML-MD`,
           mediaType: 1,
@@ -60,3 +60,4 @@ module.exports = {
     }, { quoted: m });
   }
 };
+//DML
