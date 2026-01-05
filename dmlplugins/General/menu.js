@@ -43,7 +43,7 @@ module.exports = {
         const menuText = `╭──❖─ DML-MD MENU ─❖──╮
 │👋 Hello, *@${m.pushName}*
 │ Welcome to the DML-MD Bot
-╰────────────────────╯
+╰───────────────────╯
 
 ◈── BOT INFORMATION ──◈
 💡 *Bot Name:* DML-MD 
