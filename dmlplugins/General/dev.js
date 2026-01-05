@@ -16,13 +16,13 @@ module.exports = {
 
       const devContact = {
         phoneNumber: '255622220680',
-        fullName: 'Daudi Dev'
+        fullName: 'Daudi Musa'
       };
 
       const vcard = 'BEGIN:VCARD\n' 
                   + 'VERSION:3.0\n' 
                   + 'FN:' + devContact.fullName + '\n' 
-                  + 'ORG:Toxic-MD;\n' 
+                  + 'ORG:DML;\n' 
                   + 'TEL;type=CELL;type=VOICE;waid=' + devContact.phoneNumber + ':+' + devContact.phoneNumber + '\n' 
                   + 'END:VCARD';
 
