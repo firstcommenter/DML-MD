@@ -46,7 +46,7 @@ module.exports = {
 ╰────────────────────╯
 
 ◈── BOT INFORMATION ──◈
-💡 *Bot Name:* DML-MD (Bow Down)
+💡 *Bot Name:* DML-MD 
 ⚡ *Prefix:* ${effectivePrefix}
 🔰 *Mode:* ${mode}
 
