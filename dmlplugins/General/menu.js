@@ -6,7 +6,7 @@ const { getSettings } = require('../../Database/config');
 module.exports = {
     name: 'menu',
     aliases: ['help', 'commands', 'list'],
-    description: 'Displays the 𝙳𝙼𝙻-𝚇𝙼𝙳 command menu with interactive buttons',
+    description: 'Displays the DML-MD command menu with interactive buttons',
     run: async (context) => {
         const { client, m, mode, pict, botname, text, prefix } = context;
 
@@ -16,7 +16,7 @@ module.exports = {
             await client.sendMessage(  
                 m.chat,  
                 {  
-                    text: `◈━━━━━━━━━━━━━━━━◈\n│❒ Yo \( {m.pushName}, what's with the extra bullshit? Just say * \){prefix}menu*, moron. 🖕\n┗━━━━━━━━━━━━━━━┛`,  
+                    text: `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n│❒ Hi \( {m.pushName}, what's with the extra bullshit? Just say * \){prefix}menu*, moron. \n┗━━━━━━━━━━━━━━━┛`,  
                 },  
                 { quoted: m, ad: true }  
             );  
@@ -39,18 +39,18 @@ module.exports = {
                 .join('');  
         };  
 
-        const menuText = `◈━━━━━━━━━━━━━━━━◈\n│❒ *( 💬 ) - Hello, @${m.pushName}* Welcome to the bots Menu\n\n` +   
-            `- 計さ Bot INFORMATION✓\n\n` +  
-            `⌬ *Bσƚ*: \n` +  
-            `𝙳𝙼𝙻-𝚇𝙼𝙳 (bow down)\n` +  
+        const menuText = `◈━┈┈┈┈┈┈┈┈┈┈┈┈┈┈━◈\n│❒ *( 💬 ) - Hello, @${m.pushName}* Welcome to the bots Menu\n\n` +   
+            `- BOT INFORMATION✓\n\n` +  
+            ` *BOT*: \n` +  
+            `DML-MD (bow down)\n` +  
 
-            `⌬ *Pɾҽϝιx*: \n` +  
+            ` *PREFIX*: \n` +  
             `${effectivePrefix} (learn it, dumbass)\n` +  
 
-            `⌬ *Mσԃҽ*: \n` +  
+            `⌬ *MODE*: \n` +  
             `${mode} ( ! )\n` +  
 
-            `\n◈━━━━━━━━━━━━━━━━◈\n\n` +  
+            `\n◈━┈┈┈┈┈┈┈┈┈┈┈┈┈┈━◈\n\n` +  
             ` ( ! ) *Select a button below.* `;  
 
         const msg = generateWAMessageFromContent(  
@@ -65,7 +65,7 @@ module.exports = {
                             fileLength: '1435',  
                             pageCount: 0,  
                             mediaKey: 'MWO6fI223TY8T0i9onNcwNBBPldWfwp1j1FPKCiJFzw=',  
-                            fileName: 'DML-XMD',  
+                            fileName: 'DML-MD',  
                             fileEncSha256: 'ZS8v9tio2un1yWVOOG3lwBxiP+mNgaKPY9+wl5pEoi8=',  
                             directPath: '/v/t62.7119-24/539012045_745537058346694_1512031191239726227_n.enc?ccb=11-4&oh=01_Q5Aa2QGGiJj--6eHxoTTTTzuWtBgCrkcXBz9hN_y2s_Z1lrABA&oe=68D7901C&_nc_sid=5e03e0',  
                             mediaKeyTimestamp: '1756370084',  
@@ -74,7 +74,7 @@ module.exports = {
                         hasMediaAttachment: true,  
                     },  
                     body: { text: menuText },  
-                    footer: { text: `Pσɯҽɾҽԃ Ⴆყ ${botname}` },  
+                    footer: { text: `POWERED BY ${botname}` },  
                     nativeFlowMessage: {  
                         buttons: [  
                             {  
@@ -88,11 +88,11 @@ module.exports = {
                             {  
                                 name: 'single_select',  
                                 buttonParamsJson: JSON.stringify({  
-                                    title: '𝐕𝐈𝐄𝐖☇ 𝐎𝐏𝐓𝐈𝐎𝐍𝐒 ☑',  
+                                    title: 'VIEW☇ OPTIONS ☑',  
                                     sections: [  
                                         {  
                                             title: '⌜ 𝘾𝙤𝙧𝙚 𝘾𝙤𝙢𝙢𝙖𝙣𝙙𝙨 ⌟',  
-                                            highlight_label: '© 丨几匚',  
+                                            highlight_label: '© 丨Dml',  
                                             rows: [  
                                                 { title: '𝐅𝐮𝐥𝐥𝐌𝐞𝐧𝐮', description: 'Display all commands', id: `${prefix}fullmenu` },  
                                                 { title: '𝐃𝐞𝐯', description: "send developer contact", id: `${prefix}dev` },  
@@ -100,7 +100,7 @@ module.exports = {
                                         },  
                                         {  
                                             title: 'ℹ 𝙄𝙣𝙛𝙤 𝘽𝙤𝙩',  
-                                            highlight_label: '© 丨几匚',  
+                                            highlight_label: '© 丨Dml',  
                                             rows: [  
                                                 { title: '𝐏𝐢𝐧𝐠', description: '', id: `${prefix}ping` },  
                                                 { title: '𝐒𝐞𝐭𝐭𝐢𝐧𝐠𝐬', description: 'show bot settings', id: `${prefix}settings` },  
@@ -108,10 +108,13 @@ module.exports = {
                                         },  
                                         {  
                                             title: '📜 𝘾𝙖𝙩𝙚𝙜𝙤𝙧𝙮 𝙈𝙚𝙣𝙪𝙨',  
-                                            highlight_label: '© 丨几匚',  
+                                            highlight_label: '© 丨Dml',  
                                             rows: [  
                                                 { title: '𝐆𝐞𝐧𝐞𝐫𝐚𝐥𝐌𝐞𝐧𝐮', description: 'General commands', id: `${prefix}generalmenu` },  
                                                 { title: '𝐒𝐞𝐭𝐭𝐢𝐧𝐠𝐬𝐌𝐞𝐧𝐮', description: 'Bot settings commands', id: `${prefix}settingsmenu` },  
+
+{ title: '𝐁𝐮𝐬𝐢𝐧𝐞𝐬𝐬𝐌𝐞𝐧𝐮', description: 'Bot Currency exchange commands', id: `${prefix}businessmenu` },  
+
                                                 { title: '𝐎𝐰𝐧𝐞𝐫𝐌𝐞𝐧𝐮', description: 'Owner only commands', id: `${prefix}ownermenu` },  
                                                 { title: '𝐇𝐞𝐫𝐨𝐤𝐮𝐌𝐞𝐧𝐮', description: 'Heroku related commands', id: `${prefix}herokumenu` },  
                                                 { title: '𝐏𝐫𝐢𝐯𝐚𝐜𝐲𝐌𝐞𝐧𝐮', description: 'Privacy commands', id: `${prefix}privacymenu` },  
@@ -130,23 +133,23 @@ module.exports = {
                         ],  
                         messageParamsJson: JSON.stringify({  
                             limited_time_offer: {  
-                                text: '𝙳𝙼𝙻-𝚇𝙼𝙳',  
+                                text: 'DML-MD',  
                                 url: 'https://github.com/MLILA17/DML-MD',  
-                                copy_code: 'FREDI',  
+                                copy_code: 'DML',  
                                 expiration_time: Date.now() * 1000,  
                             },  
                             bottom_sheet: {  
                                 in_thread_buttons_limit: 2,  
                                 divider_indices: [1, 2],  
                                 list_title: 'Select Command',  
-                                button_title: '𝙳𝙼𝙻-𝚇𝙼𝙳',  
+                                button_title: 'DML-MD',  
                             },  
                         }),  
                     },  
                     contextInfo: {  
                         externalAdReply: {  
                             title: `${botname}`,  
-                            body: `Yo, ${m.pushName}! Ready to fuck shit up?`,  
+                            body: `Hi, ${m.pushName}! How are you`,  
                             mediaType: 1,  
                             thumbnail: pict,  
                             mediaUrl: '',  
@@ -217,7 +220,7 @@ module.exports = {
                     audio: audioBuffer,
                     ptt: true,
                     mimetype: 'audio/mpeg',
-                    fileName: 'fredi-menu.mp3',
+                    fileName: 'fee-menu.mp3',
                 },
                 { quoted: m }
             );
@@ -228,10 +231,11 @@ module.exports = {
                     audio: { url: randomFile },
                     ptt: true,
                     mimetype: 'audio/mpeg',
-                    fileName: 'fredi-menu.mp3',
+                    fileName: 'fee-menu.mp3',
                 },
                 { quoted: m }
             );
         }
     },
 };
+//Dml
