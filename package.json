@@ -21,7 +21,7 @@
     "whatsapp-multi-device"
   ],
   "base": "https://github.com/MLILA17/DML-MD",
-  "author": "xhclinton",
+  "author": "DML",
   "license": "MIT",
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
@@ -30,7 +30,7 @@
     "@hapi/boom": "^10.0.0",
     "@shineiichijo/marika": "^3.0.0",
     "@vitalets/google-translate-api": "latest",
-    "@whiskeysockets/baileys": "npm:baileys@6.7.21",
+    "@whiskeysockets/baileys": "github:FezChat/SocketsBaileys",
     "acrcloud": "^1.4.0",
     "adm-zip": "^0.5.16",
     "aptoide-scraper": "^1.0.1",
