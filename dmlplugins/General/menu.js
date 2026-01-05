@@ -16,7 +16,7 @@ module.exports = {
             await client.sendMessage(  
                 m.chat,  
                 {  
-                    text: `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n│❒ Hi \( {m.pushName}, what's with the extra bullshit? Just say * \){prefix}menu*, moron. \n┗━━━━━━━━━━━━━━━┛`,  
+                    text: `╭─────────❖─ DML-MD ─❖─────────╮\n│❒ Hi ${m.pushName}, just type *${prefix}menu* to see options.\n╰───────────────────────────────╯`,  
                 },  
                 { quoted: m, ad: true }  
             );  
@@ -39,19 +39,46 @@ module.exports = {
                 .join('');  
         };  
 
-        const menuText = `◈━┈┈┈┈┈┈┈┈┈┈┈┈┈┈━◈\n│❒ *( 💬 ) - Hello, @${m.pushName}* Welcome to the bots Menu\n\n` +   
-            `- BOT INFORMATION✓\n\n` +  
-            ` *BOT*: \n` +  
-            `DML-MD (bow down)\n` +  
+        // Professional, clean menu text
+        const menuText = `╭─────────❖─ DML-MD MENU ─❖─────────╮
+│👋 Hello, *@${m.pushName}*
+│ Welcome to the DML-MD Bot
+╰───────────────────────────────╯
 
-            ` *PREFIX*: \n` +  
-            `${effectivePrefix} (learn it, dumbass)\n` +  
+◈──────── BOT INFORMATION ────────◈
+💡 *Bot Name:* DML-MD (Bow Down)
+⚡ *Prefix:* ${effectivePrefix}
+🔰 *Mode:* ${mode}
 
-            `⌬ *MODE*: \n` +  
-            `${mode} ( ! )\n` +  
+◈──────── SELECT AN OPTION ───────◈
+Please select a button below to navigate:
 
-            `\n◈━┈┈┈┈┈┈┈┈┈┈┈┈┈┈━◈\n\n` +  
-            ` ( ! ) *Select a button below.* `;  
+🌟 Core Commands
+  • *${prefix}fullmenu* - Display all commands
+  • *${prefix}dev* - Developer contact
+
+ℹ Bot Info
+  • *${prefix}ping* - Check bot latency
+  • *${prefix}settings* - Show bot settings
+
+📂 Categories
+  • *${prefix}generalmenu* - General commands
+  • *${prefix}settingsmenu* - Settings commands
+  • *${prefix}businessmenu* - Currency & finance commands
+  • *${prefix}ownermenu* - Owner only commands
+  • *${prefix}herokumenu* - Heroku commands
+  • *${prefix}privacymenu* - Privacy commands
+  • *${prefix}groupmenu* - Group management
+  • *${prefix}aimenu* - AI & Chat commands
+  • *${prefix}downloadmenu* - Media downloads
+  • *${prefix}editingmenu* - Media editing
+  • *${prefix}logomenu* - Logo & text makers
+  • *${prefix}+18menu* - NSFW commands (18+)
+  • *${prefix}utilsmenu* - Utilities
+
+═══════════════════════════════
+Powered by *${botname}*
+`;
 
         const msg = generateWAMessageFromContent(  
             m.chat,  
@@ -112,9 +139,7 @@ module.exports = {
                                             rows: [  
                                                 { title: '𝐆𝐞𝐧𝐞𝐫𝐚𝐥𝐌𝐞𝐧𝐮', description: 'General commands', id: `${prefix}generalmenu` },  
                                                 { title: '𝐒𝐞𝐭𝐭𝐢𝐧𝐠𝐬𝐌𝐞𝐧𝐮', description: 'Bot settings commands', id: `${prefix}settingsmenu` },  
-
-{ title: '𝐁𝐮𝐬𝐢𝐧𝐞𝐬𝐬𝐌𝐞𝐧𝐮', description: 'Bot Currency exchange commands', id: `${prefix}businessmenu` },  
-
+                                                { title: '𝐁𝐮𝐬𝐢𝐧𝐞𝐬𝐬𝐌𝐞𝐧𝐮', description: 'Bot Currency exchange commands', id: `${prefix}businessmenu` },  
                                                 { title: '𝐎𝐰𝐧𝐞𝐫𝐌𝐞𝐧𝐮', description: 'Owner only commands', id: `${prefix}ownermenu` },  
                                                 { title: '𝐇𝐞𝐫𝐨𝐤𝐮𝐌𝐞𝐧𝐮', description: 'Heroku related commands', id: `${prefix}herokumenu` },  
                                                 { title: '𝐏𝐫𝐢𝐯𝐚𝐜𝐲𝐌𝐞𝐧𝐮', description: 'Privacy commands', id: `${prefix}privacymenu` },  
@@ -179,34 +204,20 @@ module.exports = {
             }
         }
 
-        if (!audioFolder) {
-            return;
-        }
+        if (!audioFolder) return;
 
         const possibleFiles = [];
         const menuFiles = [
-            'menu1.mp3',
-            'menu2.mp3', 
-            'menu3.mp3',
-            'menu4.mp3',
-            'menu5.mp3',
-            'menu6.mp3',
-            'menu7.mp3',
-            'menu8.mp3',
-            'menu9.mp3',
-            'menu10.mp3'
+            'menu1.mp3', 'menu2.mp3', 'menu3.mp3', 'menu4.mp3', 'menu5.mp3',
+            'menu6.mp3', 'menu7.mp3', 'menu8.mp3', 'menu9.mp3', 'menu10.mp3'
         ];
 
         for (const fileName of menuFiles) {
             const fullPath = path.join(audioFolder, fileName);
-            if (fs.existsSync(fullPath)) {
-                possibleFiles.push(fullPath);
-            }
+            if (fs.existsSync(fullPath)) possibleFiles.push(fullPath);
         }
 
-        if (possibleFiles.length === 0) {
-            return;
-        }
+        if (possibleFiles.length === 0) return;
 
         const randomFile = possibleFiles[Math.floor(Math.random() * possibleFiles.length)];
 
@@ -216,26 +227,16 @@ module.exports = {
             const audioBuffer = fs.readFileSync(randomFile);
             await client.sendMessage(
                 m.chat,
-                {
-                    audio: audioBuffer,
-                    ptt: true,
-                    mimetype: 'audio/mpeg',
-                    fileName: 'fee-menu.mp3',
-                },
+                { audio: audioBuffer, ptt: true, mimetype: 'audio/mpeg', fileName: 'fee-menu.mp3' },
                 { quoted: m }
             );
         } catch (error) {
             await client.sendMessage(
                 m.chat,
-                {
-                    audio: { url: randomFile },
-                    ptt: true,
-                    mimetype: 'audio/mpeg',
-                    fileName: 'fee-menu.mp3',
-                },
+                { audio: { url: randomFile }, ptt: true, mimetype: 'audio/mpeg', fileName: 'fee-menu.mp3' },
                 { quoted: m }
             );
         }
     },
 };
-//Dml
+// DML
