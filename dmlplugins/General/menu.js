@@ -16,7 +16,7 @@ module.exports = {
             await client.sendMessage(  
                 m.chat,  
                 {  
-                    text: `╭─────────❖─ DML-MD ─❖─────────╮\n│❒ Hi ${m.pushName}, just type *${prefix}menu* to see options.\n╰───────────────────────────────╯`,  
+                    text: `╭──❖─ DML-MD ─❖──╮\n│❒ Hi ${m.pushName}, just type *${prefix}menu* to see options.\n╰──────────────────╯`,  
                 },  
                 { quoted: m, ad: true }  
             );  
@@ -40,17 +40,17 @@ module.exports = {
         };  
 
         // Professional, clean menu text
-        const menuText = `╭─────────❖─ DML-MD MENU ─❖─────────╮
+        const menuText = `╭──❖─ DML-MD MENU ─❖──╮
 │👋 Hello, *@${m.pushName}*
 │ Welcome to the DML-MD Bot
-╰───────────────────────────────╯
+╰────────────────────╯
 
-◈──────── BOT INFORMATION ────────◈
+◈── BOT INFORMATION ──◈
 💡 *Bot Name:* DML-MD (Bow Down)
 ⚡ *Prefix:* ${effectivePrefix}
 🔰 *Mode:* ${mode}
 
-◈──────── SELECT AN OPTION ───────◈
+◈─── SELECT AN OPTION ───◈
 Please select a button below to navigate:
 
 🌟 Core Commands
@@ -76,7 +76,7 @@ Please select a button below to navigate:
   • *${prefix}+18menu* - NSFW commands (18+)
   • *${prefix}utilsmenu* - Utilities
 
-═══════════════════════════════
+══════════════════════
 Powered by *${botname}*
 `;
 
