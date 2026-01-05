@@ -125,7 +125,7 @@
 ## 👤 Developer Information
 
 **Author:** Daudi Musa Mlila  
-🎓 DIT – Computer Engineering  
+🎓 DIT – Computer Engineering Student
 📍 Tanzania 🇹🇿  
 💻 Full-Stack • Bot Developer • Automation Engineer  
 
