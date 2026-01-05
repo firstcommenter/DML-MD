@@ -115,7 +115,7 @@ Powered by *${botname}*
                             {  
                                 name: 'single_select',  
                                 buttonParamsJson: JSON.stringify({  
-                                    title: 'VIEW☇ OPTIONS ☑',  
+                                    title: 'VIEW OPTIONS ',  
                                     sections: [  
                                         {  
                                             title: '⌜ 𝘾𝙤𝙧𝙚 𝘾𝙤𝙢𝙢𝙖𝙣𝙙𝙨 ⌟',  
