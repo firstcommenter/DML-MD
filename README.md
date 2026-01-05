@@ -76,14 +76,24 @@
 
 ## 👥 Fork Tracker (Active Developers)
 
+> 🧠 *All developers who forked this repository can be viewed here:*
+
 <p align="center">
-  <a href="https://github.com/MLILA17/DML-MD/network/members">
-    <img src="https://img.shields.io/badge/View_All_Forkers-24292E?style=for-the-badge&logo=github&logoColor=white" />
+  <a href="https://github.com/MLILA17/DML-MD/network/members" target="_blank">
+    <img src="https://img.shields.io/badge/View_All_Forkers-24292E?style=for-the-badge&logo=github&logoColor=white">
   </a>
 </p>
 
+---
+
+## 🏆 Top Forkers Leaderboard
+
+> 🌟 *These are the latest amazing developers who forked DML-MD:*
+
 <p align="center">
-  <img src="https://reporoster.com/forks/MLILA17/DML-MD" alt="DML-MD Forkers" />
+  <a href="https://github.com/MLILA17/DML-MD/network/members">
+    <img src="https://reporoster.com/forks/MLILA17/DML-MD" alt="Forkers Leaderboard" />
+  </a>
 </p>
 
 ---
