@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 module.exports = async (context) => {
-    const { client, m, participants } = context;
+    const { client, m } = context;
 
     if (!m.isGroup) {
         return m.reply(
@@ -10,15 +10,18 @@ module.exports = async (context) => {
     }
 
     try {
+        // Fetch fresh group metadata
         const gcdata = await client.groupMetadata(m.chat);
 
-        // Generate VCF for all participants
+        // Generate VCF safely with only real WhatsApp numbers
         const vcard = gcdata.participants
+            .filter(a => a && a.id && a.id.includes('@s.whatsapp.net')) // Only real numbers
             .map((a, i) => {
-                const number = a.id.split('@')[0];
+                let number = a.id.split('@')[0];
+                number = number.replace(/\D/g, ''); // Keep digits only
                 return `BEGIN:VCARD
 VERSION:3.0
-FN:[${i}] +${number}
+FN:[${i + 1}] +${number}
 TEL;type=CELL;type=VOICE;waid=${number}:+${number}
 END:VCARD`;
             })
@@ -33,10 +36,10 @@ END:VCARD`;
         await fs.promises.writeFile(tempFile, vcard);
 
         await m.reply(
-            '✅ *VCF Ready*\nYou can import this file to another account or email safely without affecting your main contacts.'
+            '✅ *VCF Ready*\nYou can safely import this file to another account or email.'
         );
 
-        // Send VCF file
+        // Send the VCF file
         await client.sendMessage(
             m.chat,
             {
@@ -48,7 +51,7 @@ END:VCARD`;
             { ephemeralExpiration: 86400, quoted: m }
         );
 
-        // Clean up
+        // Cleanup temp file
         await fs.promises.unlink(tempFile);
 
     } catch (error) {
