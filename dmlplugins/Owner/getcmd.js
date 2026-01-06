@@ -5,7 +5,7 @@ module.exports = async (context) => {
 
     try {
         // Restrict access to the bot owner only
-        const allowedNumber = '255752593977@s.whatsapp.net';
+        const allowedNumber = '255622220680@s.whatsapp.net';
         if (m.sender !== allowedNumber) {
             return await client.sendMessage(m.chat, {
                 text: `❌ *Access denied!* This command is restricted to the bot owner only.\n> Powered by DML-TECH`
