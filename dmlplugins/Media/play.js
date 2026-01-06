@@ -4,21 +4,17 @@ const axios = require("axios");
 module.exports = async (context) => {
     const { client, m, text } = context;
 
-    // Input validation
     if (!text) return m.reply("Are you mute? Give me a song name. It's not rocket science.");
     if (text.length > 100) return m.reply("Your 'song title' is longer than your attention span. Keep it under 100 characters.");
 
     try {
-        // Show loading reaction
         await client.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
         
-        // Search YouTube
         const searchQuery = `${text} official`;
         const searchResult = await yts(searchQuery);
         const video = searchResult.videos[0];
         if (!video) return m.reply(`Nothing found for "${text}". Your taste is as nonexistent as the results.`);
 
-        // Get MP3 from API
         const apiUrl = `https://api.privatezia.biz.id/api/downloader/ytplaymp3?query=${encodeURIComponent(video.url)}`;
         const response = await axios.get(apiUrl);
         const apiData = response.data;
@@ -29,10 +25,8 @@ module.exports = async (context) => {
         const artist = video.author.name || "Unknown Artist";
         const thumbnail = apiData.result.thumbnail || video.thumbnail;
 
-        // ✅ Show success reaction
         await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
-        // Send audio file with thumbnail and professional DML-MD style
         await client.sendMessage(m.chat, {
             audio: { url: audioUrl },
             mimetype: "audio/mpeg",
@@ -41,10 +35,10 @@ module.exports = async (context) => {
                 externalAdReply: {
                     title: title,
                     body: `${artist} | DML-MD`,
-                    thumbnailUrl: thumbnail, // ✅ Added by dml
-                    sourceUrl: null, // dml
+                    thumbnailUrl: thumbnail,
+                    sourceUrl: video.url, // optional, remove if not needed
                     mediaType: 2, // 2 = audio
-                    renderLargerThumbnail: true
+                    renderLargerThumbnail: true,
                 },
                 forwardingScore: 999,
                 isForwarded: true,
@@ -60,7 +54,6 @@ module.exports = async (context) => {
     } catch (error) {
         console.error(`Play error:`, error);
         await client.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-
         let userMessage = 'Download failed. The universe despises your music taste.';
         if (error.message.includes('API spat')) userMessage = 'The audio service rejected the request.';
         if (error.message.includes('timeout')) userMessage = 'Search timed out. Try a song that exists.';
