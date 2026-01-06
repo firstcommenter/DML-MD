@@ -23,33 +23,36 @@ module.exports = async (context) => {
         const audioUrl = apiData.result.downloadUrl;
         const title = apiData.result.title || "Untitled";
         const artist = video.author.name || "Unknown Artist";
-        const thumbnail = apiData.result.thumbnail || video.thumbnail;
 
         await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
-        await client.sendMessage(m.chat, {
-            audio: { url: audioUrl },
-            mimetype: "audio/mpeg",
-            fileName: `${title.substring(0, 100)}.mp3`,
-            contextInfo: {
-                externalAdReply: {
-                    title: title,
-                    body: `${artist} | DML-MD`,
-                    thumbnailUrl: thumbnail,
-                    sourceUrl: video.url, // optional, remove if not needed
-                    mediaType: 2, // 2 = audio
-                    renderLargerThumbnail: true,
-                },
-                forwardingScore: 999,
-                isForwarded: true,
-                mentionedJid: [m.sender],
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363403958418756@newsletter',
-                    newsletterName: "DML-PLAY",
-                    serverMessageId: 143
+        await client.sendMessage(
+            m.chat,
+            {
+                audio: { url: audioUrl },
+                mimetype: "audio/mpeg",
+                fileName: `${title.substring(0, 100)}.mp3`,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    forwardingScore: 999,
+                    isForwarded: true,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: '120363403958418756@newsletter',
+                        newsletterName: "DML-PLAY",
+                        serverMessageId: 143
+                    },
+                    externalAdReply: {
+                        title: title,
+                        body: `${artist} | DML-MD`,
+                        thumbnailUrl: apiData.result.thumbnail || video.thumbnail,
+                        sourceUrl: video.url,
+                        mediaType: 1,
+                        renderLargerThumbnail: true
+                    }
                 }
-            }
-        }, { quoted: m });
+            },
+            { quoted: m }
+        );
 
     } catch (error) {
         console.error(`Play error:`, error);
