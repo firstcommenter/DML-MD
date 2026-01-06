@@ -8,13 +8,13 @@ module.exports = async (context) => {
         const allowedNumber = '255752593977@s.whatsapp.net';
         if (m.sender !== allowedNumber) {
             return await client.sendMessage(m.chat, {
-                text: `❌ *Access denied!* This command is restricted to the bot owner only.\n> Powered by TSX-TECH`
+                text: `❌ *Access denied!* This command is restricted to the bot owner only.\n> Powered by DML-TECH`
             }, { quoted: m });
         }
 
         if (!text) {
             return await client.sendMessage(m.chat, {
-                text: `📄 *Please provide a command name!*\nExample: *${prefix}getcmd* or *${prefix}cmd ping*\n> Powered by TSX-TECH`
+                text: `📄 *Please provide a command name!*\nExample: *${prefix}getcmd* or *${prefix}cmd ping*\n> Powered by DML-TECH`
             }, { quoted: m });
         }
 
@@ -50,7 +50,7 @@ module.exports = async (context) => {
                     `📂 *Category:* ${category.name}\n` +
                     `📄 *File:* ${commandName}.js\n\n` +
                     `\`\`\`javascript\n${data}\n\`\`\`\n` +
-                    `> Powered by TSX-TECH`;
+                    `> Powered by DML-TECH`;
 
                 await client.sendMessage(m.chat, { text: replyText }, { quoted: m });
                 fileFound = true;
@@ -58,7 +58,7 @@ module.exports = async (context) => {
             } catch (err) {
                 if (err.code !== 'ENOENT') {
                     await client.sendMessage(m.chat, {
-                        text: `⚠️ *Error reading command file:* ${err.message}\n> Powered by TSX-TECH`
+                        text: `⚠️ *Error reading command file:* ${err.message}\n> Powered by DML-TECH`
                     }, { quoted: m });
                     return;
                 }
@@ -67,7 +67,7 @@ module.exports = async (context) => {
 
         if (!fileFound) {
             await client.sendMessage(m.chat, {
-                text: `❌ *Command not found:* ${commandName}\nPlease try a valid command name.\n> Powered by TSX-TECH`
+                text: `❌ *Command not found:* ${commandName}\nPlease try a valid command name.\n> Powered by DML-TECH`
             }, { quoted: m });
         }
     } catch (error) {
