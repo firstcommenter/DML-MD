@@ -38,7 +38,7 @@ module.exports = {
     for (const file of commandFiles) {
       const commandName = file.replace('.js', '');
       const fancyCommandName = toFancyFont(commandName);
-      menuText += `┋ ✘ *${fancyCommandName}*\n`;
+      menuText += `┋ 🔰 *${fancyCommandName}*\n`;
     }
 
     menuText += `╰┈┈┈┈┈┈┈┈┈┈┈┈─\n\n`;
