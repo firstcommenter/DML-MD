@@ -27,12 +27,11 @@ module.exports = async (context) => {
         const audioUrl = apiData.result.downloadUrl;
         const title = apiData.result.title || "Untitled";
         const artist = video.author.name || "Unknown Artist";
-        const thumbnail = apiData.result.thumbnail || video.thumbnail;
 
         // ✅ Show success reaction
         await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
-        // Send audio file with professional DML-MD style
+        // Send audio file ONLY, professional style
         await client.sendMessage(m.chat, {
             audio: { url: audioUrl },
             mimetype: "audio/mpeg",
@@ -41,10 +40,10 @@ module.exports = async (context) => {
                 externalAdReply: {
                     title: title,
                     body: `${artist} | DML-MD`,
-                    thumbnailUrl: thumbnail,
-                    sourceUrl: video.url,
+                    thumbnailUrl: null, // No thumbnail
+                    sourceUrl: null,
                     mediaType: 2, // 2 = audio
-                    renderLargerThumbnail: true
+                    renderLargerThumbnail: false
                 },
                 forwardingScore: 999,
                 isForwarded: true,
@@ -56,36 +55,6 @@ module.exports = async (context) => {
                 }
             }
         }, { quoted: m });
-
-        // Send thumbnail image as newsletter style
-        await client.sendMessage(m.chat, {
-            image: { url: thumbnail },
-            caption: `
-🎵 *${title}*
-👤 Artist: ${artist}
-🔗 [Watch on YouTube](${video.url})
-
-💡 Powered by *DML-MD*
-            `.trim(),
-            contextInfo: {
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363403958418756@newsletter',
-                    newsletterName: "DML-PLAY",
-                    serverMessageId: 143
-                },
-                externalAdReply: {
-                    title: `${title} | ${artist}`,
-                    body: "DML-MD Music Service",
-                    thumbnailUrl: thumbnail,
-                    sourceUrl: video.url,
-                    mediaType: 1,
-                    renderLargerThumbnail: true
-                }
-            }
-        });
 
     } catch (error) {
         console.error(`Play error:`, error);
