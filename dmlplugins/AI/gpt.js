@@ -8,7 +8,7 @@ module.exports = async (context) => {
     try {
         await client.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
         const statusMsg = await m.reply("Thinking... Try not to break anything else while you wait.");
-        const apiUrl = `https://szhost.biz.id/api/ai/chatgpt4o`;
+        const apiUrl = `https://vapis.my.id/api/openai?q=`;
         const response = await fetch(apiUrl, {
             method: 'POST',
             timeout: 10000,
