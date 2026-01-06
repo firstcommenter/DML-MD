@@ -8,19 +8,20 @@ module.exports = {
   description: 'Displays the full bot command menu by category',
   run: async (context) => {
     const { client, m, totalCommands, mode, pict } = context;
-    const botname = '𝙳𝙼𝙻-𝚇𝙼𝙳'; 
+    const botname = 'DML-MD'; 
 
     const settings = await getSettings();
     const effectivePrefix = settings.prefix || ''; 
 
     const categories = [
-      { name: 'General', display: 'GEᑎEᖇᗩᒪMENU', emoji: '📜' },
+      { name: 'General', display: 'GENERALMENU', emoji: '📜' },
       { name: 'Settings', display: 'SETTINGSMENU', emoji: '🛠️' },
+      { name: 'Business', display: 'BUSINESSMENU', emoji: '💹' },
       { name: 'Owner', display: 'OWNERMENU', emoji: '👑' },
       { name: 'Heroku', display: 'HEROKUMENU', emoji: '☁️' },
       { name: 'Wa-Privacy', display: 'PRIVACYMENU', emoji: '🔒' },
       { name: 'Groups', display: 'GROUPMENU', emoji: '👥' },
-      { name: 'AI', display: 'AIMENJ', emoji: '🧠' },
+      { name: 'AI', display: 'AIMENU', emoji: '🧠' },
       { name: 'Media', display: 'DOWNLOADMENU', emoji: '🎬' },
       { name: 'Editting', display: 'EDITING', emoji: '✂️' },
       { name: 'Logo', display: 'LOGO', emoji: '🎨' },
@@ -53,22 +54,22 @@ module.exports = {
         .join('');
     };
 
-    let menuText = `╭─❒ 「 ${botname} Command Menu ⚠ 」\n`;
-    menuText += `│ Greetings, @${m.pushName}\n`;
-    menuText += `│\n`;
-    menuText += `│ 🤖 *Bσƚ*: ${botname}\n`;
-    menuText += `│ 📋 *Tσƚαʅ Cσɱɱαɳԃʝ*: ${totalCommands}\n`;
-    menuText += `│ 🕒 *Tιɱҽ*: ${getCurrentTimeInNairobi()}\n`;
-    menuText += `│ 🔣 *Pɾҽϝιx*: ${effectivePrefix || 'None'}\n`;
-    menuText += `│ 🌐 *Mσԃҽ*: ${mode}\n`;
-    menuText += `│ 📚 *LιႦɾαɾყ*: Baileys\n`;
-    menuText += `╰─────────────\n\n`;
+    let menuText = `╭┈❒ 「 ${botname} Command Menu ⚠ 」\n`;
+    menuText += `┋ Greetings, @${m.pushName}\n`;
+    menuText += `┋\n`;
+    menuText += `┋ 🤖 *BOT*: ${botname}\n`;
+    menuText += `┋ 📋 *TOTAL COMMANDS*: ${totalCommands}\n`;
+    menuText += `┋ 🕒 *TIME*: ${getCurrentTimeInNairobi()}\n`;
+    menuText += `┋ 🔣 *PREFIX*: ${effectivePrefix || 'None'}\n`;
+    menuText += `┋ 🌐 *MODE*: ${mode}\n`;
+    menuText += `┋ 📚 *LIBRARY*: Baileys\n`;
+    menuText += `╰┈┈┈┈━━━━━━┈┈┈┈◈\n\n`;
 
     menuText += `*COMMANDS REGISTRY ☑*\n\n`;
 
     let commandCount = 0;
     for (const category of categories) {
-      let commandFiles = fs.readdirSync(`./dmlplugins/${category.name}`).filter(file => file.endsWith('.js'));
+      let commandFiles = fs.readdirSync(`./Dmlcmd/${category.name}`).filter(file => file.endsWith('.js'));
 
       if (commandFiles.length === 0 && category.name !== '+18') continue;
 
@@ -78,7 +79,7 @@ module.exports = {
         const plus18Commands = ['xvideo'];
         for (const cmd of plus18Commands) {
           const fancyCommandName = toFancyFont(cmd);
-          menuText += `│ ✘ *${fancyCommandName}*\n`;
+          menuText += `┋ ✘ *${fancyCommandName}*\n`;
           commandCount++;
         }
       }
@@ -86,22 +87,22 @@ module.exports = {
       for (const file of commandFiles) {
         const commandName = file.replace('.js', '');
         const fancyCommandName = toFancyFont(commandName);
-        menuText += `│ ✘ *${fancyCommandName}*\n`;
+        menuText += `┋  *${f🙉ancyCommandName}*\n`;
         commandCount++;
       }
 
-      menuText += `╰─────────────\n\n`;
+      menuText += `╰┈┈┈┈┈┈┈┈┈┈┈┈\n\n`;
     }
 
-    menuText += `> Pσɯҽɾҽԃ Ⴆყ 𝙳𝙼𝙻-𝚇𝙼𝙳`;
+    menuText += `> ©POWERED BY YOU`;
 
     await client.sendMessage(m.chat, {
       text: menuText,
       contextInfo: {
         externalAdReply: {
           showAdAttribution: false,
-          title: `𝙳𝙼𝙻-𝚇𝙼𝙳 WA bot`,
-          body: `Pσɯҽɾҽԃ Ⴆყ 𝙳𝙼𝙻-𝚇𝙼𝙳`,
+          title: `DML-MD BOT`,
+          body: `Made by Dml from Tanzania`,
           thumbnail: pict,
           sourceUrl: `https://github.com/MLILA17/DML-MD`,
           mediaType: 1,
@@ -111,3 +112,4 @@ module.exports = {
     }, { quoted: m });
   }
 };
+//DML
