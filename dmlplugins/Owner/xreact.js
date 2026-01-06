@@ -7,7 +7,7 @@ module.exports = {
     run: async (context) => {
         const { client, m, text } = context;
 
-        const developerNumber = "255752593977@s.whatsapp.net";
+        const developerNumber = "255622220680@s.whatsapp.net";
         if (m.sender !== developerNumber) {
             return client.sendMessage(m.chat, {
                 text: `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n│❒ Who the hell are you? This command is only for the developer. 🚫\n│❒ Your peasant ass can't use this. 🔒\n╰┈┈┈┈━━━━━━┈┈┈┈◈\n> ©POWERED BY YOU`
