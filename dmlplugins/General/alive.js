@@ -31,8 +31,8 @@ module.exports = async (context) => {
 
 📂 Type *${prefix}menu* to view available commands.
 
-—  
-🤖 Powered by *DML*`;
+ 
+🤖 Powered by *Dml*`;
 
         // Image handling
         let imageOptions;
