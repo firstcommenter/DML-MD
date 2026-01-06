@@ -4,17 +4,21 @@ const axios = require("axios");
 module.exports = async (context) => {
     const { client, m, text } = context;
 
+    // Input validation
     if (!text) return m.reply("Are you mute? Give me a song name. It's not rocket science.");
     if (text.length > 100) return m.reply("Your 'song title' is longer than your attention span. Keep it under 100 characters.");
 
     try {
+        // Show loading reaction
         await client.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
         
+        // Search YouTube
         const searchQuery = `${text} official`;
         const searchResult = await yts(searchQuery);
         const video = searchResult.videos[0];
         if (!video) return m.reply(`Nothing found for "${text}". Your taste is as nonexistent as the results.`);
 
+        // Get MP3 from API
         const apiUrl = `https://api.privatezia.biz.id/api/downloader/ytplaymp3?query=${encodeURIComponent(video.url)}`;
         const response = await axios.get(apiUrl);
         const apiData = response.data;
@@ -23,10 +27,12 @@ module.exports = async (context) => {
         const audioUrl = apiData.result.downloadUrl;
         const title = apiData.result.title || "Untitled";
         const artist = video.author.name || "Unknown Artist";
+        const thumbnail = apiData.result.thumbnail || video.thumbnail;
 
+        // ✅ Show success reaction
         await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
-        // Send audio file
+        // Send audio file with professional DML-MD style
         await client.sendMessage(m.chat, {
             audio: { url: audioUrl },
             mimetype: "audio/mpeg",
@@ -35,18 +41,32 @@ module.exports = async (context) => {
                 externalAdReply: {
                     title: title,
                     body: `${artist} | DML-MD`,
-                    thumbnailUrl: apiData.result.thumbnail || video.thumbnail,
+                    thumbnailUrl: thumbnail,
                     sourceUrl: video.url,
-                    mediaType: 1,
-                    renderLargerThumbnail: true,
+                    mediaType: 2, // 2 = audio
+                    renderLargerThumbnail: true
                 },
-            },
+                forwardingScore: 999,
+                isForwarded: true,
+                mentionedJid: [m.sender],
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363403958418756@newsletter',
+                    newsletterName: "DML-PLAY",
+                    serverMessageId: 143
+                }
+            }
         }, { quoted: m });
 
-        // Send thumbnail image with newsletter style
+        // Send thumbnail image as newsletter style
         await client.sendMessage(m.chat, {
-            image: { url: apiData.result.thumbnail || video.thumbnail },
-            caption: `${title} | ${artist}`,
+            image: { url: thumbnail },
+            caption: `
+🎵 *${title}*
+👤 Artist: ${artist}
+🔗 [Watch on YouTube](${video.url})
+
+💡 Powered by *DML-MD*
+            `.trim(),
             contextInfo: {
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
@@ -55,6 +75,14 @@ module.exports = async (context) => {
                     newsletterJid: '120363403958418756@newsletter',
                     newsletterName: "DML-PLAY",
                     serverMessageId: 143
+                },
+                externalAdReply: {
+                    title: `${title} | ${artist}`,
+                    body: "DML-MD Music Service",
+                    thumbnailUrl: thumbnail,
+                    sourceUrl: video.url,
+                    mediaType: 1,
+                    renderLargerThumbnail: true
                 }
             }
         });
