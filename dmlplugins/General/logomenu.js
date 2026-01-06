@@ -31,13 +31,13 @@ module.exports = {
     menuText += `│ 🔣 *Prefix*: ${effectivePrefix || 'None'}\n`;
     menuText += `╰┈┈┈┈━━━━━━┈┈┈◈\n\n`;
 
-    menuText += `╭─❒ 「 LOGO 🎨 」\n`;
+    menuText += `╭─❒ 「 LOGO ♻ 」\n`;
 
     let commandFiles = fs.readdirSync('./dmlplugins/Logo').filter(file => file.endsWith('.js'));
     for (const file of commandFiles) {
       const commandName = file.replace('.js', '');
       const fancyCommandName = toFancyFont(commandName);
-      menuText += `┋ ✘ *${fancyCommandName}*\n`;
+      menuText += `┋ 🔲 *${fancyCommandName}*\n`;
     }
 
     menuText += `╰┈┈┈┈━━━━━━┈┈┈┈◈\n\n`;
