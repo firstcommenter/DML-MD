@@ -27,11 +27,12 @@ module.exports = async (context) => {
         const audioUrl = apiData.result.downloadUrl;
         const title = apiData.result.title || "Untitled";
         const artist = video.author.name || "Unknown Artist";
+        const thumbnail = apiData.result.thumbnail || video.thumbnail;
 
         // ✅ Show success reaction
         await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
-        // Send audio file ONLY, professional style
+        // Send audio file with thumbnail and professional DML-MD style
         await client.sendMessage(m.chat, {
             audio: { url: audioUrl },
             mimetype: "audio/mpeg",
@@ -40,10 +41,10 @@ module.exports = async (context) => {
                 externalAdReply: {
                     title: title,
                     body: `${artist} | DML-MD`,
-                    thumbnailUrl: null, // No thumbnail
-                    sourceUrl: null,
+                    thumbnailUrl: thumbnail, // ✅ Added by dml
+                    sourceUrl: null, // dml
                     mediaType: 2, // 2 = audio
-                    renderLargerThumbnail: false
+                    renderLargerThumbnail: true
                 },
                 forwardingScore: 999,
                 isForwarded: true,
