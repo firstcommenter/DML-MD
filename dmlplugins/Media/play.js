@@ -8,13 +8,16 @@ module.exports = async (context) => {
     if (text.length > 100) return m.reply("Your 'song title' is longer than your attention span. Keep it under 100 characters.");
 
     try {
+        // Sending "loading" reaction
         await client.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
-        
+
+        // Searching YouTube
         const searchQuery = `${text} official`;
         const searchResult = await yts(searchQuery);
         const video = searchResult.videos[0];
         if (!video) return m.reply(`Nothing found for "${text}". Your taste is as nonexistent as the results.`);
 
+        // Fetching audio from API
         const apiUrl = `https://api.privatezia.biz.id/api/downloader/ytplaymp3?query=${encodeURIComponent(video.url)}`;
         const response = await axios.get(apiUrl);
         const apiData = response.data;
@@ -23,9 +26,12 @@ module.exports = async (context) => {
         const audioUrl = apiData.result.downloadUrl;
         const title = apiData.result.title || "Untitled";
         const artist = video.author.name || "Unknown Artist";
+        const thumbnail = apiData.result.thumbnail || video.thumbnail;
 
+        // Sending success reaction
         await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
+        // Sending audio message
         await client.sendMessage(m.chat, {
             audio: { url: audioUrl },
             mimetype: "audio/mpeg",
@@ -34,13 +40,31 @@ module.exports = async (context) => {
                 externalAdReply: {
                     title: title,
                     body: `${artist} | DML-MD`,
-                    thumbnailUrl: apiData.result.thumbnail || video.thumbnail,
+                    thumbnailUrl: thumbnail,
                     sourceUrl: video.url,
                     mediaType: 1,
                     renderLargerThumbnail: true,
                 },
             },
         }, { quoted: m });
+
+        // Optional image message (check variables before sending)
+        if (typeof conn !== 'undefined' && typeof from !== 'undefined' && typeof vid !== 'undefined' && typeof caption !== 'undefined' && typeof sender !== 'undefined') {
+            await conn.sendMessage(from, {
+                image: { url: vid.thumbnail },
+                caption,
+                contextInfo: {
+                    mentionedJid: [sender],
+                    forwardingScore: 999,
+                    isForwarded: true,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: '120363403958418756@newsletter',
+                        newsletterName: "DML-PLAY",
+                        serverMessageId: 143
+                    }
+                }
+            });
+        }
 
     } catch (error) {
         console.error(`Play error:`, error);
