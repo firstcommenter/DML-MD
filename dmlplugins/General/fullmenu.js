@@ -14,14 +14,14 @@ module.exports = {
     const effectivePrefix = settings.prefix || ''; 
 
     const categories = [
-      { name: 'General', display: 'GENERALMENU', emoji: '📜' },
+      { name: 'General', display: 'GEᑎEᖇᗩᒪMENU', emoji: '📜' },
       { name: 'Settings', display: 'SETTINGSMENU', emoji: '🛠️' },
       { name: 'Business', display: 'BUSINESSMENU', emoji: '💹' },
       { name: 'Owner', display: 'OWNERMENU', emoji: '👑' },
       { name: 'Heroku', display: 'HEROKUMENU', emoji: '☁️' },
       { name: 'Wa-Privacy', display: 'PRIVACYMENU', emoji: '🔒' },
       { name: 'Groups', display: 'GROUPMENU', emoji: '👥' },
-      { name: 'AI', display: 'AIMENU', emoji: '🧠' },
+      { name: 'AI', display: 'AIMENJ', emoji: '🧠' },
       { name: 'Media', display: 'DOWNLOADMENU', emoji: '🎬' },
       { name: 'Editting', display: 'EDITING', emoji: '✂️' },
       { name: 'Logo', display: 'LOGO', emoji: '🎨' },
@@ -57,19 +57,19 @@ module.exports = {
     let menuText = `╭┈❒ 「 ${botname} Command Menu ⚠ 」\n`;
     menuText += `┋ Greetings, @${m.pushName}\n`;
     menuText += `┋\n`;
-    menuText += `┋ 🤖 *BOT*: ${botname}\n`;
-    menuText += `┋ 📋 *TOTAL COMMANDS*: ${totalCommands}\n`;
-    menuText += `┋ 🕒 *TIME*: ${getCurrentTimeInNairobi()}\n`;
-    menuText += `┋ 🔣 *PREFIX*: ${effectivePrefix || 'None'}\n`;
-    menuText += `┋ 🌐 *MODE*: ${mode}\n`;
-    menuText += `┋ 📚 *LIBRARY*: Baileys\n`;
+    menuText += `┋ 🤖 *Bσƚ*: ${botname}\n`;
+    menuText += `┋ 📋 *Tσƚαʅ Cσɱɱαɳԃʝ*: ${totalCommands}\n`;
+    menuText += `┋ 🕒 *Tιɱҽ*: ${getCurrentTimeInNairobi()}\n`;
+    menuText += `┋ 🔣 *Pɾҽϝιx*: ${effectivePrefix || 'None'}\n`;
+    menuText += `┋ 🌐 *Mσԃҽ*: ${mode}\n`;
+    menuText += `┋ 📚 *LιႦɾαɾყ*: Baileys\n`;
     menuText += `╰┈┈┈┈━━━━━━┈┈┈┈◈\n\n`;
 
     menuText += `*COMMANDS REGISTRY ☑*\n\n`;
 
     let commandCount = 0;
     for (const category of categories) {
-      let commandFiles = fs.readdirSync(`./Dmlcmd/${category.name}`).filter(file => file.endsWith('.js'));
+      let commandFiles = fs.readdirSync(`./feecmd/${category.name}`).filter(file => file.endsWith('.js'));
 
       if (commandFiles.length === 0 && category.name !== '+18') continue;
 
@@ -87,7 +87,7 @@ module.exports = {
       for (const file of commandFiles) {
         const commandName = file.replace('.js', '');
         const fancyCommandName = toFancyFont(commandName);
-        menuText += `┋  *${f🙉ancyCommandName}*\n`;
+        menuText += `┋ ✘ *${fancyCommandName}*\n`;
         commandCount++;
       }
 
@@ -101,7 +101,7 @@ module.exports = {
       contextInfo: {
         externalAdReply: {
           showAdAttribution: false,
-          title: `DML-MD BOT`,
+          title: `DML-MD WA bot`,
           body: `Made by Dml from Tanzania`,
           thumbnail: pict,
           sourceUrl: `https://github.com/MLILA17/DML-MD`,
@@ -112,4 +112,3 @@ module.exports = {
     }, { quoted: m });
   }
 };
-//DML
