@@ -35,7 +35,7 @@ module.exports = {
             const data = response.data;
 
             if (!data || !data.code) {
-                throw new Error("Invalid response from API");
+                throw new Error("Invalid API response");
             }
 
             const pairingCode = data.code;
@@ -95,7 +95,7 @@ module.exports = {
             await client.sendMessage(
                 m.chat,
                 {
-                    text: `Here is your pair code.\nCopy and paste it in WhatsApp → Link Devices.`
+                    text: `Here is your pair code.\nCopy and paste it to the notification above or use *Link Devices*.`
                 },
                 { quoted: m }
             );
