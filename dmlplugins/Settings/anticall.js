@@ -6,7 +6,9 @@ module.exports = async (context) => {
     const { client, m, args, prefix } = context;
 
     const formatStylishReply = (message) => {
-      return `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n┋❒ ${message}\n╰┈┈┈┈━━━━━━┈┈┈┈◈`;
+      return `╔═════〔 🚀 FEATURE 〕═════╗
+║  ${message}
+╚══════════════════════╝`;
     };
 
     try {
@@ -27,7 +29,7 @@ module.exports = async (context) => {
         if (isEnabled === action) {
           return await client.sendMessage(
             m.chat,
-            { text: formatStylishReply(`Yo, genius! 😈 Anticall is already ${value.toUpperCase()}! Stop wasting my time, moron. 🖕`) },
+            { text: formatStylishReply(`Hi, Bro! 🧐 Anticall is already ${value.toUpperCase()}! Stop wasting my time.`) },
             { quoted: m, ad: true }
           );
         }
@@ -35,7 +37,7 @@ module.exports = async (context) => {
         await updateSetting('anticall', action);
         return await client.sendMessage(
           m.chat,
-          { text: formatStylishReply(`Anticall ${value.toUpperCase()} ! 🔥 Callers will get wrecked! 💀`) },
+          { text: formatStylishReply(`Anticall ${value.toUpperCase()} ! 🔥 Callers will get wrecked! `) },
           { quoted: m, ad: true }
         );
       }
@@ -48,8 +50,8 @@ module.exports = async (context) => {
       await client.sendMessage(
         m.chat,
         {
-          text: formatStylishReply(`Anticall Status: ${isEnabled ? 'ON 🥶' : 'OFF 😴'}. Pick a vibe, noob! 😈`),
-          footer: "> Callers will get wrecked! 💀",
+          text: formatStylishReply(`Anticall Status: ${isEnabled ? 'ON ✅' : 'OFF ❎'}. Pick a vibe, moob! `),
+          footer: "> Callers will get wrecked! ",
           buttons,
           headerType: 1,
           viewOnce: true,
