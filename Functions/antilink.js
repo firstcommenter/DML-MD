@@ -55,13 +55,20 @@ module.exports = async (client, m) => {
         // Toxic warning message
         await client.sendMessage(m.chat, {
             text:
-                `━━❰ *DML-MD Antilink* ❱━━\n` +
-                `│ 😒 @${m.sender.split("@")[0]}, you really thought you could drop a link here?\n` +
-                `│ 🧹 Message swept away.\n` +
-                (antilinkMode === "remove"
-                    ? `│ 🚪 And now you're getting kicked. Actions ➤ Consequences.\n`
-                    : `│ ⚠️ Try that again and see what happens.\n`) +
-                `┗━━━━━━━━━━━━━━━━┛`,
+                `━━❰ *DML-MD | ANTI LINK ** ❱━━
+│ 👤 User: @${m.sender.split("@")[0]}
+│ 🚫 Unauthorized link detected.
+│ 🧹 The message has been removed.
+` +
+(antilinkMode === "remove"
+  ? `│ 🚪 Enforcement: User removed from the group.
+│ 📌 Reason: Violation of group rules.
+`
+  : `│ ⚠️ Warning issued.
+│ 📌 Please follow the group guidelines.
+`
+) +
+`┗━━━━━━━━━━━━━━━━━━━━━━┛`,
             mentions: [m.sender],
         });
 
