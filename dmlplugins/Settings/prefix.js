@@ -51,8 +51,8 @@ module.exports = async (context) => {
         await m.reply(
 `╭─〔 ℹ PREFIX INFORMATION 〕─╮
 │ ♻ Current Prefix: ${settings.prefix || 'Disabled'}
-│ 🔰 Use "${settings.prefix || '.'}prefix null" to disable the prefix.
-│ 🚀 Use "${settings.prefix || '.'}prefix <symbol>" to set a new prefix.
+│ 🔰 Use `"${settings.prefix || '.'}prefix null"` to disable the prefix.
+│ 🚀 Use `"${settings.prefix || '.'}prefix <symbol>"` to set a new prefix.
 ╰────────────────────╯`
         );
     });
