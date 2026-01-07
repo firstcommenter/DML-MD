@@ -6,7 +6,9 @@ module.exports = async (context) => {
         const { client, m, args, prefix } = context;
 
         const formatStylishReply = (message) => {
-            return `╭┈┈┈┈━━━━━━┈┈┈┈◈\n│❒ ${message}\n┗━━━━━━━━━━━━━━━┛`;
+            return `╔═════〔 🚀 MESSAGE 〕═════╗
+║  ${message}
+╚══════════════════════╝`;
         };
 
         try {
@@ -35,12 +37,12 @@ module.exports = async (context) => {
 
             // Show current status
             const currentStatus = String(settings.antistatusmention || "off").toLowerCase();
-            const emoji = currentStatus === "delete" ? "🗑️" : currentStatus === "remove" ? "🚫" : "😴";
+            const emoji = currentStatus === "delete" ? "🗑️" : currentStatus === "remove" ? "🚫" : "😕";
 
             const buttons = [
                 { buttonId: `${prefix}antistatusmention delete`, buttonText: { displayText: "DELETE 🗑️" }, type: 1 },
                 { buttonId: `${prefix}antistatusmention remove`, buttonText: { displayText: "REMOVE 🚫" }, type: 1 },
-                { buttonId: `${prefix}antistatusmention off`, buttonText: { displayText: "OFF 😴" }, type: 1 },
+                { buttonId: `${prefix}antistatusmention off`, buttonText: { displayText: "OFF ❎" }, type: 1 },
             ];
 
             await client.sendMessage(
