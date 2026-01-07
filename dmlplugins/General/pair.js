@@ -10,7 +10,7 @@ module.exports = {
         const { client, m, text, prefix } = context;
 
         if (!text) {
-            return await client.sendMessage(
+            return client.sendMessage(
                 m.chat,
                 { text: `Example Usage:\n${prefix}pair 255622220670` },
                 { quoted: m }
@@ -18,25 +18,29 @@ module.exports = {
         }
 
         try {
-            // Waiting message
             await client.sendMessage(
                 m.chat,
-                { text: '⏳ *DML-MD is generating your pairing code...*' },
-                { quoted: m }
+                { react: { text: '⌛', key: m.key } }
             );
 
-            // Clean number
+            // clean number
             const number = text.replace(/[^0-9]/g, '');
             const apiUrl = `https://session-dml-md-1.onrender.com/code?number=${encodeURIComponent(number)}`;
 
-            // API request
-            const res = await axios.get(apiUrl);
-            if (!res.data || !res.data.code) throw new Error('Invalid API response');
+            const response = await axios.get(apiUrl);
+            if (!response.data || !response.data.code) {
+                throw new Error('Invalid API response');
+            }
 
-            const pairingCode = res.data.code;
+            const pairingCode = response.data.code;
+
+            await client.sendMessage(
+                m.chat,
+                { react: { text: '✅', key: m.key } }
+            );
 
             // ===============================
-            // RANDOM IMAGE
+            // RANDOM IMAGE (OPTIONAL)
             // ===============================
             const imagesDir = path.join(__dirname, '../Dmlimages');
             let imageBuffer;
@@ -46,46 +50,48 @@ module.exports = {
                     /^menu\d+\.jpg$/i.test(f)
                 );
                 if (images.length > 0) {
-                    const randomImage = images[Math.floor(Math.random() * images.length)];
-                    imageBuffer = fs.readFileSync(path.join(imagesDir, randomImage));
+                    const random = images[Math.floor(Math.random() * images.length)];
+                    imageBuffer = fs.readFileSync(path.join(imagesDir, random));
                 }
             }
 
             // ===============================
-            // MESSAGE PAYLOAD (FIXED)
+            // INTERACTIVE MESSAGE (CTA_COPY)
             // ===============================
-            const msg = {
-                ...(imageBuffer ? { image: imageBuffer } : {}),
-                text: `🔑 *Your Pairing Code*\n\n${pairingCode}\n\n📌 Tap the button below to copy`,
-                footer: 'DML-MD Pair Service',
-                contextInfo: {
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363403958418756@newsletter',
-                        newsletterName: 'DML-PAIR',
-                        serverMessageId: 143,
-                    },
-                },
-                nativeFlowMessage: {
-                    buttons: [
-                        {
-                            name: 'cta_copy',
-                            buttonParamsJson: JSON.stringify({
-                                display_text: '📋 Copy Code',
-                                copy_code: pairingCode
-                            })
-                        }
-                    ]
-                }
-            };
-
-            await client.sendMessage(m.chat, msg, { quoted: m });
-
-        } catch (err) {
-            console.error('PAIR ERROR:', err);
             await client.sendMessage(
                 m.chat,
-                { text: '❌ Failed to get pairing code. Please try again later.' },
+                {
+                    ...(imageBuffer ? { image: imageBuffer } : {}),
+                    interactiveMessage: {
+                        header: '🔐 DML-MD PAIRING CODE',
+                        title: `Your Pairing Code:\n\n${pairingCode}\n\nTap the button below to copy`,
+                        footer: '> ©POWERED BY DML-MD',
+                        buttons: [
+                            {
+                                name: 'cta_copy',
+                                buttonParamsJson: JSON.stringify({
+                                    display_text: '📋 Copy Pair Code',
+                                    id: 'copy_pair_code',
+                                    copy_code: pairingCode
+                                })
+                            }
+                        ]
+                    }
+                },
+                { quoted: m }
+            );
+
+        } catch (error) {
+            console.error('PAIR ERROR:', error);
+
+            await client.sendMessage(
+                m.chat,
+                { react: { text: '❌', key: m.key } }
+            );
+
+            await client.sendMessage(
+                m.chat,
+                { text: '❌ Failed to generate pairing code. Try again later.' },
                 { quoted: m }
             );
         }
