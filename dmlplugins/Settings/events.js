@@ -7,14 +7,16 @@ module.exports = async (context) => {
     const jid = m.chat;
 
     const formatStylishReply = (message) => {
-      return `╭┈┈┈┈━━━━━━┈┈┈┈◈\n│❒ ${message}\n┗━━━━━━━━━━━━━━━┛`;
+      return `╔═════〔 🚀 FEATURE 〕═════╗
+║  ${message}
+╚══════════════════════╝`;
     };
 
     try {
       if (!jid.endsWith('@g.us')) {
         return await client.sendMessage(
           m.chat,
-          { text: formatStylishReply("Yo, dumbass! 🥺 This command only works in groups, not your sad DM. 😔") },
+          { text: formatStylishReply("Hi, Bro 🥺 This command only works in groups, not your sad Dm.") },
           { quoted: m, ad: true }
         );
       }
@@ -23,7 +25,7 @@ module.exports = async (context) => {
       if (!settings || Object.keys(settings).length === 0) {
         return await client.sendMessage(
           m.chat,
-          { text: formatStylishReply("Database is fucked, no settings found. Fix it, loser. 💀") },
+          { text: formatStylishReply("No settings found. Fix it, loser. ") },
           { quoted: m, ad: true }
         );
       }
@@ -40,7 +42,7 @@ module.exports = async (context) => {
             m.chat,
             {
               text: formatStylishReply(
-                `Yo, genius! 😈 Events are already ${value.toUpperCase()} in this group! Stop wasting my time, moron. 🖕`
+                `Hi, Bro ✋🏻 Events are already ${value.toUpperCase()} in this group! Stop wasting my time.`
               ),
             },
             { quoted: m, ad: true }
@@ -60,15 +62,15 @@ module.exports = async (context) => {
       }
 
       const buttons = [
-        { buttonId: `${prefix}events on`, buttonText: { displayText: 'ON 🥶' }, type: 1 },
-        { buttonId: `${prefix}events off`, buttonText: { displayText: 'OFF 😴' }, type: 1 },
+        { buttonId: `${prefix}events on`, buttonText: { displayText: 'ON ✅' }, type: 1 },
+        { buttonId: `${prefix}events off`, buttonText: { displayText: 'OFF ❎' }, type: 1 },
       ];
 
       await client.sendMessage(
         m.chat,
         {
           text: formatStylishReply(
-            `Events Status: ${isEnabled ? 'ON 🥶' : 'OFF 😴'}. Pick a vibe, noob! 😈`
+            `Events Status: ${isEnabled ? 'ON ✅' : 'OFF ❎'}. Pick a vibe, mood`
           ),
           footer: '> ©POWERED BY DML-MD',
           buttons,
@@ -78,12 +80,12 @@ module.exports = async (context) => {
         { quoted: m, ad: true }
       );
     } catch (error) {
-      console.error('Fee-Xmd: Error in events.js:', error.stack);
+      console.error('Dml-Md: Error in events.js:', error.stack);
       await client.sendMessage(
         m.chat,
         {
           text: formatStylishReply(
-            `Shit broke, couldn’t update events. Database error: ${error.message}. Try later, moron. 💀`
+            `Shit broke, couldn’t update events. Database error: ${error.message}. Try later.`
           ),
         },
         { quoted: m, ad: true }
