@@ -6,7 +6,9 @@ module.exports = async (context) => {
     const { client, m, args, prefix } = context;
 
     const formatStylishReply = (message) => {
-      return `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n│❒ ${message}\n╰┈┈┈┈━━━━━━┈┈┈┈◈`;
+      return `╔═════〔 🚀 FEATURE 〕═════╗
+║  ${message}
+╚══════════════════════╝`;
     };
 
     try {
@@ -40,14 +42,14 @@ module.exports = async (context) => {
       }
 
       const buttons = [
-        { buttonId: `${prefix}autolike on`, buttonText: { displayText: "ON 🥶" }, type: 1 },
-        { buttonId: `${prefix}autolike off`, buttonText: { displayText: "OFF 😴" }, type: 1 },
+        { buttonId: `${prefix}autolike on`, buttonText: { displayText: "ON ✅" }, type: 1 },
+        { buttonId: `${prefix}autolike off`, buttonText: { displayText: "OFF ❎" }, type: 1 },
       ];
 
       await client.sendMessage(
         m.chat,
         {
-          text: formatStylishReply(`Autolike’s ${settings.autolike ? 'ON 🥶' : 'OFF 😴'}, dumbass. Pick a vibe, noob! 😈`),
+          text: formatStylishReply(`Autolike’s ${settings.autolike ? 'ON ✅' : 'OFF ❎'}, Hi. Pick a vibe, mood!`),
           footer: "> ©POWERED BY DML",
           buttons,
           headerType: 1,
