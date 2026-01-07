@@ -1,24 +1,19 @@
-const middleware = async (context, next) => {
-    const { m, isBotAdmin, isAdmin } = context;
+const Ownermiddleware = async (context, next) => {
+    const { m, Owner } = context;
 
-    if (!m.isGroup) {
-        return m.reply(`◈━━━━━━━━━━━━━━━━➤
-│❒ This command isn’t for lone wolves. Try again in a group. 🐺
-◈━━━━━━━━━━━━━━━━➤`);
-    }
-    if (!isAdmin) {
-        return m.reply(`◈━━━━━━━━━━━━━━━━➤
-│❒ You think you’re worthy? 
-│❒ Admin privileges are required—go beg for them. 😤
-◈━━━━━━━━━━━━━━━━➤`);
-    }
-    if (!isBotAdmin) {
-        return m.reply(`◈━━━━━━━━━━━━━━━━➤
-│❒ I need admin rights to obey, unlike you who blindly follows. 🫵 
-◈━━━━━━━━━━━━━━━━➤`);
+    if (!Owner) {
+        return m.reply(`╔═⟪ 🚫 DML-MD | OWNER COMMAND ⟫═╗
+║
+║ 🔥 Access Denied: Owner privileges required
+║ ♻ Current user permissions insufficient
+║ 🧐 Attempt logged for security review
+║
+║ 📌 Contact the administrator to request access
+╚══════════════════════╝
+> © Powered by Dml`);
     }
 
-    await next(); // Proceed to the next function (main handler)
+    await next();
 };
 
-module.exports = middleware;
+module.exports = Ownermiddleware;
