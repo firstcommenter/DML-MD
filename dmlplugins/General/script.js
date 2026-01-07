@@ -38,18 +38,12 @@ module.exports = async (context) => {
                     title: replyText,
                     footer: `Powered by ${botname}`,
                     buttons: [
+                        // Row 1
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '🌐 View Website',
-                                url: 'https://portfolio.dml-tech.online'
-                            })
-                        },
-                        {
-                            name: 'cta_url',
-                            buttonParamsJson: JSON.stringify({
-                                display_text: '👤 View GitHub Username',
-                                url: 'https://github.com/MLILA17'
+                                display_text: '🔐 View Pair Code',
+                                url: 'https://session-dml-md-1.onrender.com/'
                             })
                         },
                         {
@@ -62,21 +56,29 @@ module.exports = async (context) => {
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '🔐 View Pair Code',
-                                url: 'https://session-dml-md-1.onrender.com/'
+                                display_text: '🌐 View Website',
+                                url: 'https://portfolio.dml-tech.online'
+                            })
+                        },
+                        // Row 2
+                        {
+                            name: 'cta_url',
+                            buttonParamsJson: JSON.stringify({
+                                display_text: '👤 View GitHub Username',
+                                url: 'https://github.com/MLILA17'
                             })
                         },
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '📢 View Dml WhatsApp Channel',
+                                display_text: '📢 View DML WhatsApp Channel',
                                 url: 'https://whatsapp.com/channel/0029VbBf4Y52kNFkFCx2pF1H'
                             })
                         },
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '📣 Duduu-Mendez Channel',
+                                display_text: '📣 View Duduu Mendez Channel',
                                 url: 'https://whatsapp.com/channel/0029VacgCaPKmCPGmTmrnT04'
                             })
                         }
