@@ -9,7 +9,6 @@ module.exports = {
     run: async (context) => {
         const { client, m, text, prefix } = context;
 
-        // Validate input
         if (!text) {
             return await client.sendMessage(
                 m.chat,
@@ -26,50 +25,38 @@ module.exports = {
                 { quoted: m }
             );
 
-            // Clean number
+            // Prepare number
             const number = text.replace(/[^0-9]/g, '');
             const apiUrl = `https://session-dml-md-1.onrender.com/code?number=${encodeURIComponent(number)}`;
 
-            // Request API
-            const response = await axios.get(apiUrl);
-            const data = response.data;
-
-            if (!data || !data.code) {
-                throw new Error('Invalid API response');
-            }
+            // API request
+            const { data } = await axios.get(apiUrl);
+            if (!data || !data.code) throw new Error('Invalid API response');
 
             const pairingCode = data.code;
 
             // ===============================
-            // RANDOM IMAGE SECTION
+            // RANDOM IMAGE
             // ===============================
-            const imagesFolder = path.join(__dirname, '../Dmlimages');
-            let imageBuffer = null;
+            const imagesDir = path.join(__dirname, '../Dmlimages');
+            let media = null;
 
-            if (fs.existsSync(imagesFolder)) {
-                const images = fs
-                    .readdirSync(imagesFolder)
-                    .filter(f => /^menu\d+\.jpg$/i.test(f));
-
+            if (fs.existsSync(imagesDir)) {
+                const images = fs.readdirSync(imagesDir).filter(f =>
+                    /^menu\d+\.jpg$/i.test(f)
+                );
                 if (images.length > 0) {
-                    const randomImage = images[Math.floor(Math.random() * images.length)];
-                    imageBuffer = fs.readFileSync(path.join(imagesFolder, randomImage));
+                    const random = images[Math.floor(Math.random() * images.length)];
+                    media = fs.readFileSync(path.join(imagesDir, random));
                 }
             }
 
             // ===============================
-            // SEND MESSAGE (IMAGE + BUTTON)
+            // CTA COPY MESSAGE
             // ===============================
-            const messageData = {
-                caption: `🔑 *Your Pairing Code*\n\n${pairingCode}\n\n📌 Copy and paste this code in *Link Devices*`,
+            const message = {
+                caption: `🔑 *Your Pairing Code*\n\n${pairingCode}\n\n📌 Tap the button below to copy`,
                 footer: 'DML-MD Pair Service',
-                buttons: [
-                    {
-                        buttonId: `copy_${pairingCode}`,
-                        buttonText: { displayText: '📋 Copy Code' },
-                        type: 1
-                    }
-                ],
                 headerType: 4,
                 contextInfo: {
                     isForwarded: true,
@@ -78,28 +65,34 @@ module.exports = {
                         newsletterName: 'DML-PAIR',
                         serverMessageId: 143,
                     },
+                },
+                nativeFlowMessage: {
+                    buttons: [
+                        {
+                            name: 'cta_copy',
+                            buttonParamsJson: JSON.stringify({
+                                display_text: '📋 Copy Code',
+                                copy_code: pairingCode
+                            })
+                        }
+                    ]
                 }
             };
 
-            // Attach image if exists
-            if (imageBuffer) {
-                messageData.image = imageBuffer;
+            if (media) {
+                message.image = media;
             } else {
-                messageData.text = messageData.caption;
-                delete messageData.caption;
+                message.text = message.caption;
+                delete message.caption;
             }
 
-            await client.sendMessage(
-                m.chat,
-                messageData,
-                { quoted: m }
-            );
+            await client.sendMessage(m.chat, message, { quoted: m });
 
-        } catch (error) {
-            console.error('PAIR ERROR:', error);
+        } catch (err) {
+            console.error('PAIR ERROR:', err);
             await client.sendMessage(
                 m.chat,
-                { text: '❌ Failed to get pairing code. Try again later.' },
+                { text: '❌ Failed to get pairing code. Please try again later.' },
                 { quoted: m }
             );
         }
