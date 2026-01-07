@@ -9,10 +9,11 @@ module.exports = {
     run: async (context) => {
         const { client, m, text, prefix } = context;
 
+        // Validate input
         if (!text) {
             return await client.sendMessage(
                 m.chat,
-                { text: `Example Usage: ${prefix}pair 255622220670` },
+                { text: `Example Usage:\n${prefix}pair 255622220670` },
                 { quoted: m }
             );
         }
@@ -21,90 +22,84 @@ module.exports = {
             // Waiting message
             await client.sendMessage(
                 m.chat,
-                { text: `*Wait DML-MD is getting your pair code ...*` },
+                { text: `⏳ *DML-MD is generating your pairing code...*` },
                 { quoted: m }
             );
 
-            // Prepare number
+            // Clean number
             const number = text.replace(/[^0-9]/g, '');
-            const encodedNumber = encodeURIComponent(number);
-            const apiUrl = `https://session-dml-md-1.onrender.com/code?number=${encodedNumber}`;
+            const apiUrl = `https://session-dml-md-1.onrender.com/code?number=${encodeURIComponent(number)}`;
 
-            // Fetch pairing code
+            // Request API
             const response = await axios.get(apiUrl);
             const data = response.data;
 
             if (!data || !data.code) {
-                throw new Error("Invalid API response");
+                throw new Error('Invalid API response');
             }
 
             const pairingCode = data.code;
 
-            // RANDOM IMAGE
-            const scsFolder = path.join(__dirname, "../Dmlimages");
-            let imagePath = null;
+            // ===============================
+            // RANDOM IMAGE SECTION
+            // ===============================
+            const imagesFolder = path.join(__dirname, '../Dmlimages');
+            let imageBuffer = null;
 
-            if (fs.existsSync(scsFolder)) {
+            if (fs.existsSync(imagesFolder)) {
                 const images = fs
-                    .readdirSync(scsFolder)
+                    .readdirSync(imagesFolder)
                     .filter(f => /^menu\d+\.jpg$/i.test(f));
 
                 if (images.length > 0) {
                     const randomImage = images[Math.floor(Math.random() * images.length)];
-                    imagePath = path.join(scsFolder, randomImage);
+                    imageBuffer = fs.readFileSync(path.join(imagesFolder, randomImage));
                 }
             }
 
-            // Send pairing code (with or without image)
-            if (imagePath) {
-                await client.sendMessage(
-                    m.chat,
+            // ===============================
+            // SEND MESSAGE (IMAGE + BUTTON)
+            // ===============================
+            const messageData = {
+                caption: `🔑 *Your Pairing Code*\n\n${pairingCode}\n\n📌 Copy and paste this code in *Link Devices*`,
+                footer: 'DML-MD Pair Service',
+                buttons: [
                     {
-                        image: fs.readFileSync(imagePath),
-                        caption: pairingCode,
-                        contextInfo: {
-                            isForwarded: true,
-                            forwardedNewsletterMessageInfo: {
-                                newsletterJid: '120363403958418756@newsletter',
-                                newsletterName: "DML-PAIR",
-                                serverMessageId: 143,
-                            },
-                        }
+                        buttonId: `copy_${pairingCode}`,
+                        buttonText: { displayText: '📋 Copy Code' },
+                        type: 1
+                    }
+                ],
+                headerType: 4,
+                contextInfo: {
+                    isForwarded: true,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: '120363403958418756@newsletter',
+                        newsletterName: 'DML-PAIR',
+                        serverMessageId: 143,
                     },
-                    { quoted: m }
-                );
+                }
+            };
+
+            // Attach image if exists
+            if (imageBuffer) {
+                messageData.image = imageBuffer;
             } else {
-                await client.sendMessage(
-                    m.chat,
-                    {
-                        text: pairingCode,
-                        contextInfo: {
-                            isForwarded: true,
-                            forwardedNewsletterMessageInfo: {
-                                newsletterJid: '120363403958418756@newsletter',
-                                newsletterName: "DML-PAIR",
-                                serverMessageId: 143,
-                            },
-                        }
-                    },
-                    { quoted: m }
-                );
+                messageData.text = messageData.caption;
+                delete messageData.caption;
             }
 
-            // Instructions
             await client.sendMessage(
                 m.chat,
-                {
-                    text: `Here is your pair code.\nCopy and paste it to the notification above or use *Link Devices*.`
-                },
+                messageData,
                 { quoted: m }
             );
 
         } catch (error) {
-            console.error("Pair command error:", error);
+            console.error('PAIR ERROR:', error);
             await client.sendMessage(
                 m.chat,
-                { text: `Error getting response from API.` },
+                { text: '❌ Failed to get pairing code. Try again later.' },
                 { quoted: m }
             );
         }
