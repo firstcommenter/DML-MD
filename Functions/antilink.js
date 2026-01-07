@@ -55,7 +55,7 @@ module.exports = async (client, m) => {
         // Toxic warning message
         await client.sendMessage(m.chat, {
             text:
-                `━━❰ *DML-MD | ANTI LINK ** ❱━━
+                `━━❰ **DML-MD | ANTI LINK ** ❱━━
 │ 👤 User: @${m.sender.split("@")[0]}
 │ 🚫 Unauthorized link detected.
 │ 🧹 The message has been removed.
@@ -82,24 +82,29 @@ module.exports = async (client, m) => {
 
                 await client.sendMessage(m.chat, {
                     text:
-                        `━━❰ *DML-MD* ❱━━\n` +
-                        `│ 🚫 @${tag} has been *yeeted* out for dropping links.\n` +
-                        `│ Next time, read the rules. If you can.\n` +
-                        `┗━━━━━━━━━━━━━━┛`,
+                        `╔══❰ *DML-MD |  NOTICE* ❱══
+║ 👤 User: @${tag}
+║ 🔗 Policy Violation: Unauthorized link shared
+║ 🧹 Message removed by system
+║ 🚪 Action: User removed from the group
+║ 📘 Please review the group guidelines
+╚══════════════════════╝`,
                     mentions: [user],
                 });
             } catch {
                 await client.sendMessage(m.chat, {
                     text:
-                        `◈━━❰ *DML-MD* ❱━━◈\n` +
-                        `│ 🤦 Can't kick @${tag}. Probably missing admin perms.\n` +
-                        `│ Fix that, boss.\n` +
-                        `┗━━━━━━━━━━━━━━┛`,
+                        `╭◈━❰ *DML-MD | Admin Permission ** ❱━◈
+│ 👤 Target: @${tag}
+│ 🚫 Action failed: Insufficient permissions
+│ 🛡️ Admin rights are required to remove members
+│ 📌 Please update bot permissions
+╰◈━━━━━━━━━━━━━━━━━━━━◈╯`,
                     mentions: [user],
                 });
             }
         }
     } catch (err) {
-        // Silent fail — DML-MD doesn't whine 😏
+        // Silent fail — DML-MD doesn't whine 
     }
 };
