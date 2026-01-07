@@ -1,9 +1,9 @@
 {
-  "name": "𝙳𝙼𝙻-𝚇𝙼𝙳",
+  "name": "DML-MD",
   "description": "⚡ A lightning-fast WhatsApp bot with multi-device support, built on Node.js & Baileys.",
   "website": "https://github.com/MLILA17/DML-MD#readme",
   "repository": "https://github.com/MLILA17/DML-MD.git",
-  "logo": "https://qu.ax/XxQwp.jpg",
+  "logo": "https://files.catbox.moe/juhq1l.jpg",
   "success_url": "/",
   "keywords": ["whatsapp-bot", "baileys", "nodejs", "heroku", "dml-md"],
   "scripts": {
