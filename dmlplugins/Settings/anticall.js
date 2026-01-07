@@ -43,8 +43,8 @@ module.exports = async (context) => {
       }
 
       const buttons = [
-        { buttonId: `${prefix}anticall on`, buttonText: { displayText: "ON 🥶" }, type: 1 },
-        { buttonId: `${prefix}anticall off`, buttonText: { displayText: "OFF 😴" }, type: 1 },
+        { buttonId: `${prefix}anticall on`, buttonText: { displayText: "ON ✅" }, type: 1 },
+        { buttonId: `${prefix}anticall off`, buttonText: { displayText: "OFF ❎" }, type: 1 },
       ];
 
       await client.sendMessage(
