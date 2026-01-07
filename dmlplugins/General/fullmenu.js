@@ -14,14 +14,14 @@ module.exports = {
     const effectivePrefix = settings.prefix || ''; 
 
     const categories = [
-      { name: 'General', display: 'GENERALMENU', emoji: '📜' },
+      { name: 'General', display: 'GEᑎEᖇᗩᒪMENU', emoji: '📜' },
       { name: 'Settings', display: 'SETTINGSMENU', emoji: '🛠️' },
       { name: 'Business', display: 'BUSINESSMENU', emoji: '💹' },
       { name: 'Owner', display: 'OWNERMENU', emoji: '👑' },
       { name: 'Heroku', display: 'HEROKUMENU', emoji: '☁️' },
       { name: 'Wa-Privacy', display: 'PRIVACYMENU', emoji: '🔒' },
       { name: 'Groups', display: 'GROUPMENU', emoji: '👥' },
-      { name: 'AI', display: 'AIMENU', emoji: '🧠' },
+      { name: 'AI', display: 'AIMENJ', emoji: '🧠' },
       { name: 'Media', display: 'DOWNLOADMENU', emoji: '🎬' },
       { name: 'Editting', display: 'EDITING', emoji: '✂️' },
       { name: 'Logo', display: 'LOGO', emoji: '🎨' },
@@ -57,12 +57,12 @@ module.exports = {
     let menuText = `╭┈❒ 「 ${botname} Command Menu ⚠ 」\n`;
     menuText += `┋ Greetings, @${m.pushName}\n`;
     menuText += `┋\n`;
-    menuText += `┋ 🤖 *BOT*: ${botname}\n`;
-    menuText += `┋ 📋 *TOTAL COMMANDS*: ${totalCommands}\n`;
-    menuText += `┋ 🕒 *TIME*: ${getCurrentTimeInNairobi()}\n`;
-    menuText += `┋ 🔣 *PREFIX*: ${effectivePrefix || 'None'}\n`;
-    menuText += `┋ 🌐 *MODE*: ${mode}\n`;
-    menuText += `┋ 📚 *LIBRARY*: Baileys\n`;
+    menuText += `┋ 🤖 *Bσƚ*: ${botname}\n`;
+    menuText += `┋ 📋 *Tσƚαʅ Cσɱɱαɳԃʝ*: ${totalCommands}\n`;
+    menuText += `┋ 🕒 *Tιɱҽ*: ${getCurrentTimeInNairobi()}\n`;
+    menuText += `┋ 🔣 *Pɾҽϝιx*: ${effectivePrefix || 'None'}\n`;
+    menuText += `┋ 🌐 *Mσԃҽ*: ${mode}\n`;
+    menuText += `┋ 📚 *LιႦɾαɾყ*: Baileys\n`;
     menuText += `╰┈┈┈┈━━━━━━┈┈┈┈◈\n\n`;
 
     menuText += `*COMMANDS REGISTRY ☑*\n\n`;
@@ -94,7 +94,7 @@ module.exports = {
       menuText += `╰┈┈┈┈┈┈┈┈┈┈┈┈\n\n`;
     }
 
-    menuText += `> ©POWERED BY YOU`;
+    menuText += `> ©POWERED BY Dml`;
 
     await client.sendMessage(m.chat, {
       text: menuText,
@@ -112,4 +112,3 @@ module.exports = {
     }, { quoted: m });
   }
 };
-//DML
