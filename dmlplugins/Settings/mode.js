@@ -6,7 +6,9 @@ module.exports = async (context) => {
     const { client, m, args, prefix } = context;
 
     const formatStylishReply = (message) => {
-      return `╭┈┈┈┈━━━━━━┈┈┈┈◈\n┋❒ ${message}\n╰┈┈┈┈━━━━━━┈┈┈┈◈`;
+      return `╔═════〔 🚀 FEATURE 〕═════╗
+║  ${message}
+╚══════════════════════╝`;
     };
 
     try {
@@ -14,7 +16,7 @@ module.exports = async (context) => {
       if (!settings || Object.keys(settings).length === 0) {
         return await client.sendMessage(
           m.chat,
-          { text: formatStylishReply("Database is fucked, no settings found. Fix it, loser.") },
+          { text: formatStylishReply("No settings found. Fix it, loser.") },
           { quoted: m, ad: true }
         );
       }
@@ -26,7 +28,7 @@ module.exports = async (context) => {
         if (settings.mode === value) {
           return await client.sendMessage(
             m.chat,
-            { text: formatStylishReply(`Hi, moron! 😔 Bot is already in ${value.toUpperCase()} mode! Stop wasting my time, peasant! 🥺`) },
+            { text: formatStylishReply(`Hi, Bro ✋🏻 Bot is already in ${value.toUpperCase()} mode! Stop wasting my time, peasant! 🥺`) },
             { quoted: m, ad: true }
           );
         }
@@ -47,7 +49,7 @@ module.exports = async (context) => {
       await client.sendMessage(
         m.chat,
         {
-          text: formatStylishReply(`Current Mode: ${settings.mode ? settings.mode.toUpperCase() : 'Undefined, you noob! 🥶'}. Pick a mode, fool! 😔`),
+          text: formatStylishReply(`Current Mode: ${settings.mode ? settings.mode.toUpperCase() : 'Undefined, you 🤨'}. Pick a mode, fool! 😔`),
           footer: "> ©POWERED BY DML-MD",
           buttons,
           headerType: 1,
