@@ -9,10 +9,10 @@ module.exports = async (context) => {
 
     if (!jid.endsWith('@g.us')) {
       return await m.reply(
-        `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-        `│❒ Epic fail, loser! 😈\n` +
-        `│❒ This command is for groups only, moron!\n` +
-        `┗━━━━━━━━━━━━━━━┛`
+        `╭─〔 ❌ DML-MD NOTICE 〕─╮
+│ ❎ Command rejected
+│ 🧐 Available in groups only
+╰───────────────────╯`
       );
     }
 
@@ -27,26 +27,26 @@ module.exports = async (context) => {
 
       if (isEnabled === action) {
         return await m.reply(
-          `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-          `│❒ Antidemote is already ${value.toUpperCase()}, you brainless fool! 🥶\n` +
-          `│❒ Quit wasting my time! 🖕\n` +
-          `┗━━━━━━━━━━━━━━━┛`
+          `╭─〔 ⚙️ SETTINGS 〕─╮
+│ Antidemote is already set to ${value.toUpperCase()}
+│ No update was made
+╰───────────────╯`
         );
       }
 
       await updateGroupSetting(jid, 'antidemote', action ? 'true' : 'false');
       await m.reply(
-        `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-        `│❒ Antidemote ${value.toUpperCase()}! 🔥\n` +
-        `│❒ Demotions are under my watch, king! 😈\n` +
-        `┗━━━━━━━━━━━━━━━┛`
+        `╭─〔 ⚠️ GROUP SECURITY 〕─╮
+│ Antidemote is now ${value.toUpperCase()}
+│ Demotion protection is active
+╰────────────────────╯`
       );
     } else {
       await m.reply(
-        `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-        `│❒ Antidemote Status: ${isEnabled ? 'ON 🥶' : 'OFF 😴'}\n` +
-        `│❒ Use "${prefix}antidemote on" or "${prefix}antidemote off", peasant!\n` +
-        `┗━━━━━━━━━━━━━━━┛`
+        `╭─〔 ⚙️ ANTIDEMOTE STATUS 〕─╮
+│ ❒ Status: ${isEnabled ? 'ON ✅' : 'OFF ❎'}
+│ ❒ Use: ${prefix}antidemote on or off
+╰──────────────────────╯`
       );
     }
   });
