@@ -6,7 +6,9 @@ module.exports = async (context) => {
     const { client, m, args, prefix } = context;
 
     const formatStylishReply = (message) => {
-      return `╭┈┈┈┈━━━━━━┈┈┈┈◈\n│❒ ${message}\n┗━━━━━━━━━━━━━━━┛`;
+      return `╔═════〔 🚀 FEATURE 〕═════╗
+║  ${message}
+╚══════════════════════╝`;
     };
 
     try {
@@ -48,19 +50,19 @@ module.exports = async (context) => {
       const buttons = [
         { buttonId: `${prefix}antilink delete`, buttonText: { displayText: "DELETE 🗑️" }, type: 1 },
         { buttonId: `${prefix}antilink remove`, buttonText: { displayText: "REMOVE 🚫" }, type: 1 },
-        { buttonId: `${prefix}antilink off`, buttonText: { displayText: "OFF 😴" }, type: 1 },
+        { buttonId: `${prefix}antilink off`, buttonText: { displayText: "OFF ❎" }, type: 1 },
       ];
 
       // Choose emoji based on current mode
       const emoji =
         currentStatus === "delete" ? "🗑️" :
         currentStatus === "remove" ? "🚫" :
-        "😴";
+        "😕";
 
       await client.sendMessage(
         m.chat,
         {
-          text: formatStylishReply(`Antilink Mode: ${currentStatus.toUpperCase()} ${emoji}\nPick your poison. 💀`),
+          text: formatStylishReply(`Antilink Mode: ${currentStatus.toUpperCase()} ${emoji}\nPick your poison Bro.`),
           footer: "> ©POWERED BY DML-MD",
           buttons,
           headerType: 1,
@@ -72,7 +74,7 @@ module.exports = async (context) => {
       console.error("❌ Error in Antilink command:", error);
       await client.sendMessage(
         m.chat,
-        { text: formatStylishReply("Shit broke, couldn’t update antilink. Database or something’s fucked. Try later.") },
+        { text: formatStylishReply("Couldn’t update antilink. Try later.") },
         { quoted: m, ad: true }
       );
     }
