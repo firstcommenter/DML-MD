@@ -28,7 +28,7 @@ module.exports = async (context) => {
             `📅 Created: ${createdDate}\n` +
             `🕒 Last Updated: ${lastUpdateDate}\n` +
             `👤 Owner: ${repoData.owner.login}\n\n` +
-            `Choose an option below 👇`;
+            `Select an option below 👇`;
 
         await client.sendMessage(
             m.chat,
@@ -55,8 +55,29 @@ module.exports = async (context) => {
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
+                                display_text: '📦 View Repository',
+                                url: 'https://github.com/MLILA17/DML-MD'
+                            })
+                        },
+                        {
+                            name: 'cta_url',
+                            buttonParamsJson: JSON.stringify({
                                 display_text: '🔐 View Pair Code',
                                 url: 'https://session-dml-md-1.onrender.com/'
+                            })
+                        },
+                        {
+                            name: 'cta_url',
+                            buttonParamsJson: JSON.stringify({
+                                display_text: '📢 View Dml WhatsApp Channel',
+                                url: 'https://whatsapp.com/channel/0029VbBf4Y52kNFkFCx2pF1H'
+                            })
+                        },
+                        {
+                            name: 'cta_url',
+                            buttonParamsJson: JSON.stringify({
+                                display_text: '📣 Duduu-Mendez Channel',
+                                url: 'https://whatsapp.com/channel/0029VacgCaPKmCPGmTmrnT04'
                             })
                         }
                     ]
