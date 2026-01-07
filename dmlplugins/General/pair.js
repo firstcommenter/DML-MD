@@ -70,7 +70,7 @@ module.exports = {
                             {
                                 name: 'cta_copy',
                                 buttonParamsJson: JSON.stringify({
-                                    display_text: '📋 Copy Pair Code',
+                                    display_text: 'Copy Code',
                                     id: 'copy_pair_code',
                                     copy_code: pairingCode
                                 })
