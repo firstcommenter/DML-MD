@@ -2,51 +2,58 @@ const { getSettings, updateSetting } = require('../../Database/config');
 const ownerMiddleware = require('../../utility/botUtil/Ownermiddleware');
 
 module.exports = async (context) => {
-  await ownerMiddleware(context, async () => {
-    const { m, args } = context;
-    const newPrefix = args[0];
+    await ownerMiddleware(context, async () => {
+        const { m, args } = context;
+        const newPrefix = args[0];
+        const settings = await getSettings();
 
-    const settings = await getSettings();
+        // Disable prefix
+        if (newPrefix === 'null') {
+            if (!settings.prefix) {
+                return await m.reply(
+`╭─〔 ⚠ PREFIX STATUS 〕─╮
+│ ❎ The prefix is already disabled.
+│ ⚠ No changes have been made.
+╰────────────────────╯`
+                );
+            }
 
-    if (newPrefix === 'null') {
-      if (!settings.prefix) {
-        return await m.reply(
-          `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-          `│❒ Already prefixless, you clueless twit! 😔\n` +
-          `│❒ Stop wasting my time! 🥺\n` +
-          `┗━━━━━━━━━━━━━━━┛`
+            await updateSetting('prefix', '');
+            return await m.reply(
+`╭─〔 ✅ PREFIX REMOVED 〕─╮
+│ ❎ The prefix has been successfully removed.
+│ 🙌 Bot is now operating without a prefix.
+╰────────────────────╯`
+            );
+        }
+
+        // Update prefix
+        if (newPrefix) {
+            if (settings.prefix === newPrefix) {
+                return await m.reply(
+`╭─〔 ⚠ PREFIX STATUS 〕─╮
+│ ⏭ The prefix is already set to "${newPrefix}".
+│ 🚨 Please choose a different symbol.
+╰────────────────────╯`
+                );
+            }
+
+            await updateSetting('prefix', newPrefix);
+            return await m.reply(
+`╭─〔 ✅ PREFIX UPDATED 〕─╮
+│ 🚀 New prefix set: ${newPrefix}
+│ ▶ Update completed successfully.
+╰────────────────────╯`
+            );
+        }
+
+        // Show current prefix info
+        await m.reply(
+`╭─〔 ℹ PREFIX INFORMATION 〕─╮
+│ ♻ Current Prefix: ${settings.prefix || 'Disabled'}
+│ 🔰 Use "${settings.prefix || '.'}prefix null" to disable the prefix.
+│ 🚀 Use "${settings.prefix || '.'}prefix <symbol>" to set a new prefix.
+╰────────────────────╯`
         );
-      }
-      await updateSetting('prefix', '');
-      await m.reply(
-        `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-        `│❒ Prefix obliterated! 🔥\n` +
-        `│❒ I’m prefixless now, bow down! 😔\n` +
-        `┗━━━━━━━━━━━━━━━┛`
-      );
-    } else if (newPrefix) {
-      if (settings.prefix === newPrefix) {
-        return await m.reply(
-          `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-          `│❒ Prefix is already ${newPrefix}, moron! 😔\n` +
-          `│❒ Try something new, fool! 🥶\n` +
-          `┗━━━━━━━━━━━━━━━┛`
-        );
-      }
-      await updateSetting('prefix', newPrefix);
-      await m.reply(
-        `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-        `│❒ New prefix set to ${newPrefix}! 🔥\n` +
-        `│❒ Obey the new order, king! 😔\n` +
-        `┗━━━━━━━━━━━━━━━┛`
-      );
-    } else {
-      await m.reply(
-        `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-        `│❒ Current Prefix: ${settings.prefix || 'No prefix, peasant! 🥶'}\n` +
-        `│❒ Use "${settings.prefix || '.'}prefix null" to go prefixless or "${settings.prefix || '.'}prefix <symbol>" to set one, noob!\n` +
-        `┗━━━━━━━━━━━━━━━┛`
-      );
-    }
-  });
+    });
 };
