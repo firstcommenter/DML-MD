@@ -1,19 +1,27 @@
-const Ownermiddleware = async (context, next) => {
-    const { m, Owner } = context;
-
-    if (!Owner) {
-        return m.reply(`╔═⟪ 🚫 DML-MD | OWNER COMMAND ⟫═╗
+const middleware = async (context, next) => {
+    const { m, isBotAdmin, isAdmin } = context;
+if (!m.isGroup) {
+    return m.reply(
+`╔══〔 ⚠️ DML-MD | Group Only 〕═
+║ ⏺ Command unavailable in private chats
+║ 🫂 Please use this command inside a group
 ║
-║ 🔥 Access Denied: Owner privileges required
-║ ♻ Current user permissions insufficient
-║ 🧐 Attempt logged for security review
-║
-║ 📌 Contact the administrator to request access
-╚══════════════════════╝
-> © Powered by Dml`);
-    }
+║ 💡 Tip: Add the bot to a group to access this feature
+╚══════════════════════╝`
+    );
+}
 
-    await next();
+if (!isBotAdmin) {
+    return m.reply(
+`╔═〔 🔒 DML-MD | Admin Required 〕═
+║ 🚀 Bot cannot execute this command without admin rights
+║ ❎ Please grant the bot admin privileges
+║
+║ 💡 Tip: Promote the bot to admin to enable this action
+╚══════════════════════╝`
+    );
+}
+    await next(); // Proceed to the next function (main handler)
 };
 
-module.exports = Ownermiddleware;
+module.exports = middleware;
