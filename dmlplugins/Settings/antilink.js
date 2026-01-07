@@ -31,7 +31,7 @@ module.exports = async (context) => {
         if (currentMode === value) {
           return await client.sendMessage(
             m.chat,
-            { text: formatStylishReply(`Antilink is already set to '${value.toUpperCase()}', dumbass.`) },
+            { text: formatStylishReply(`Antilink is already set to '${value.toUpperCase()}', Bro.`) },
             { quoted: m, ad: true }
           );
         }
