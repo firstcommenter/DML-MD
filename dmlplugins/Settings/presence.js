@@ -6,7 +6,9 @@ module.exports = async (context) => {
     const { client, m, args, prefix } = context;
 
     const formatStylishReply = (message) => {
-      return `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n┋❒ ${message}\n╰┈┈┈┈━━━━━━┈┈┈┈◈`;
+      return `╔═════〔 🚀 FEATURE 〕═════╗
+║  ${message}
+╚══════════════════════╝`;
     };
 
     try {
@@ -60,7 +62,7 @@ module.exports = async (context) => {
     } catch (error) {
       await client.sendMessage(
         m.chat,
-        { text: formatStylishReply("Shit broke, couldn’t update presence. Database or something’s fucked. Try later.") },
+        { text: formatStylishReply("Shit broke, couldn’t update presence. Try later.") },
         { quoted: m, ad: true }
       );
     }
