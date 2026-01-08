@@ -5,8 +5,11 @@ module.exports = async (context) => {
         const { client, m } = context;
 
         await client.groupSettingUpdate(m.chat, 'announcement');
-                m.reply(`╔═════〔 🚨 GROUP CLOSED〕═════╗
-║  ${message}
-╚══════════════════════╝`);
+                m.reply(
+`╭─〔 🔒 Group Update 〕─╮
+│ The group has been
+│ successfully closed.
+╰────────────────╯`
+);
     });
 };
