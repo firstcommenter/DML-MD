@@ -8,10 +8,9 @@ module.exports = async (context) => {
 
     const formatStylishReply = (message) => {
         return (
-            `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n` +
-            `┋❒ ${message}\n` +
-            `╰┈┈┈┈━━━━━━┈┈┈┈◈◈\n` +
-            `> ©POWERED BY YOU`
+            `╔═════〔 🚀 FEATURE 〕═════╗
+║  ${message}
+╚══════════════════════╝`
         );
     };
 
@@ -64,7 +63,7 @@ module.exports = async (context) => {
                 {
                     text: formatStylishReply(
                         "🚀 Update triggered.\n" +
-                        "Sit tight while DML-MD resurrects with fresh upgrades. 💀"
+                        "Sit tight while DML-MD resurrects with fresh upgrades. ♻"
                     ),
                 },
                 { quoted: m }
