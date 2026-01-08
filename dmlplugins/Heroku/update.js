@@ -9,10 +9,9 @@ module.exports = async (context) => {
 
     const formatStylishReply = (message) => {
         return (
-            `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n` +
-            `┋❒ ${message}\n` +
-            `╰┈┈┈┈━━━━━━┈┈┈┈◈◈\n` +
-            `> ©POWERED BY YOU`
+            `╔═════〔 🚀 MESSAGE 〕═════╗
+║  ${message}
+╚══════════════════════╝`
         );
     };
 
@@ -60,7 +59,7 @@ module.exports = async (context) => {
                     {
                         interactiveMessage: {
                             body: {
-                                text: "Your bot is already on the latest version, genius."
+                                text: "Your bot is already on the latest version, Bro 🙌🏻."
                             },
                             footer: {
                                 text: "> ©POWERED BY YOU"
@@ -96,7 +95,7 @@ module.exports = async (context) => {
                 {
                     interactiveMessage: {
                         body: {
-                            text: `🆕 Update Available, Dumbass\n\nNew version found. You're still using outdated garbage.\n\n📌 *Commit:* ${latestCommit.commit.message}\n👤 *Author:* ${latestCommit.commit.author.name}\n🕒 *Date:* ${new Date(latestCommit.commit.author.date).toLocaleString()}\n\nTo update your worthless bot, tap the button below. if you're unable to tap the buttons type ${prefix}trigger Don't ask me how to tap, you monkey. 🐒😂`
+                            text: `🆕 Update Available, Bro\n\nNew version found. You're still using outdated Dml-Md Bot.\n\n📌 *Commit:* ${latestCommit.commit.message}\n👤 *Author:* ${latestCommit.commit.author.name}\n🕒 *Date:* ${new Date(latestCommit.commit.author.date).toLocaleString()}\n\nTo update your worthless bot, tap the button below. if you're unable to tap the buttons type ${prefix}trigger Don't ask me how to tap, you monkey. 🐒😂`
                         },
                         footer: {
                             text: "> ©POWERED BY YOU"
