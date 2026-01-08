@@ -7,13 +7,21 @@ module.exports = {
 
     try {
       // Log message context for debugging
-      console.log(`Slap command context: isGroup=${m.isGroup}, mentionedJid=${JSON.stringify(m.mentionedJid)}, quotedSender=${m.quoted?.sender || 'none'}, sender=${m.sender}`);
+      console.log(
+        `Slap command context: isGroup=${m.isGroup}, mentionedJid=${JSON.stringify(m.mentionedJid)}, quotedSender=${m.quoted?.sender || 'none'}, sender=${m.sender}`
+      );
 
       // Check if a user is tagged or quoted
       if (!m.mentionedJid || m.mentionedJid.length === 0) {
         if (!m.quoted || !m.quoted.sender) {
           console.error('No tagged or quoted user provided');
-          return m.reply(`◈━━━━━━━━━━━━━━━━◈\n│❒ Yo, dumbass, tag someone or quote a message to slap! I ain’t smacking thin air!`);
+          return m.reply(
+`╭─〔 ⚠️ Target Required 〕─╮
+│ Tag someone or reply
+│ to their message.
+│ I’m not slapping air.
+╰─────────────────╯`
+          );
         }
       }
 
@@ -28,7 +36,12 @@ module.exports = {
         (!targetUser.includes('@s.whatsapp.net') && !targetUser.includes('@lid'))
       ) {
         console.error(`Invalid target user: ${JSON.stringify(targetUser)}`);
-        return m.reply(`◈━━━━━━━━━━━━━━━━◈\n│❒ Invalid user, idiot! Tag or quote a real person to slap!`);
+        return m.reply(
+`╭─〔 ❌ Invalid User 〕─╮
+│ Tag or quote a real
+│ WhatsApp user to slap.
+╰───────────────╯`
+        );
       }
 
       // Extract phone numbers
@@ -36,56 +49,80 @@ module.exports = {
       const senderNumber = m.sender.split('@')[0];
       if (!targetNumber || !senderNumber) {
         console.error(`Failed to extract numbers: target=${targetUser}, sender=${m.sender}`);
-        return m.reply(`◈━━━━━━━━━━━━━━━━◈\n│❒ Something’s fucked up with the user IDs. Try again, moron!`);
+        return m.reply(
+`╭─〔 ❌ Error 〕─╮
+│ Failed to read user
+│ IDs. Try again.
+╰───────────╯`
+        );
       }
 
       // Send slapping message with dramatic delay
       const slappingMsg = await client.sendMessage(
         m.chat,
         {
-          text: `◈━━━━━━━━━━━━━━━━◈\n│❒ @${senderNumber} is winding up to slap @${targetNumber}... 🖐️\n│❒ This is gonna sting, bitch!\n◈━━━━━━━━━━━━━━━━◈`,
+          text:
+`╭─〔 🖐️ Incoming Slap 〕─╮
+│ @${senderNumber} is
+│ winding up to slap
+│ @${targetNumber}...
+│
+│ This will hurt 😈
+╰─────────────────╯`,
           mentions: [m.sender, targetUser],
         },
         { quoted: m }
       );
 
-      // Random dramatic delay between 1-3 seconds
-      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000));
+      // Random dramatic delay between 1–3 seconds
+      await new Promise((resolve) =>
+        setTimeout(resolve, 1000 + Math.random() * 2000)
+      );
 
-      // Generate random slap intensity
+      // Random slap intensity
       const intensities = [
         {
           level: 'Weak',
-          description: 'a pathetic, limp-wristed tap that barely made @TARGET flinch! You call that a slap, @SENDER? Weak sauce!',
-          emoji: '😴',
+          description:
+            'a pathetic, limp-wristed tap that barely made @TARGET flinch! @SENDER, that was embarrassing.',
+          emoji: '😕',
         },
         {
           level: 'Moderate',
-          description: 'a solid smack that left a red mark on @TARGET’s face! @SENDER, you got some balls, but it’s still meh!',
+          description:
+            'a solid smack that left a red mark on @TARGET’s face! @SENDER came prepared.',
           emoji: '🖐️',
         },
         {
           level: 'Epic',
-          description: 'a thunderous SLAP that sent @TARGET flying across the room! @SENDER, you absolute savage, that was brutal!',
+          description:
+            'a thunderous SLAP that sent @TARGET flying! Absolute violence by @SENDER.',
           emoji: '💥',
         },
       ];
-      const intensity = intensities[Math.floor(Math.random() * intensities.length)];
 
-      // Build the final toxic result message with proper interpolation
-      const resultMsg = `╭┈┈┈┈━━━━━━┈┈┈┈◈
-*SLAP REPORT* ${intensity.emoji}
+      const intensity =
+        intensities[Math.floor(Math.random() * intensities.length)];
 
-*SLAPPER:* @${senderNumber}
-*VICTIM:* @${targetNumber}
-*INTENSITY:* ${intensity.level}
+      // Final result message
+      const resultMsg =
+`╭─〔 💢 SLAP REPORT 〕─╮
+│ ${intensity.emoji}
+│
+│ Slapper : @${senderNumber}
+│ Victim  : @${targetNumber}
+│ Power   : ${intensity.level}
+│
+│ Verdict :
+│ ${intensity.description
+        .replace('@TARGET', `@${targetNumber}`)
+        .replace('@SENDER', `@${senderNumber}`)}
+│
+│ ⚠️ This slap was
+│ absolutely deserved.
+╰──────────────────╯`;
 
-*VERDICT:* ${intensity.description.replace('@TARGET', `@${targetNumber}`).replace('@SENDER', `@${senderNumber}`)}
-
-*DISCLAIMER:* This slap was 100% deserved, you pathetic loser! Cry about it! 😈
-╰┈┈┈┈━━━━━━┈┈┈┈◈◈`;
-
-      // Send the final result
+      // Send result
       await client.sendMessage(
         m.chat,
         {
@@ -95,17 +132,24 @@ module.exports = {
         { quoted: m }
       );
 
-      // Delete the slapping message for cleaner look
+      // Delete the slapping message
       if (slappingMsg && slappingMsg.key) {
         try {
           await client.sendMessage(m.chat, { delete: slappingMsg.key });
         } catch (deleteError) {
-          console.error(`Failed to delete slapping message: ${deleteError.stack}`);
+          console.error(
+            `Failed to delete slapping message: ${deleteError.stack}`
+          );
         }
       }
     } catch (error) {
       console.error(`Slap command exploded: ${error.stack}`);
-      await m.reply(`◈━━━━━━━━━━━━━━━━◈\n│❒ Shit broke harder than your ego! Can’t slap right now, you unlucky fuck.`);
+      await m.reply(
+`╭─〔 ❌ Error 〕─╮
+│ Slap failed badly.
+│ Try again later.
+╰───────────╯`
+      );
     }
   },
 };
