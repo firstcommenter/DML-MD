@@ -16,7 +16,7 @@ module.exports = async (context) => {
       if (!settings || Object.keys(settings).length === 0) {
         return await client.sendMessage(
           m.chat,
-          { text: formatStylishReply("Database is fucked, no settings found. Fix it, loser.") },
+          { text: formatStylishReply("No settings found. Fix it, loser.") },
           { quoted: m, ad: true }
         );
       }
@@ -42,8 +42,8 @@ module.exports = async (context) => {
       }
 
       const buttons = [
-        { buttonId: `${prefix}startmessage on`, buttonText: { displayText: "ON 🎉" }, type: 1 },
-        { buttonId: `${prefix}startmessage off`, buttonText: { displayText: "OFF 🚫" }, type: 1 },
+        { buttonId: `${prefix}startmessage on`, buttonText: { displayText: "ON ✅" }, type: 1 },
+        { buttonId: `${prefix}startmessage off`, buttonText: { displayText: "OFF ❎" }, type: 1 },
       ];
 
       await client.sendMessage(
