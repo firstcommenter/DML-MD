@@ -11,29 +11,52 @@ module.exports = {
   run: async (context) => {
     const { client, m, prefix, isBotAdmin, IsGroup, botname } = context;
 
-    // Helper to wrap all replies with line styling
-    const formatMsg = (text) => `◈┈┈┈┈┈┈┈┈┈┈◈\n${text}\n◈┈┈┈┈┈┈┈┈┈┈┈┈◈`;
+    // Helper to wrap all replies with new clean styling
+    const formatMsg = (text) =>
+`╭─〔 📢 Group Status 〕─╮
+│ ${text.replace(/\n/g, '\n│ ')}
+╰───────────────────╯`;
 
     try {
       if (!botname) {
-        return client.sendText(m.chat, formatMsg(`Bot name is not set. Please configure it before using this command.`), m);
+        return client.sendText(
+          m.chat,
+          formatMsg(`Bot name is not set.\nPlease configure it before using this command.`),
+          m
+        );
       }
 
       if (!m.sender || typeof m.sender !== 'string' || !m.sender.includes('@s.whatsapp.net')) {
-        return client.sendText(m.chat, formatMsg(`Could not identify your WhatsApp ID. Please try again.`), m);
+        return client.sendText(
+          m.chat,
+          formatMsg(`Could not identify your WhatsApp ID.\nPlease try again.`),
+          m
+        );
       }
 
       if (!IsGroup) {
-        return client.sendText(m.chat, formatMsg(`This command can only be used in group chats.`), m);
+        return client.sendText(
+          m.chat,
+          formatMsg(`This command can only be used in group chats.`),
+          m
+        );
       }
 
       if (!isBotAdmin) {
-        return client.sendText(m.chat, formatMsg(`I need to be *admin* to post a group status. Please make me admin first.`), m);
+        return client.sendText(
+          m.chat,
+          formatMsg(`I need to be an admin to post a group status.\nPlease make me admin first.`),
+          m
+        );
       }
 
       const settings = await getSettings();
       if (!settings) {
-        return client.sendText(m.chat, formatMsg(`Failed to load settings. Please try again later.`), m);
+        return client.sendText(
+          m.chat,
+          formatMsg(`Failed to load settings.\nPlease try again later.`),
+          m
+        );
       }
 
       const quoted = m.quoted ? m.quoted : m;
@@ -45,13 +68,19 @@ module.exports = {
       if (!/image|video|audio/.test(mime) && !caption) {
         return client.sendText(
           m.chat,
-          formatMsg(`Please reply to an image, video, audio, or include text with the command.\nExample: ${prefix}gstatus Check out this update!`),
+          formatMsg(
+            `Please reply to an image, video, or audio,\nor include text with the command.\n\nExample:\n${prefix}gstatus Check out this update!`
+          ),
           m
         );
       }
 
       // Default caption for group status
-      const defaultCaption = `Group status Posted By 🄵🄴🄴-🅇🄼🄳 ✅\n\nJOIN\nhttps://chat.whatsapp.com/KERPI5K0w0L9rzU00QSw40`;
+      const defaultCaption =
+`Group status posted successfully ✅
+
+JOIN:
+https://chat.whatsapp.com/HflwxRda15o0kRMJwsggcD`;
 
       // Handle media types
       if (/image/.test(mime)) {
@@ -62,7 +91,8 @@ module.exports = {
             caption: caption || defaultCaption
           }
         });
-        await client.sendText(m.chat, formatMsg(`Image status has been posted successfully ✅`), m);
+        await client.sendText(m.chat, formatMsg(`Image status has been posted successfully.`), m);
+
       } else if (/video/.test(mime)) {
         const buffer = await client.downloadMediaMessage(quoted);
         await client.sendMessage(m.chat, {
@@ -71,7 +101,8 @@ module.exports = {
             caption: caption || defaultCaption
           }
         });
-        await client.sendText(m.chat, formatMsg(`Video status has been posted successfully ✅`), m);
+        await client.sendText(m.chat, formatMsg(`Video status has been posted successfully.`), m);
+
       } else if (/audio/.test(mime)) {
         const buffer = await client.downloadMediaMessage(quoted);
         await client.sendMessage(m.chat, {
@@ -80,20 +111,22 @@ module.exports = {
             mimetype: 'audio/mp4'
           }
         });
-        await client.sendText(m.chat, formatMsg(`Audio status has been posted successfully ✅`), m);
+        await client.sendText(m.chat, formatMsg(`Audio status has been posted successfully.`), m);
+
       } else if (caption) {
         await client.sendMessage(m.chat, {
           groupStatusMessage: { text: caption }
         });
-        await client.sendText(m.chat, formatMsg(`Text status has been posted successfully ✅`), m);
+        await client.sendText(m.chat, formatMsg(`Text status has been posted successfully.`), m);
       }
 
     } catch (error) {
       await client.sendText(
         m.chat,
-        formatMsg(`An error occurred while posting status:\n${error.message}`),
+        formatMsg(`An error occurred while posting the status:\n${error.message}`),
         m
       );
     }
   }
 };
+//dml
