@@ -12,7 +12,9 @@ module.exports = async (context) => {
     const groupCount = Object.keys(await client.groupFetchAllParticipating()).length;
 
     const formatStylishReply = (message) => {
-      return `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n┋❒ ${message}\n╰┈┈┈┈━━━━━━┈┈┈┈◈`;
+      return `╔═════〔 🚀 MESSAGE 〕═════╗
+║  ${message}
+╚══════════════════════╝`;
     };
 
     const buttons = [
@@ -40,7 +42,7 @@ module.exports = async (context) => {
       `Sudo Users: ${sudoUsers.length > 0 ? sudoUsers.join(', ') : 'None'}\n` +
       `Banned Users: ${bannedUsers.length}\n` +
       `Total Groups: ${groupCount}\n\n` +
-      `Tap a button to configure a setting! 😈`
+      `Tap a button to configure a setting! `
     );
 
     await client.sendMessage(
