@@ -8,50 +8,55 @@ module.exports = async (context) => {
 
     const settings = await getSettings();
     const prefix = settings.prefix;
-    const currentEmoji = settings.reactEmoji || 'No react emoji set, loser! 😴';
+    const currentEmoji = settings.reactEmoji || 'Not set';
 
     if (newEmoji) {
       if (newEmoji === 'random') {
         if (currentEmoji === 'random') {
           return await m.reply(
-            `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n` +
-            `┋❒ Already set to random, you brain-dead fool! 😔\n` +
-            `┋❒ I’m already throwing random emojis! 🥶\n` +
-            `╰┈┈┈┈━━━━━━┈┈┈┈◈`
+`╭─〔 🔁 REACTION SETTINGS 〕─╮
+│ ⚠️ Already using random emojis
+│ 🎲 Chaos mode is already active
+╰─────────────────────╯`
           );
         }
+
         await updateSetting('reactEmoji', 'random');
         await m.reply(
-          `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n` +
-          `┋❒ Random emoji mode ON! 🔥\n` +
-          `┋❒ Statuses will get wild reactions! 😔\n` +
-          `╰┈┈┈┈━━━━━━┈┈┈┈◈`
+`╭─〔 🔥 REACTION UPDATED 〕─╮
+│ 🎲 Mode : Random Emojis
+│ 😔 Status reactions will be wild
+╰─────────────────────╯`
         );
       } else {
         if (currentEmoji === newEmoji) {
           return await m.reply(
-            `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-            `┋❒ Emoji already ${newEmoji}, moron! 😔\n` +
-            `┋❒ Pick something else, noob! 🙇🏽‍♂️\n` +
-            `╰┈┈┈┈━━━━━━┈┈┈┈◈`
+`╭─〔 ⚠️ NO CHANGES MADE 〕─╮
+│ 😐 Emoji already set to ${newEmoji}
+│ 🔄 Try a different one
+╰─────────────────────╯`
           );
         }
+
         await updateSetting('reactEmoji', newEmoji);
         await m.reply(
-          `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-          `┋❒ Status react emoji set to ${newEmoji}! 🔥\n` +
-          `┋❒ Flexing it like a king! 💞\n` +
-          `╰┈┈┈┈━━━━━━┈┈┈┈◈`
+`╭─〔 ✅ REACTION UPDATED 〕─╮
+│ 😍 Emoji Set : ${newEmoji}
+│ 🚀 Applied successfully
+╰─────────────────────╯`
         );
       }
     } else {
       await m.reply(
-        `╭┈┈┈┈━━━━━━┈┈┈┈◈\n` +
-        `┋❒ Current Reaction: ${currentEmoji}\n` +
-        `┋❒ Use "${prefix}reaction random" for chaos or "${prefix}reaction <emoji>" for one emoji, fool!\n` +
-        `╰┈┈┈┈━━━━━━┈┈┈┈◈`
+`╭─〔 ⚙️ REACTION STATUS 〕─╮
+│ 🔍 Current Emoji : ${currentEmoji}
+│
+│ 📌 Usage:
+│ • ${prefix}reaction random
+│ • ${prefix}reaction <emoji>
+╰─────────────────╯`
       );
     }
   });
 };
-//DML
+// DML-MD
