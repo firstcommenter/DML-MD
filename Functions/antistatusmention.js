@@ -1,4 +1,4 @@
-const { getSettings } = require("../Database/config");
+const { getSettings } = require("../Database/config"); 
 
 module.exports = async (client, m) => {
     try {
@@ -19,9 +19,15 @@ module.exports = async (client, m) => {
         const isAdmin = m.isAdmin;
         const isBotAdmin = m.isBotAdmin;
 
+        // ADMIN NOTICE
         if (isAdmin) {
             await client.sendMessage(m.chat, {
-                text: `◈━━━━━━━━━━━━━━━━◈\n│❒ *Admin Status Mention*\n│❒ User: @${m.sender.split("@")[0]}\n│❒ Status: Admin privileges\n│❒ Admins are allowed\n┗━━━━━━━━━━━━━━━┛`,
+                text: `╔══❰ *DML-MD | NOTICE* ❱══
+║ 👤 User: @${m.sender.split("@")[0]}
+║ 🛡️ Role: Group Admin
+║ ✅ Status mentions allowed
+║ 📘 Admin privileges confirmed
+╚══════════════════════╝`,
                 mentions: [m.sender],
             });
             return;
@@ -29,6 +35,7 @@ module.exports = async (client, m) => {
 
         if (!isBotAdmin) return;
 
+        // DELETE MESSAGE
         await client.sendMessage(m.chat, {
             delete: {
                 remoteJid: m.chat,
@@ -38,23 +45,39 @@ module.exports = async (client, m) => {
             },
         });
 
+        // DELETE MODE NOTICE
         if (mode === "delete" || mode === "true") {
             await client.sendMessage(m.chat, {
-                text: `◈━━━━━━━━━━━━━━━━◈\n│❒ *DML-MD AntiStatusMention*\n│❒ User: @${m.sender.split("@")[0]}\n│❒ Action: Status mention deleted 🗑️\n│❒ Warning: Next time = removal\n┗━━━━━━━━━━━━━━━┛`,
+                text: `╔══❰ *DML-MD | Anti Status Mention* ❱══
+║ 👤 User: @${m.sender.split("@")[0]}
+║ ⚠️ Policy Violation detected
+║ 🧹 Message deleted by system
+║ 🚨 Warning: Repeated action may lead to removal
+╚══════════════════════╝`,
                 mentions: [m.sender],
             });
         }
 
+        // REMOVE MODE NOTICE
         if (mode === "remove") {
             try {
                 await client.groupParticipantsUpdate(m.chat, [m.sender], "remove");
                 await client.sendMessage(m.chat, {
-                    text: `◈━━━━━━━━━━━━━━━━◈\n│❒ *DML-MD AntiStatusMention*\n│❒ User: @${m.sender.split("@")[0]}\n│❒ Action: Removed from group 🚫\n┗━━━━━━━━━━━━━━━┛`,
+                    text: `╔══❰ *DML-MD | NOTICE* ❱══
+║ 👤 User: @${m.sender.split("@")[0]}
+║ 🔗 Policy Violation: Status mention
+║ 🚪 Action: User removed from group
+║ 📘 Please review group rules
+╚══════════════════════╝`,
                     mentions: [m.sender],
                 });
             } catch {
                 await client.sendMessage(m.chat, {
-                    text: `◈━━━━━━━━━━━━━━━━◈\n│❒ *Admin Error*\n│❒ Can't remove user\n┗━━━━━━━━━━━━━━━┛`,
+                    text: `╔══❰ *DML-MD | ERROR* ❱══
+║ ❌ Action failed
+║ 🔐 Bot lacks admin permissions
+║ ⚙️ Please check bot role
+╚══════════════════════╝`,
                 });
             }
         }
