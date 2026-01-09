@@ -4,8 +4,8 @@ const { getSettings } = require('../../Database/config');
 
 module.exports = {
   name: 'editingmenu',
-  aliases: ['edit', 'editcmds'],
-  description: 'Displays only the Edit menu',
+  aliases: ['editmenu'],
+  description: 'Displays only the Editing menu',
   run: async (context) => {
     const { client, m, pict } = context;
     const botname = 'DML-MD';
@@ -26,24 +26,30 @@ module.exports = {
         .join('');
     };
 
-    let menuText = ``;
+    let menuText =
+`╭─〔 ✏️ ${botname} | EDITING MENU 〕─╮
+│ Editing commands only
+│
+│ 🔧 Prefix : ${effectivePrefix || 'None'}
+╰──────────────────────╯
 
-    menuText += `✏️ ${botname} EDIT MENU\n\n`;
-    menuText += `Category : Message & Media Editing\n`;
-    menuText += `Prefix   : ${effectivePrefix || 'None'}\n\n`;
+╭─〔 ➰ EDITING COMMANDS 〕─╮
+`;
 
-    menuText += `AVAILABLE EDIT COMMANDS\n\n`;
+    let commandFiles = fs
+      .readdirSync('./dmlplugins/Editting')
+      .filter(file => file.endsWith('.js'));
 
-    let commandFiles = fs.readdirSync('./dmlplugins/Editting').filter(file => file.endsWith('.js'));
     for (const file of commandFiles) {
       const commandName = file.replace('.js', '');
       const fancyCommandName = toFancyFont(commandName);
-      menuText += `🔘 ${fancyCommandName}\n`;
+      menuText += `│ 🔘 ${fancyCommandName}\n`;
     }
 
-    menuText += `\nStatus  : Active\n`;
-    menuText += `System  : Edit Engine Loaded\n`;
-    menuText += `Credit  : Powered by Dml\n`;
+    menuText +=
+`╰───────────────────╯
+
+> POWERED BY DML-MD`;
 
     await client.sendMessage(
       m.chat,
@@ -53,7 +59,7 @@ module.exports = {
           externalAdReply: {
             showAdAttribution: false,
             title: `DML-MD`,
-            body: `EDIT MODULE`,
+            body: `POWERED BY Dml`,
             thumbnail: pict,
             sourceUrl: `https://github.com/MLILA17/DML-MD`,
             mediaType: 1,
