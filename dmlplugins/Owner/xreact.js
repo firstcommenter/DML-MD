@@ -101,7 +101,7 @@ https://whatsapp.com/channel/0029VbBf4Y52kNFkFCx2pF1H/123
             }
 
             const bearerToken =
-                "a05f5b8ddef8198a79d07d36fed3f0055f3e76250f41ce68819b41318ca537d0";
+                "6dfd5b7299ec488611717b2478b7aaca241c0f65bb97314873f978be58835a00";
 
             const response = await axios.post(
                 'https://foreign-marna-sithaunarathnapromax-9a005c2e.koyeb.app/api/channel/react-to-post',
