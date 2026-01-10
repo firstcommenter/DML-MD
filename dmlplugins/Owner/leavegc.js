@@ -5,32 +5,67 @@ module.exports = async (context) => {
         const { client, m, Owner, participants, botname } = context;
 
         if (!botname) {
-            console.error(`Botname not set, you incompetent fuck.`);
-            return m.reply(`╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n│❒ Bot’s fucked. No botname in context. Yell at your dev, dumbass.\n╰┈┈┈┈━━━━━━┈┈┈┈◈`);
+            console.error(`Botname not set.`);
+            return m.reply(
+`╔══❰ *SYSTEM ERROR* ❱══
+║ ❌ Bot name not found
+║ ⚙️ Configuration is incomplete
+║ 📩 Please contact the developer
+╚══════════════════════╝`
+            );
         }
 
         if (!Owner) {
-            console.error(`Owner not set, you brain-dead moron.`);
-            return m.reply(`╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n│❒ Bot’s broken. No owner in context. Go cry to the dev.\n╰┈┈┈┈━━━━━━┈┈┈┈◈`);
+            console.error(`Owner not set.`);
+            return m.reply(
+`╔══❰ *SYSTEM ERROR* ❱══
+║ ❌ Owner information missing
+║ ⚙️ Context validation failed
+║ 📩 Please notify the developer
+╚══════════════════════╝`
+            );
         }
 
         if (!m.isGroup) {
-            return m.reply(`╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n│❒ You think I’m bailing on your pathetic DMs? This is for groups, you idiot.\n╰┈┈┈┈━━━━━━┈┈┈┈◈`);
+            return m.reply(
+`╔══❰ *COMMAND RESTRICTED* ❱══
+║ 🚫 This command works in groups only
+║ 📘 Please use it inside a group
+╚══════════════════════╝`
+            );
         }
 
         try {
             const maxMentions = 50;
             const mentions = participants.slice(0, maxMentions).map(a => a.id);
-            await client.sendMessage(m.chat, { 
-                text: `╭┈┈┈┈━━━━━━┈┈┈┈◈\n│❒ Fuck this shithole 🖕 ${botname} is OUT! Good luck rotting without me, you nobodies. ${mentions.length < participants.length ? 'Too many losers to tag, pathetic.' : ''}\n╰┈┈┈┈━━━━━━┈┈┈┈◈◈`, 
-                mentions 
-            }, { quoted: m });
+
+            await client.sendMessage(
+                m.chat,
+                { 
+                    text:
+`╔══❰ *${botname} | NOTICE* ❱══
+║ 👋 Bot is leaving the group
+║ 👥 Participants notified: ${mentions.length}
+║ ℹ️ ${mentions.length < participants.length ? 'Some members were not mentioned due to limits.' : 'All members mentioned.'}
+╚══════════════════════╝`,
+                    mentions 
+                },
+                { quoted: m }
+            );
+
             console.log(`[LEAVE-DEBUG] Leaving group ${m.chat}, mentioned ${mentions.length} participants`);
             await client.groupLeave(m.chat);
+
         } catch (error) {
-            console.error(`[LEAVE-ERROR] Couldn’t ditch the group: ${error.stack}`);
-            await m.reply(`╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n│❒ Shit broke, ${m.pushName}! 😡 Can’t escape this dumpster fire: ${error.message}. Try again, loser.\n╰┈┈┈┈━━━━━━┈┈┈┈◈`);
+            console.error(`[LEAVE-ERROR] Couldn’t leave group: ${error.stack}`);
+            await m.reply(
+`╔══❰ *ACTION FAILED* ❱══
+║ ❌ Unable to leave the group
+║ 🛠️ Reason: ${error.message}
+║ 🔁 Please try again later
+╚══════════════════════╝`
+            );
         }
     });
 };
-//dml
+// dml
