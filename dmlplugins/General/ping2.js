@@ -1,4 +1,6 @@
 const os = require("os");
+const fs = require("fs");
+const path = require("path");
 
 module.exports = {
     name: "ping2",
@@ -10,15 +12,32 @@ module.exports = {
         try {
             const start = Date.now();
 
-            // Subtle reaction
+            // Reaction
             await client.sendMessage(m.chat, {
                 react: { text: "📡", key: m.key }
             });
 
-            // Measure latency
-            const pingMsg = await client.sendMessage(m.chat, {
-                text: "Checking system status..."
-            }, { quoted: m });
+            // Temporary status message
+            const pingMsg = await client.sendMessage(
+                m.chat,
+                { text: "Checking system status..." },
+                { quoted: m }
+            );
+
+            /* ===== LOAD RANDOM IMAGE FROM /Dmlimages ===== */
+            const dmlFolder = path.join(__dirname, "../Dmlimages");
+            let imageBuffer = null;
+
+            if (fs.existsSync(dmlFolder)) {
+                const images = fs.readdirSync(dmlFolder)
+                    .filter(file => /\.(jpg|jpeg|png)$/i.test(file));
+
+                if (images.length > 0) {
+                    const randomImage = images[Math.floor(Math.random() * images.length)];
+                    imageBuffer = fs.readFileSync(path.join(dmlFolder, randomImage));
+                }
+            }
+            /* ============================================ */
 
             const latency = Date.now() - start;
 
@@ -41,10 +60,7 @@ module.exports = {
                 latency < 300 ? "Good" :
                 latency < 600 ? "Fair" : "Poor";
 
-            await client.sendMessage(
-                m.chat,
-                {
-                    text:
+            const caption =
 `╭───〔 🤖 BOT STATUS 〕───╮
 │
 │  📶 Latency      : ${latency} ms
@@ -59,10 +75,22 @@ module.exports = {
 │  🩺 Health       : ${health}
 │  🌐 Network      : Online
 │
-╰───────────〔 DML-MD 〕───────────╯`
-                },
-                { quoted: pingMsg }
-            );
+╰───────────〔 DML-MD 〕───────────╯`;
+
+            // Send image if available, else text
+            if (imageBuffer) {
+                await client.sendMessage(
+                    m.chat,
+                    { image: imageBuffer, caption },
+                    { quoted: pingMsg }
+                );
+            } else {
+                await client.sendMessage(
+                    m.chat,
+                    { text: caption },
+                    { quoted: pingMsg }
+                );
+            }
 
         } catch (err) {
             console.error("Ping command error:", err);
