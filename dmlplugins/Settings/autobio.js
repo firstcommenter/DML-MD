@@ -6,7 +6,9 @@ module.exports = async (context) => {
     const { client, m, args, prefix } = context;
 
     const formatStylishReply = (message) => {
-      return `╭┈┈┈┈━━━━━━┈┈┈┈◈\n│❒ ${message}\n╰┈┈┈┈━━━━━━┈┈┈┈◈`;
+      return `╔═════〔 🚀 FEATURE 〕═════╗
+║  ${message}
+╚══════════════════════╝`;
     };
 
     try {
@@ -26,7 +28,7 @@ module.exports = async (context) => {
         if (settings.autobio === action) {
           return await client.sendMessage(
             m.chat,
-            { text: formatStylishReply(`Autobio’s already ${value.toUpperCase()}, you brain-dead fool! Stop wasting my time. 😈`) },
+            { text: formatStylishReply(`Autobio’s already ${value.toUpperCase()}, you brain-dead fool! Stop wasting my time. `) },
             { quoted: m, ad: true }
           );
         }
@@ -34,20 +36,20 @@ module.exports = async (context) => {
         await updateSetting('autobio', action);
         return await client.sendMessage(
           m.chat,
-          { text: formatStylishReply(`Autobio ${value.toUpperCase()} activated! 🔥 ${action ? 'Bot’s flexing status updates every 10 seconds, bow down! 🦁' : 'No more status flexing, you’re not worth it. 😴'}`) },
+          { text: formatStylishReply(`Autobio ${value.toUpperCase()} activated! 🔥 ${action ? 'Bot’s flexing status updates every 10 seconds, bow down! 🤗' : 'No more status flexing, you’re not worth it. 🤨'}`) },
           { quoted: m, ad: true }
         );
       }
 
       const buttons = [
-        { buttonId: `${prefix}autobio on`, buttonText: { displayText: "ON 🦁" }, type: 1 },
-        { buttonId: `${prefix}autobio off`, buttonText: { displayText: "OFF 😴" }, type: 1 },
+        { buttonId: `${prefix}autobio on`, buttonText: { displayText: "ON ✅" }, type: 1 },
+        { buttonId: `${prefix}autobio off`, buttonText: { displayText: "OFF ❎" }, type: 1 },
       ];
 
       await client.sendMessage(
         m.chat,
         {
-          text: formatStylishReply(`Autobio’s ${settings.autobio ? 'ON 🦁' : 'OFF 😴'}, dumbass. Pick a vibe, noob! 😈`),
+          text: formatStylishReply(`Autobio’s ${settings.autobio ? 'ON ✅' : 'OFF ❎'}, Bro. Pick a vibe, mood 🚀`),
           footer: "> ©POWERED BY DML",
           buttons,
           headerType: 1,
@@ -58,7 +60,7 @@ module.exports = async (context) => {
     } catch (error) {
       await client.sendMessage(
         m.chat,
-        { text: formatStylishReply("Shit broke, couldn’t mess with autobio. Database or something’s fucked. Try later.") },
+        { text: formatStylishReply("Shit broke, couldn’t mess with autobio. Try later.") },
         { quoted: m, ad: true }
       );
     }
