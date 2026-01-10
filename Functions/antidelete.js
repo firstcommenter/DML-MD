@@ -4,8 +4,10 @@ const { proto, getContentType, generateWAMessageID } = require('@whiskeysockets/
 module.exports = async (context) => {
   const { client, m, args, settings, store } = context;
 
-  const formatStylishReply = (message) => {
-    return `━━━━━━━━━━━━━━━\n│❒ ${message}\n━━━━━━━━━━━━━━━`;
+  const formatNotice = (message) => {
+    return `╔══❰ *DML-MD | NOTICE* ❱══
+║ ${message.split('\n').join('\n║ ')}
+╚══════════════════════╝`;
   };
 
   try {
@@ -18,27 +20,32 @@ module.exports = async (context) => {
 
     const myself = client.decodeJid(client.user.id);
     if (!m.key.fromMe) {
-      return await m.reply(formatStylishReply("Only the bot owner can toggle antidelete, loser! 🖕"));
+      return await m.reply(formatNotice("Only the bot owner can toggle Anti-Delete."));
     }
 
     const subCommand = args[0]?.toLowerCase();
 
     if (subCommand === 'status') {
       const isEnabled = settings.antidelete;
-      return await m.reply(formatStylishReply(
+      return await m.reply(formatNotice(
         `🔍 *Anti-Delete Status*\n\n` +
         `• Enabled: ${isEnabled ? '✅ Yes' : '❌ No'}\n` +
-        `• Forwards to: Bot's DM`
+        `• Forwarded to: Bot's DM`
       ));
     }
 
     const newState = !settings.antidelete;
     await updateSetting('antidelete', newState);
-    await m.reply(formatStylishReply(`Antidelete ${newState ? 'ENABLED' : 'DISABLED'} globally! ${newState ? 'Deleted messages will be forwarded to my DM! 🔒' : 'No more snooping on deletes, you rebel! 😎'}`));
+    await m.reply(formatNotice(
+      `Anti-Delete has been *${newState ? 'ENABLED' : 'DISABLED'}* globally.\n` +
+      `${newState ? 'Deleted messages will now be forwarded to my DM. 🔒' : 'Deleted messages will no longer be monitored.'}`
+    ));
+
   } catch (error) {
     console.error(`Error in antidelete: ${error}`);
   }
 
+  // Listener for deleted messages
   client.ev.on('messages.upsert', async ({ messages }) => {
     const msg = messages[0];
     if (!msg?.message || !msg.key || !msg.key.remoteJid || !msg.key.id) {
@@ -72,14 +79,14 @@ module.exports = async (context) => {
         const isGroup = deletedP.remoteJid.endsWith('@g.us');
         const messageType = getContentType(deletedM.message);
         const caption = `⚠️ *Anti-Delete Detection*\n\n` +
-                      `• From: @${sender.split('@')[0]}\n` +
-                      `• Chat: ${isGroup ? 'Group' : 'Private'}\n` +
-                      `• Type: ${messageType}\n` +
-                      `• Time: ${new Date(deletedM.messageTimestamp * 1000).toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })}\n\n` +
-                      `*Original Message:*`;
+                        `• From: @${sender.split('@')[0]}\n` +
+                        `• Chat: ${isGroup ? 'Group' : 'Private'}\n` +
+                        `• Type: ${messageType}\n` +
+                        `• Time: ${new Date(deletedM.messageTimestamp * 1000).toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })}\n\n` +
+                        `*Original Message:*`;
 
         await client.sendMessage(botJid, {
-          text: caption,
+          text: formatNotice(caption),
           mentions: [sender]
         });
 
@@ -90,7 +97,7 @@ module.exports = async (context) => {
         console.log(`Forwarded deleted ${messageType} message ${deletedP.id} from ${deletedP.remoteJid} to ${botJid}`);
       } catch (error) {
         console.error(`Error forwarding deleted message ${deletedP.id}: ${error}`);
-        await client.sendMessage(botJid, { text: `⚠️ Error forwarding deleted message: ${error.message}` });
+        await client.sendMessage(botJid, { text: formatNotice(`Error forwarding deleted message: ${error.message}`) });
       }
     }
   });
