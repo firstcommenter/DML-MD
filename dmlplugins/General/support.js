@@ -1,11 +1,12 @@
 module.exports = async (context) => {
     const { client, m, text, botname, prefix = '' } = context;
 
+    // If user types extra text
     if (text) {
         return client.sendMessage(
             m.chat,
             {
-                text: `Hello ${m.pushName}, just type *${prefix}support* to see all official support & follow links.`
+                text: `Hello ${m.pushName}, type *${prefix}support* to view all official support links.`
             },
             { quoted: m }
         );
@@ -13,12 +14,16 @@ module.exports = async (context) => {
 
     try {
         const replyText =
-            `*🤝 ${botname} Support & Official Links*\n\n` +
-            `Follow, subscribe, and join our official platforms to get:\n` +
-            `• Updates & Announcements\n` +
-            `• Bot Features & Fixes\n` +
-            `• Tech Tutorials & Support\n\n` +
-            `Select an option below 👇`;
+            `╭─❖ 🤝 ${botname} Support & Official Links ❖─╮\n` +
+            `│\n` +
+            `│  Stay connected with our official platforms\n` +
+            `│  to receive:\n` +
+            `│\n` +
+            `│  • Updates & Announcements\n` +
+            `│  • Bot Features & Fixes\n` +
+            `│  • Tech Tutorials & Support\n` +
+            `│\n` +
+            `╰─➤ Select an option below 👇`;
 
         await client.sendMessage(
             m.chat,
@@ -28,7 +33,16 @@ module.exports = async (context) => {
                     title: replyText,
                     footer: `Powered by ${botname}`,
                     buttons: [
-                        // WhatsApp Channels
+                        // 1. Duduu Mendez WhatsApp Channel
+                        {
+                            name: 'cta_url',
+                            buttonParamsJson: JSON.stringify({
+                                display_text: '📣 Follow Duduu Mendez WA Channel',
+                                url: 'https://whatsapp.com/channel/0029VacgCaPKmCPGmTmrnT04'
+                            })
+                        },
+
+                        // 2. DML WhatsApp Channel
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
@@ -36,29 +50,8 @@ module.exports = async (context) => {
                                 url: 'https://whatsapp.com/channel/0029VbBf4Y52kNFkFCx2pF1H'
                             })
                         },
-                        {
-                            name: 'cta_url',
-                            buttonParamsJson: JSON.stringify({
-                                display_text: '📣 Follow Duduu Mendez Wa Channel',
-                                url: 'https://whatsapp.com/channel/0029VacgCaPKmCPGmTmrnT04'
-                            })
-                        },
 
-                        // GitHub & YouTube
-                        {
-                            name: 'cta_url',
-                            buttonParamsJson: JSON.stringify({
-                                display_text: '💻 Follow Dml on GitHub',
-                                url: 'https://github.com/MLILA17'
-                            })
-                        },
-                        {
-                            name: 'cta_url',
-                            buttonParamsJson: JSON.stringify({
-                                display_text: '▶️ Dml YouTube Channel ',
-                                url: 'https://www.youtube.com/@DaudyMussa-h1r'
-                            })
-                        },
+                        // 3. Duduu Mendez YouTube
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
@@ -67,19 +60,39 @@ module.exports = async (context) => {
                             })
                         },
 
-                        // Telegram
+                        // 4. DML YouTube
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '📡 Join Telegram Channel',
+                                display_text: '▶️ Dml YouTube Channel',
+                                url: 'https://www.youtube.com/@DaudyMussa-h1r'
+                            })
+                        },
+
+                        // 5. Telegram Channel
+                        {
+                            name: 'cta_url',
+                            buttonParamsJson: JSON.stringify({
+                                display_text: '📡 Follow Telegram Channel',
                                 url: 'https://t.me/dmltechTz'
                             })
                         },
+
+                        // 6. Telegram Group
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
                                 display_text: '👥 Join Telegram Group',
                                 url: 'https://t.me/Dml_Tech7'
+                            })
+                        },
+
+                        // 7. GitHub
+                        {
+                            name: 'cta_url',
+                            buttonParamsJson: JSON.stringify({
+                                display_text: '💻 Follow Dml on GitHub',
+                                url: 'https://github.com/MLILA17'
                             })
                         }
                     ]
@@ -93,7 +106,7 @@ module.exports = async (context) => {
         await client.sendMessage(
             m.chat,
             {
-                text: `❌ Failed to load support links.\nPlease try again later.`
+                text: `❌ Unable to load support links right now.\nPlease try again later.`
             },
             { quoted: m }
         );
