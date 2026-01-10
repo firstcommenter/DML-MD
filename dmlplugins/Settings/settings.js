@@ -23,7 +23,7 @@ module.exports = async (context) => {
       { buttonId: `${prefix}autoread`, buttonText: { displayText: 'Autoread 👀' }, type: 1 },
       { buttonId: `${prefix}autoview`, buttonText: { displayText: 'Autoview Status 📸' }, type: 1 },
       { buttonId: `${prefix}autolike`, buttonText: { displayText: 'Autolike Status ❤️' }, type: 1 },
-      { buttonId: `${prefix}reaction`, buttonText: { displayText: 'React Emoji 😈' }, type: 1 },
+      { buttonId: `${prefix}reaction`, buttonText: { displayText: 'React Emoji ' 😂}, type: 1 },
       { buttonId: `${prefix}setpackname`, buttonText: { displayText: 'Sticker Watermark 🖼️' }, type: 1 },
       { buttonId: `${prefix}autobio`, buttonText: { displayText: 'Autobio 📝' }, type: 1 },
       { buttonId: `${prefix}anticall`, buttonText: { displayText: 'Anticall 📞' }, type: 1 },
