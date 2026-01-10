@@ -14,7 +14,7 @@ module.exports = async (context) => {
 
     try {
         const replyText =
-            `╭❖🤝 ${botname} Support & Official Links❖╮\n` +
+            `╭${botname} Support & Official Links╮\n` +
             `│\n` +
             `│  Stay connected with our official platforms\n` +
             `│  to receive:\n` +
