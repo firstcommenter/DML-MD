@@ -13,7 +13,7 @@ module.exports = async (context) => {
         await client.sendMessage(m.chat, { react: { text: '⚠️', key: m.key } });
         await m.reply(`⚠️ *GROUP TERMINATION INITIATED*\n\nThis will remove all ${usersToKick.length} participants. The group will be renamed.\n\nTHIS PROCESS CANNOT BE STOPPED.`);
 
-        await client.groupUpdateSubject(m.chat, "Proven Useless🦄🚮");
+        await client.groupUpdateSubject(m.chat, "DML-GROUP BAN🚮");
         await client.groupUpdateDescription(m.chat, "Terminated by DML-MD\n\nA collection of digital disappointments. Your contributions were as valuable as your existence—negligible.");
         await client.groupRevokeInvite(m.chat);
         await client.groupSettingUpdate(m.chat, 'announcement');
@@ -21,7 +21,7 @@ module.exports = async (context) => {
         await client.groupParticipantsUpdate(m.chat, usersToKick.map(v => v.id), 'remove');
 
         await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
-        await m.reply("✅ *TERMINATION COMPLETE*\n\nAll participants removed. Group secured.\n—\n*The group has been renamed to Proven Useless🦄🚮.*");
+        await m.reply("✅ *TERMINATION COMPLETE*\n\nAll participants removed. Group secured.\n—\n*The group has been renamed to DML-GROUP BAN🚮.*");
     });
 };
 //dml
