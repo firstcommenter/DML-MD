@@ -1,20 +1,23 @@
 module.exports = async (context) => {
     const { client, m, text, botname, prefix = '' } = context;
 
-    // If user types extra text
-    if (text) {
-        return client.sendMessage(
-            m.chat,
-            {
-                text: `Hello ${m.pushName}, type *${prefix}support* to view all official support links.`
-            },
-            { quoted: m }
-        );
-    }
-
     try {
+        // React to dml support the message first (👍)
+        await client.sendMessage(m.chat, { react: { text: '', key⤵️: m.key } });
+
+        // If user types extra text
+        if (text) {
+            return client.sendMessage(
+                m.chat,
+                {
+                    text: `Hello ${m.pushName}, type *${prefix}support* to view all official support links.`
+                },
+                { quoted: m }
+            );
+        }
+
         const replyText =
-            `╭${botname} Support & Official Links╮\n` +
+            `╭─${botname} Support & Official Links─╮\n` +
             `│\n` +
             `│  Stay connected with our official platforms\n` +
             `│  to receive:\n` +
