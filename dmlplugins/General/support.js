@@ -32,14 +32,14 @@ module.exports = async (context) => {
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '📢 Follow DML WhatsApp Channel',
+                                display_text: '📢 Follow Dml WhatsApp Channel',
                                 url: 'https://whatsapp.com/channel/0029VbBf4Y52kNFkFCx2pF1H'
                             })
                         },
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '📣 Follow Duduu Mendez Channel',
+                                display_text: '📣 Follow Duduu Mendez Wa Channel',
                                 url: 'https://whatsapp.com/channel/0029VacgCaPKmCPGmTmrnT04'
                             })
                         },
@@ -48,21 +48,21 @@ module.exports = async (context) => {
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '💻 Follow DML on GitHub',
+                                display_text: '💻 Follow Dml on GitHub',
                                 url: 'https://github.com/MLILA17'
                             })
                         },
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '▶️ DML YouTube Channel',
+                                display_text: '▶️ Dml YouTube Channel ',
                                 url: 'https://www.youtube.com/@DaudyMussa-h1r'
                             })
                         },
                         {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
-                                display_text: '▶️ Duduu Mendez YouTube',
+                                display_text: '▶️ Duduu Mendez YouTube Channel',
                                 url: 'https://youtube.com/@duduu_mendez?si=k7TYO2vaQQVQ1x6Q'
                             })
                         },
