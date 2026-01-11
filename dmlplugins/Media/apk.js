@@ -4,43 +4,43 @@ module.exports = async (context) => {
     try {
         if (!text) {
             return m.reply(
-                "Please provide the name of the app you want to download.\n\nExample: .playstore facebook"
+                "Please provide the name of the APK you want to download.\n\nExample: .apk facebook"
             );
         }
 
-        const appName = text.trim();
+        const apkName = text.trim();
 
         // 🔍 Searching
-        await m.reply(`🔍 Searching for *${appName}* on Play Store...`);
+        await m.reply(`🔍 Searching for *${apkName}* APK...`);
 
         // 📥 Maher-Zubair APK API
         const data = await fetchJson(
-            `https://api.maher-zubair.tech/download/apk?id=${encodeURIComponent(appName)}`
+            `https://api.maher-zubair.tech/download/apk?id=${encodeURIComponent(apkName)}`
         );
 
         if (!data || data.status !== 200 || !data.result) {
-            return m.reply("Sorry, the app was not found or the server is busy.");
+            return m.reply("Sorry, the APK was not found or the server is busy.");
         }
 
-        const app = data.result;
+        const apk = data.result;
 
-        // 🖼️ App info + icon
+        // 🖼️ APK info + icon
         const caption = `
-✨ *DML PLAYSTORE DOWNLOADER* ✨
+✨ *APK DOWNLOADER* ✨
 
-📦 *Name:* ${app.name}
-🏢 *Developer:* ${app.developer || "Unknown"}
-⚖️ *Size:* ${app.size || "Unknown"}
-🕒 *Last Updated:* ${app.lastUpdate || "Unknown"}
+📦 *Name:* ${apk.name}
+🏢 *Developer:* ${apk.developer || "Unknown"}
+⚖️ *Size:* ${apk.size || "Unknown"}
+🕒 *Last Updated:* ${apk.lastUpdate || "Unknown"}
 
 _Please wait, sending APK..._
 `;
 
-        if (app.icon) {
+        if (apk.icon) {
             await client.sendMessage(
                 m.chat,
                 {
-                    image: { url: app.icon },
+                    image: { url: apk.icon },
                     caption: caption
                 },
                 { quoted: m }
@@ -53,16 +53,16 @@ _Please wait, sending APK..._
         await client.sendMessage(
             m.chat,
             {
-                document: { url: app.downloadLink },
+                document: { url: apk.downloadLink },
                 mimetype: "application/vnd.android.package-archive",
-                fileName: `${app.name}.apk`
+                fileName: `${apk.name}.apk`
             },
             { quoted: m }
         );
 
     } catch (error) {
         console.error(error);
-        m.reply("Apk download failed\n" + error);
+        m.reply("APK download failed\n" + error);
     }
 };
 // dml
