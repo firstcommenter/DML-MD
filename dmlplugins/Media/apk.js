@@ -1,24 +1,68 @@
 module.exports = async (context) => {
+    const { client, m, text, fetchJson } = context;
 
-const { client, m, text, fetchJson } = context;
+    try {
+        if (!text) {
+            return m.reply(
+                "Please provide the name of the app you want to download.\n\nExample: .playstore facebook"
+            );
+        }
 
+        const appName = text.trim();
 
-try {
-if (!text) return m.reply("Provide an app name");
+        // 🔍 Searching
+        await m.reply(`🔍 Searching for *${appName}* on Play Store...`);
 
-let data = await fetchJson (`https://bk9.fun/search/apk?q=${text}`);
-        let dreaded = await fetchJson (`https://bk9.fun/download/apk?id=${data.BK9[0].id}`);
-         await client.sendMessage(
-              m.chat,
-              {
-                document: { url: dreaded.BK9.dllink },
-                fileName: dreaded.BK9.name,
-                mimetype: "application/vnd.android.package-archive"}, { quoted: m });
+        // 📥 Maher-Zubair APK API
+        const data = await fetchJson(
+            `https://api.maher-zubair.tech/download/apk?id=${encodeURIComponent(appName)}`
+        );
 
-} catch (error) {
+        if (!data || data.status !== 200 || !data.result) {
+            return m.reply("Sorry, the app was not found or the server is busy.");
+        }
 
-m.reply("Apk download failed\n" + error)
+        const app = data.result;
 
-}
+        // 🖼️ App info + icon
+        const caption = `
+✨ *DML PLAYSTORE DOWNLOADER* ✨
+
+📦 *Name:* ${app.name}
+🏢 *Developer:* ${app.developer || "Unknown"}
+⚖️ *Size:* ${app.size || "Unknown"}
+🕒 *Last Updated:* ${app.lastUpdate || "Unknown"}
+
+_Please wait, sending APK..._
+`;
+
+        if (app.icon) {
+            await client.sendMessage(
+                m.chat,
+                {
+                    image: { url: app.icon },
+                    caption: caption
+                },
+                { quoted: m }
+            );
+        } else {
+            await m.reply(caption);
+        }
+
+        // 📦 Send APK file
+        await client.sendMessage(
+            m.chat,
+            {
+                document: { url: app.downloadLink },
+                mimetype: "application/vnd.android.package-archive",
+                fileName: `${app.name}.apk`
+            },
+            { quoted: m }
+        );
+
+    } catch (error) {
+        console.error(error);
+        m.reply("Apk download failed\n" + error);
+    }
 };
-//dml
+// dml
