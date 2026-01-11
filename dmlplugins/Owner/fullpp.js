@@ -8,7 +8,7 @@ module.exports = async (context) => {
 try {
 const fs = require("fs");
 
-if(!msgToxic) { m.reply('REPLY TO A FUCKING IMAGE RIGHT NOW!'); return } ;
+if(!msgToxic) { m.reply('REPLY TO AN  IMAGE RIGHT NOW!'); return } ;
 
 
 let media;
@@ -16,7 +16,7 @@ if (msgToxic.imageMessage) {
      media = msgToxic.imageMessage
 
   } else {
-    m.reply('THIS IS NOT A FUCKING IMAGE! REPLY TO AN IMAGE!'); return
+    m.reply('THIS IS NOT AN IMAGE! REPLY TO AN IMAGE!'); return
   } ;
 
 var medis = await client.downloadAndSaveMediaMessage(media);
