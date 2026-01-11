@@ -4,28 +4,30 @@ module.exports = async (context) => {
   try {
     if (!text) return m.reply("❌ Provide an app name");
 
-    // Search app
-    const search = await fetchJson(
+    const res = await fetchJson(
       `https://api.aptoide.com/api/7/apps/search?query=${encodeURIComponent(text)}`
     );
 
-    if (!search?.list || search.list.length === 0) {
-      return m.reply("❌ App not found");
+    // ✅ Correct Aptoide response path
+    const apps = res?.datalist?.list;
+
+    if (!apps || apps.length === 0) {
+      return m.reply("❌ App not found on Aptoide");
     }
 
-    const app = search.list[0];
+    const app = apps[0];
 
-    const name = app.name;
+    const name = app.name || "Unknown App";
+    const icon = app.icon;
     const version = app.file?.vername || "Unknown";
     const size = app.file?.filesize
       ? (app.file.filesize / 1024 / 1024).toFixed(2) + " MB"
       : "Unknown";
-    const icon = app.icon;
     const download = app.file?.path;
 
     if (!download) return m.reply("❌ Download link unavailable");
 
-    // Send icon preview with details
+    // 📸 Icon preview
     await client.sendMessage(
       m.chat,
       {
@@ -39,7 +41,7 @@ module.exports = async (context) => {
       { quoted: m }
     );
 
-    // Send APK
+    // 📥 Send APK
     await client.sendMessage(
       m.chat,
       {
