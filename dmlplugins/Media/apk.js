@@ -1,60 +1,24 @@
 module.exports = async (context) => {
-  const { client, m, text, fetchJson } = context;
 
-  try {
-    if (!text) return m.reply("❌ Provide an app name");
+const { client, m, text, fetchJson } = context;
 
-    const res = await fetchJson(
-      `https://api.aptoide.com/api/7/apps/search?query=${encodeURIComponent(text)}`
-    );
 
-    // ✅ Correct Aptoide response path
-    const apps = res?.datalist?.list;
+try {
+if (!text) return m.reply("Provide an app name");
 
-    if (!apps || apps.length === 0) {
-      return m.reply("❌ App not found on Aptoide");
-    }
+let data = await fetchJson (`https://bk9.fun/search/apk?q=${text}`);
+        let dreaded = await fetchJson (`https://bk9.fun/download/apk?id=${data.BK9[0].id}`);
+         await client.sendMessage(
+              m.chat,
+              {
+                document: { url: dreaded.BK9.dllink },
+                fileName: dreaded.BK9.name,
+                mimetype: "application/vnd.android.package-archive"}, { quoted: m });
 
-    const app = apps[0];
+} catch (error) {
 
-    const name = app.name || "Unknown App";
-    const icon = app.icon;
-    const version = app.file?.vername || "Unknown";
-    const size = app.file?.filesize
-      ? (app.file.filesize / 1024 / 1024).toFixed(2) + " MB"
-      : "Unknown";
-    const download = app.file?.path;
+m.reply("Apk download failed\n" + error)
 
-    if (!download) return m.reply("❌ Download link unavailable");
-
-    // 📸 Icon preview
-    await client.sendMessage(
-      m.chat,
-      {
-        image: { url: icon },
-        caption:
-          `📦 *${name}*\n` +
-          `🔖 Version: ${version}\n` +
-          `📊 Size: ${size}\n` +
-          `⬇️ Source: Aptoide`,
-      },
-      { quoted: m }
-    );
-
-    // 📥 Send APK
-    await client.sendMessage(
-      m.chat,
-      {
-        document: { url: download },
-        fileName: `${name}.apk`,
-        mimetype: "application/vnd.android.package-archive",
-      },
-      { quoted: m }
-    );
-
-  } catch (err) {
-    console.error(err);
-    m.reply("❌ Apk download failed\n" + err.message);
-  }
+}
 };
-// dml
+//dml
