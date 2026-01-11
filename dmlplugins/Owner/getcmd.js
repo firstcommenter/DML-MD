@@ -39,18 +39,26 @@ module.exports = async (context) => {
         const commandName = text.endsWith('.js') ? text.slice(0, -3) : text;
 
         for (const category of categories) {
-            const filePath = `./feecmd/${category.name}/${commandName}.js`;
+            const filePath = `./dmlplugins/${category.name}/${commandName}.js`;
 
             try {
                 const data = await fs.readFile(filePath, 'utf8');
 
                 // NEW FEATURE: show command category
                 const replyText =
-                    `✅ *Command Found!*\n\n` +
-                    `📂 *Category:* ${category.name}\n` +
-                    `📄 *File:* ${commandName}.js\n\n` +
-                    `\`\`\`javascript\n${data}\n\`\`\`\n` +
-                    `> Powered by DML-TECH`;
+                   `╭─〔 ✅ COMMAND LOCATED 〕╮
+│
+│ 📂 Category : ${category.name}
+│ 📄 File     : ${commandName}.js
+│
+╰────────────────────╯
+
+📜 *Source Code Preview*
+\`\`\`javascript
+${data}
+\`\`\`
+
+⚡ _Powered by **DML-TECH**_`;
 
                 await client.sendMessage(m.chat, { text: replyText }, { quoted: m });
                 fileFound = true;
