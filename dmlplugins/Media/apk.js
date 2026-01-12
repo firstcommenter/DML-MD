@@ -15,7 +15,7 @@ module.exports = async (context) => {
 
         // 📥 Maher-Zubair APK API
         const data = await fetchJson(
-            `https://api.maher-zubair.tech/download/apk?id=${encodeURIComponent(apkName)}`
+            `https://ws75.aptoide.com/api/7/apps/search/query=${encodeURIComponent(apkName)}`
         );
 
         if (!data || data.status !== 200 || !data.result) {
