@@ -5,19 +5,14 @@ module.exports = async (context) => {
 
     try {
         const apiUrl = 'https://apis.davidcyriltech.my.id/random/quotes';
-        const { data } = await axios.get(apiUrl);
+        const res = await axios.get(apiUrl);
+        const data = res.data;
 
-        let quote = '';
-        let author = 'Unknown';
+        // ✅ DIRECT extraction
+        const quote = data?.result?.quote;
+        const author = data?.result?.author || 'Unknown';
 
-        // ✅ Correct handling
-        if (Array.isArray(data.result) && data.result.length > 0) {
-            const item = data.result[0]; // random already
-            quote = item.quote;
-            author = item.author || author;
-        }
-
-        if (!quote) {
+        if (!quote || typeof quote !== 'string') {
             console.log('QUOTE API RAW:', JSON.stringify(data, null, 2));
             return m.reply("❌ Couldn't fetch a quote at the moment. Try again later!");
         }
@@ -32,7 +27,7 @@ module.exports = async (context) => {
 
 _— ${author}_
 
-_powered by Dml_
+_powered by DML_
         `.trim();
 
         await client.sendMessage(
