@@ -13,35 +13,43 @@ module.exports = async (context) => {
         // 🔍 Searching
         await m.reply(`🔍 Searching for *${apkName}* APK...`);
 
-        // 📥 Maher-Zubair APK API
+        // ✅ Correct Aptoide API
         const data = await fetchJson(
-            `https://ws75.aptoide.com/api/7/apps/search/query=${encodeURIComponent(apkName)}`
+            `https://api.aptoide.com/api/7/apps/search?query=${encodeURIComponent(apkName)}`
         );
 
-        if (!data || data.status !== 200 || !data.result) {
-            return m.reply("Sorry, the APK was not found or the server is busy.");
+        if (
+            !data ||
+            !data.datalist ||
+            !data.datalist.list ||
+            data.datalist.list.length === 0
+        ) {
+            return m.reply("❌ APK not found.");
         }
 
-        const apk = data.result;
+        // Take first result
+        const apk = data.datalist.list[0];
 
-        // 🖼️ APK info + icon
         const caption = `
 ✨ *APK DOWNLOADER* ✨
 
 📦 *Name:* ${apk.name}
-🏢 *Developer:* ${apk.developer || "Unknown"}
-⚖️ *Size:* ${apk.size || "Unknown"}
-🕒 *Last Updated:* ${apk.lastUpdate || "Unknown"}
+🏢 *Developer:* ${apk.developer?.name || "Unknown"}
+⚖️ *Size:* ${apk.file?.filesize
+            ? (apk.file.filesize / (1024 * 1024)).toFixed(2) + " MB"
+            : "Unknown"}
+🕒 *Version:* ${apk.file?.vername || "Unknown"}
 
 _Please wait, sending APK..._
 `;
 
+        // 🖼️ Send icon + info
         if (apk.icon) {
             await client.sendMessage(
                 m.chat,
                 {
                     image: { url: apk.icon },
-                    caption: caption
+                    caption
                 },
                 { quoted: m }
             );
@@ -50,10 +58,14 @@ _Please wait, sending APK..._
         }
 
         // 📦 Send APK file
+        if (!apk.file?.path) {
+            return m.reply("❌ Download link not available.");
+        }
+
         await client.sendMessage(
             m.chat,
             {
-                document: { url: apk.downloadLink },
+                document: { url: apk.file.path },
                 mimetype: "application/vnd.android.package-archive",
                 fileName: `${apk.name}.apk`
             },
@@ -62,7 +74,7 @@ _Please wait, sending APK..._
 
     } catch (error) {
         console.error(error);
-        m.reply("APK download failed\n" + error);
+        m.reply("❌ APK download failed:\n" + error.message);
     }
 };
 // dml
