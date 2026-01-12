@@ -5,24 +5,46 @@ module.exports = async (context) => {
 
     try {
         const apiUrl = 'https://apis.davidcyriltech.my.id/random/quotes';
-        const res = await axios.get(apiUrl);
-        const data = res.data;
+        const { data } = await axios.get(apiUrl);
 
-        // DEBUG (remove later)
-        console.log('QUOTE API RESPONSE:', data);
+        console.log('QUOTE API RAW:', JSON.stringify(data, null, 2));
 
-        // handle multiple possible structures
-        let quote, author;
+        let quote = '';
+        let author = 'Unknown';
 
+        // Most common structure
         if (data.result) {
-            quote = data.result.quote;
-            author = data.result.author;
-        } else if (data.quote) {
-            quote = data.quote;
-            author = data.author;
-        } else if (Array.isArray(data) && data[0]) {
-            quote = data[0].quote;
-            author = data[0].author;
+            if (typeof data.result.quote === 'string') {
+                quote = data.result.quote;
+                author = data.result.author || author;
+            } 
+            // quote is object
+            else if (typeof data.result.quote === 'object') {
+                quote =
+                    data.result.quote.text ||
+                    data.result.quote.quote ||
+                    data.result.quote.message ||
+                    JSON.stringify(data.result.quote);
+
+                author =
+                    data.result.quote.author ||
+                    data.result.author ||
+                    author;
+            }
+        }
+
+        // Fallback
+        if (!quote && data.quote) {
+            if (typeof data.quote === 'string') {
+                quote = data.quote;
+                author = data.author || author;
+            } else if (typeof data.quote === 'object') {
+                quote =
+                    data.quote.text ||
+                    data.quote.quote ||
+                    JSON.stringify(data.quote);
+                author = data.quote.author || author;
+            }
         }
 
         if (!quote) {
@@ -34,7 +56,7 @@ module.exports = async (context) => {
 
 "${quote}"
 
-_— ${author || 'Unknown'}_
+_— ${author}_
 
 _powered by DML_
 `.trim();
