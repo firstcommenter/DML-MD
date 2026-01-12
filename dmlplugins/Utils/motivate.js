@@ -5,35 +5,53 @@ module.exports = async (context) => {
 
     try {
         const apiUrl = 'https://apis.davidcyriltech.my.id/random/quotes';
-        const { data } = await axios.get(apiUrl, { timeout: 10000 });
+        const { data } = await axios.get(apiUrl);
 
-        // 🔍 Handle multiple possible API structures
-        let quote = null;
+        console.log('QUOTE API RAW:', JSON.stringify(data, null, 2));
+
+        let quote = '';
         let author = 'Unknown';
 
-        if (data?.result) {
-            if (typeof data.result === 'object') {
+        // Most common structure
+        if (data.result) {
+            if (typeof data.result.quote === 'string') {
+                quote = data.result.quote;
+                author = data.result.author || author;
+            } else if (typeof data.result.quote === 'object') {
                 quote =
-                    data.result.quote ||
-                    data.result.text ||
-                    data.result.message;
-
+                    data.result.quote.text ||
+                    data.result.quote.quote ||
+                    data.result.quote.message ||
+                    JSON.stringify(data.result.quote);
                 author =
+                    data.result.quote.author ||
                     data.result.author ||
-                    data.result.by ||
                     author;
             }
         }
 
-        if (!quote || typeof quote !== 'string') {
-            console.log('QUOTE API RAW RESPONSE:\n', JSON.stringify(data, null, 2));
+        // Fallback
+        if (!quote && data.quote) {
+            if (typeof data.quote === 'string') {
+                quote = data.quote;
+                author = data.author || author;
+            } else if (typeof data.quote === 'object') {
+                quote =
+                    data.quote.text ||
+                    data.quote.quote ||
+                    JSON.stringify(data.quote);
+                author = data.quote.author || author;
+            }
+        }
+
+        if (!quote) {
             return m.reply("❌ Couldn't fetch a quote at the moment. Try again later!");
         }
 
-        // 🖼️ Random image (no cache)
+        // Random image URL with no cache
         const imageUrl = `https://picsum.photos/600/600?random=${Date.now()}`;
 
-        const caption = `
+        const quoteMessage = `
 ✨ *DML-MOTIVATIONAL* ✨
 
 "${quote}"
@@ -43,17 +61,18 @@ _— ${author}_
 _powered by DML_
         `.trim();
 
+        // Send image + caption
         await client.sendMessage(
             m.chat,
             {
                 image: { url: imageUrl },
-                caption
+                caption: quoteMessage
             },
             { quoted: m }
         );
 
-    } catch (err) {
-        console.error('Quote Image Error:', err?.message || err);
-        m.reply("❌ Failed to fetch quote image. Please try again later.");
+    } catch (error) {
+        console.error('Motivation Error:', error);
+        m.reply("❌ Failed to fetch a motivational quote. Please try again later.");
     }
 };
