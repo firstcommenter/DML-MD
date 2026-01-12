@@ -7,21 +7,28 @@ module.exports = async (context) => {
         const apiUrl = 'https://apis.davidcyriltech.my.id/random/quotes';
         const { data } = await axios.get(apiUrl);
 
-        if (!data.success || !data.response) {
+        // validate response
+        if (!data.status || !data.result) {
             return m.reply("❌ Couldn't fetch a quote at the moment. Try again later!");
         }
+
+        const { quote, author } = data.result;
 
         const quoteMessage = `
 ✨ *DML-MOTIVATIONAL* ✨
 
-"${data.response.quote}"
+"${quote}"
 
-_— ${data.response.author}_
+_— ${author || 'Unknown'}_
 
-_powered by Dml_
+_powered by DML_
 `.trim();
 
-        await client.sendMessage(m.chat, { text: quoteMessage }, { quoted: m });
+        await client.sendMessage(
+            m.chat,
+            { text: quoteMessage },
+            { quoted: m }
+        );
 
     } catch (error) {
         console.error('Motivation Error:', error);
