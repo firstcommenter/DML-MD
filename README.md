@@ -73,7 +73,14 @@
 </div>
 
 ---
-
+<p align="center">
+  <a href="https://youtu.be/WZSOZ0jOaFU?si=hssHzzLrrXwH830s" target="_blank">
+    <img
+      src="https://img.shields.io/badge/YouTube-Deploy%20Tutorial-FF0000?style=for-the-badge&logo=youtube&logoColor=white"
+      alt="DML-MD Deploy Tutorial on YouTube"
+    />
+  </a>
+</p>
 ## 👥 Fork Tracker (Active Developers)
 
 > 🧠 *All developers who forked this repository can be viewed here:*
