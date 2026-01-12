@@ -5,14 +5,29 @@ module.exports = async (context) => {
 
     try {
         const apiUrl = 'https://apis.davidcyriltech.my.id/random/quotes';
-        const { data } = await axios.get(apiUrl);
+        const res = await axios.get(apiUrl);
+        const data = res.data;
 
-        // validate response
-        if (!data.status || !data.result) {
-            return m.reply("❌ Couldn't fetch a quote at the moment. Try again later!");
+        // DEBUG (remove later)
+        console.log('QUOTE API RESPONSE:', data);
+
+        // handle multiple possible structures
+        let quote, author;
+
+        if (data.result) {
+            quote = data.result.quote;
+            author = data.result.author;
+        } else if (data.quote) {
+            quote = data.quote;
+            author = data.author;
+        } else if (Array.isArray(data) && data[0]) {
+            quote = data[0].quote;
+            author = data[0].author;
         }
 
-        const { quote, author } = data.result;
+        if (!quote) {
+            return m.reply("❌ Couldn't fetch a quote at the moment. Try again later!");
+        }
 
         const quoteMessage = `
 ✨ *DML-MOTIVATIONAL* ✨
