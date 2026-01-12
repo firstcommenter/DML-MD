@@ -5,19 +5,32 @@ module.exports = async (context) => {
 
     try {
         const apiUrl = 'https://apis.davidcyriltech.my.id/random/quotes';
-        const res = await axios.get(apiUrl);
-        const data = res.data;
+        const { data } = await axios.get(apiUrl, { timeout: 10000 });
 
-        // ✅ DIRECT extraction
-        const quote = data?.result?.quote;
-        const author = data?.result?.author || 'Unknown';
+        // 🔍 Handle multiple possible API structures
+        let quote = null;
+        let author = 'Unknown';
+
+        if (data?.result) {
+            if (typeof data.result === 'object') {
+                quote =
+                    data.result.quote ||
+                    data.result.text ||
+                    data.result.message;
+
+                author =
+                    data.result.author ||
+                    data.result.by ||
+                    author;
+            }
+        }
 
         if (!quote || typeof quote !== 'string') {
-            console.log('QUOTE API RAW:', JSON.stringify(data, null, 2));
+            console.log('QUOTE API RAW RESPONSE:\n', JSON.stringify(data, null, 2));
             return m.reply("❌ Couldn't fetch a quote at the moment. Try again later!");
         }
 
-        // RANDOM IMAGE (NO CACHE)
+        // 🖼️ Random image (no cache)
         const imageUrl = `https://picsum.photos/600/600?random=${Date.now()}`;
 
         const caption = `
@@ -39,8 +52,8 @@ _powered by DML_
             { quoted: m }
         );
 
-    } catch (error) {
-        console.error('Quote Image Error:', error);
+    } catch (err) {
+        console.error('Quote Image Error:', err?.message || err);
         m.reply("❌ Failed to fetch quote image. Please try again later.");
     }
 };
