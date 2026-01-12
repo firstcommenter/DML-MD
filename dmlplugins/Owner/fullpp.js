@@ -50,7 +50,7 @@ client.query({
             })
 
                     fs.unlinkSync(medis)
-                    m.reply("Bot Profile Picture Updated")
+                    m.reply("Group Profile Picture Updated")
 
 } catch (error) {
 
