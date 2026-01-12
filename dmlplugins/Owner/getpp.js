@@ -2,13 +2,15 @@ const ownerMiddleware = require('../../utility/botUtil/Ownermiddleware');
 
 module.exports = async (context) => {
     await ownerMiddleware(context, async () => {
-        const { client, m, sender } = context;
+        const { client, m } = context;
+        const sender = m.sender; // WhatsApp ID of the sender
+        const from = m.from;     // Chat ID
 
         try {
             const startTime = Date.now();
             const pushname = m.pushName || "User";
 
-            // Array of random fancy texts
+            // Fancy texts
             const fancyTexts = [
                 "Behold, the face of a legend!",
                 "Looking sharp! Here's your profile pic.",
@@ -18,18 +20,18 @@ module.exports = async (context) => {
             ];
             const randomFancyText = fancyTexts[Math.floor(Math.random() * fancyTexts.length)];
 
-            // Fetch the profile picture URL
+            // Fetch profile picture
             let userProfilePicUrl;
             try {
                 userProfilePicUrl = await client.profilePictureUrl(sender, 'image');
             } catch {
-                return m.reply("You don't seem to have a profile picture for me to fetch!");
+                return await client.sendMessage(from, { text: "You don't seem to have a profile picture for me to fetch!" }, { quoted: m });
             }
 
             const endTime = Date.now();
             const ping = endTime - startTime;
 
-            // Construct the final caption
+            // Caption
             const caption = `
 *${randomFancyText}*
 
@@ -39,25 +41,18 @@ module.exports = async (context) => {
 *🔰 Powered by Dml ✅*
             `.trim();
 
-            // Send the profile picture with context info
-            await client.sendMessage(m.from, {
+            // Send image
+            await client.sendMessage(from, {
                 image: { url: userProfilePicUrl },
                 caption: caption,
                 contextInfo: {
-                    mentionedJid: [sender],
-                    forwardingScore: 999,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363403958418756@newsletter',
-                        newsletterName: 'DML-PROFILE',
-                        serverMessageId: 143
-                    }
+                    mentionedJid: [sender]
                 }
             }, { quoted: m });
 
         } catch (e) {
             console.error("Error in getpp command:", e);
-            m.reply(`An error occurred: ${e.message}`);
+            await client.sendMessage(from, { text: `An error occurred: ${e.message}` }, { quoted: m });
         }
     });
 }
