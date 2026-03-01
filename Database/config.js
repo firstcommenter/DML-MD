@@ -43,7 +43,7 @@ async function initializeDatabase() {
 
         const defaultSettings = {
             prefix: '.',
-            packname: 'DML-MD',
+            packname: '𝘿𝙈𝙇-𝙈𝘿',
             mode: 'public',
             presence: 'online',
             autoview: 'true',
@@ -52,10 +52,11 @@ async function initializeDatabase() {
             autobio: 'false',
             anticall: 'false',
             chatbotpm: 'false',
-            autolikeemoji: '❤️',
-            // Updated antilink setting to support "off", "delete", or "remove"
+            autolikeemoji: '🩷',
             antilink: 'off',
-            antidelete: 'false'
+            antidelete: 'false',
+            antistatusmention: 'delete',
+            startmessage: 'true'
         };
 
         for (const [key, value] of Object.entries(defaultSettings)) {
