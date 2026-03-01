@@ -415,10 +415,10 @@ async function startDml() {
       reconnectAttempts = 0;
       console.log(chalk.green(`\n╭───(    DML-𝐌D    )───`));
       console.log(chalk.green(`> ───≫ 🚀 Started Successfully <<───`));
-      console.log(chalk.green(`> `) + chalk.white(`\`々\` 𝐒𝐭𝐚𝐭𝐮𝐬 : `) + chalk.green(`Started Successfully`));
-      console.log(chalk.green(`> `) + chalk.white(`\`々\` 𝐌𝐨𝐝𝐞 : `) + chalk.cyan(`${settingss.mode || 'public'}`));
+      console.log(chalk.green(`> `) + chalk.white(`\`✅\` 𝐒𝐭𝐚𝐭𝐮𝐬 : `) + chalk.green(`Started Successfully`));
+      console.log(chalk.green(`> `) + chalk.white(`\`✅\` 𝐌𝐨𝐝𝐞 : `) + chalk.cyan(`${settingss.mode || 'public'}`));
       console.log(chalk.green(`╰──────────────────☉`));
-      console.log(chalk.green(`> xD\n`));
+      console.log(chalk.green(`> NEW\n`));
     }
 
     if (connection === "close") {
