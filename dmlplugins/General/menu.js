@@ -61,23 +61,6 @@ Welcome to your smart assistant
 │ ⚙ ${prefix}settings
 ╰──────────────────────╯
 
-╭──❖ CATEGORY MENUS ❖──╮
-│ 📂 ${prefix}generalmenu
-│ ⚙ ${prefix}settingsmenu
-│ 💱 ${prefix}businessmenu
-│ 👑 ${prefix}ownermenu
-│ ☁ ${prefix}herokumenu
-│ 🔐 ${prefix}privacymenu
-│ 👥 ${prefix}groupmenu
-│ 🤖 ${prefix}aimenu
-│ ⬇ ${prefix}downloadmenu
-│ 🎨 ${prefix}editingmenu
-│ 🖌 ${prefix}logomenu
-│ 🔞 ${prefix}+18menu
-│ 🧰 ${prefix}utilsmenu
-│ 📖 ${prefix}godmenu
-╰───────────────────────╯
-
 ✨ Tip: Use the *buttons below* for faster navigation
 
 ══════════════════════
