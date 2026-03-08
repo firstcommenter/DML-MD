@@ -66,9 +66,6 @@
   <img src="https://img.shields.io/badge/DEPLOY_TO_HEROKU-430098?style=for-the-badge&logo=heroku&logoColor=white">
 </a>
 
-<a href="https://railway.com/new">
-  <img src="https://img.shields.io/badge/DEPLOY_TO_RAILWAY-0B0B45?style=for-the-badge&logo=railway&logoColor=white">
-</a>
 
 </div>
 
