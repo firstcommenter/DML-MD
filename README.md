@@ -63,9 +63,12 @@
 🚀 Choose your deployment platform
 
 <a href="https://verify-dmlbot.vercel.app">
-  <img src="https://img.shields.io/badge/DEPLOY_TO_HEROKU-430098?style=for-the-badge&logo=heroku&logoColor=white">
+  <img src="https://img.shields.io/badge/🚀%20Deploy%20to%20Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white&labelColor=430098">
 </a>
-
+<br><br>
+<a href="https://github.com/MLILA17/DML-MD-Panel">
+  <img src="https://img.shields.io/badge/⚙️%20Deploy%20via%20Panel-0B0B45?style=for-the-badge&logo=github&logoColor=white&labelColor=0B0B45">
+</a>
 
 </div>
 
