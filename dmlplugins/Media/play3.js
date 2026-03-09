@@ -6,7 +6,7 @@ const playSessions = new Map();
 module.exports = {
   name: 'play3',
   aliases: ['ply', 'p3', 'pl3'],
-  description: 'Search song/video and send only selected format using Gifted API buttons',
+  description: 'Search song/video and send only selected format with buttons',
   run: async (context) => {
     const { client, m, text } = context;
 
