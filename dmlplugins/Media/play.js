@@ -1,124 +1,189 @@
 const fetch = require('node-fetch');
+const yts = require('yt-search');
 
 module.exports = {
   name: 'play',
-  aliases: ['ply', 'p', 'pl'],
-  description: 'Download and send YouTube audio (MP3)',
+  aliases: ['ply', 'p', 'ppl'],
+  description: 'Searches a song on YouTube and downloads it as MP3',
   run: async (context) => {
     const { client, m, text } = context;
 
     try {
       const query = text ? text.trim() : '';
 
-      // ───── NO QUERY ─────
       if (!query) {
-        return m.reply(`╭━━━〔 🎵 DML-MD PLAYER 〕━━━⬣
-┃ ❖ Please provide a song name or YouTube link.
+        return m.reply(`╭━〔 🎵 DML MUSIC ENGINE 〕━⬣
+┃ ⚠️ No input detected.
 ┃
-┃ ➤ Example:
-┃   .play Shape of You
-┃   .play https://youtu.be/dQw4w9WgXcQ
+┃ ➤ Send a song name or YouTube link.
+┃
+┃ ✦ Example:
+┃   .play2 komasava
+┃   .play2 https://youtu.be/dQw4w9WgXcQ
 ╰━━━━━━━━━━━━━━━━━━⬣
-> Powered By Dml`);
+> 🚀 Powered by Dml Tech`);
       }
 
-      await client.sendMessage(m.chat, { react: { text: '🎧', key: m.key } });
+      await client.sendMessage(m.chat, {
+        react: { text: '⌛', key: m.key }
+      });
 
-      const isYoutubeLink = /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)[a-zA-Z0-9_-]{11})/gi.test(query);
+      const isYoutubeLink =
+        /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)?)([a-zA-Z0-9_-]{11})/i.test(query);
 
-      let audioUrl, filename, thumbnail, sourceUrl;
+      let videoUrl = query;
+      let title = 'Unknown YouTube Song';
+      let thumbnail = '';
+      let duration = '';
 
-      // ───── DIRECT YOUTUBE LINK ─────
-      if (isYoutubeLink) {
+      if (!isYoutubeLink) {
+        const search = await yts(query);
 
-        const response = await fetch(`https://api.sidycoders.xyz/api/ytdl?url=${encodeURIComponent(query)}&format=mp3&apikey=memberdycoders`);
-        const data = await response.json();
+        if (!search?.videos?.length) {
+          await client.sendMessage(m.chat, {
+            react: { text: '❌', key: m.key }
+          });
 
-        if (!data.status || !data.cdn) {
-          await client.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-          return m.reply(`╭━━━〔 ❌ DOWNLOAD FAILED 〕━━━⬣
-┃ Unable to download this YouTube link.
-┃ It may be private, invalid or unavailable.
+          return m.reply(`╭━〔 🔎 NO RESULTS FOUND 〕━⬣
+┃ No matching results for:
+┃ ➤ "${query}"
+┃
+┃ Try:
+┃   • Different keywords
+┃   • Artist name + song title
 ╰━━━━━━━━━━━━━━━━━━⬣
-> DML-MD`);
+> 🎵 DmlSearch Engine`);
         }
 
-        audioUrl = data.cdn;
-        filename = data.title || "Unknown Track";
-        thumbnail = "";
-        sourceUrl = query;
-
+        const video = search.videos[0];
+        videoUrl = video.url;
+        title = video.title || title;
+        thumbnail = video.thumbnail || '';
+        duration = video.timestamp || '';
       } else {
+        const search = await yts({ videoId: query.match(/([a-zA-Z0-9_-]{11})/i)?.[1] });
 
-        if (query.length > 100) {
-          return m.reply(`╭━━━〔 ⚠️ LIMIT EXCEEDED 〕━━━⬣
-┃ Song title must not exceed 100 characters.
-╰━━━━━━━━━━━━━━━━━━⬣
-> DML-MD`);
+        if (search) {
+          title = search.title || title;
+          thumbnail = search.thumbnail || '';
+          duration = search.timestamp || '';
+          videoUrl = search.url || query;
         }
-
-        const response = await fetch(`https://apiziaul.vercel.app/api/downloader/ytplaymp3?query=${encodeURIComponent(query)}`);
-        const data = await response.json();
-
-        if (!data.status || !data.result?.downloadUrl) {
-          await client.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-          return m.reply(`╭━━━〔 🔎 NO RESULTS FOUND 〕━━━⬣
-┃ No results found for:
-┃ "${query}"
-╰━━━━━━━━━━━━━━━━━━⬣
-> DML-MD`);
-        }
-
-        audioUrl = data.result.downloadUrl;
-        filename = data.result.title || "Unknown Track";
-        thumbnail = data.result.thumbnail || "";
-        sourceUrl = data.result.videoUrl || "";
       }
 
-      await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
+      const apiUrl = `https://api.giftedtech.co.ke/api/download/ytmp3v2?apikey=gifted&url=${encodeURIComponent(videoUrl)}&quality=128`;
 
-      // ───── SEND AUDIO ─────
-      await client.sendMessage(m.chat, {
-        audio: { url: audioUrl },
-        mimetype: "audio/mpeg",
-        fileName: `${filename}.mp3`,
-        contextInfo: thumbnail ? {
-          externalAdReply: {
-            title: filename.substring(0, 30),
-            body: "DML-MD Music Player",
-            thumbnailUrl: thumbnail,
-            sourceUrl: sourceUrl,
-            mediaType: 1,
-            renderLargerThumbnail: true,
-          },
-        } : undefined,
-      }, { quoted: m });
+      const response = await fetch(apiUrl);
+      const textData = await response.text();
 
-      // ───── SEND DOCUMENT COPY ─────
-      await client.sendMessage(m.chat, {
-        document: { url: audioUrl },
-        mimetype: "audio/mpeg",
-        fileName: `${filename.replace(/[<>:"/\\|?*]/g, '_')}.mp3`,
-        caption: `╭━━━〔 🎶 NOW PLAYING 〕━━━⬣
-┃ Title : ${filename}
-┃ Format: MP3 Audio
+      let data;
+      try {
+        data = JSON.parse(textData);
+      } catch {
+        throw new Error('Invalid response from the API');
+      }
+
+      const result = data.result || data.results || data;
+
+      const audioUrl =
+        result.download_url ||
+        result.downloadUrl ||
+        result.url ||
+        result.audio ||
+        result.link;
+
+      title =
+        result.title ||
+        result.name ||
+        title ||
+        'Unknown YouTube Song';
+
+      thumbnail =
+        result.thumbnail ||
+        result.image ||
+        thumbnail ||
+        '';
+
+      if (!audioUrl) {
+        await client.sendMessage(m.chat, {
+          react: { text: '❌', key: m.key }
+        });
+
+        return m.reply(`╭━〔 ❌ DOWNLOAD FAILED 〕━⬣
+┃ Unable to process your request.
+┃
+┃ ➤ Possible Reasons:
+┃   • Song not found
+┃   • Video unavailable
+┃   • API returned no audio URL
+┃
+┃ Please try again.
 ╰━━━━━━━━━━━━━━━━━━⬣
-> DML-MD High Quality Audio`
-      }, { quoted: m });
+> 🎵 DmlDownloader`);
+      }
+
+      const safeTitle = title.replace(/[<>:"/\\|?*]/g, '_').trim();
+
+      await client.sendMessage(m.chat, {
+        react: { text: '✅', key: m.key }
+      });
+
+      await client.sendMessage(
+        m.chat,
+        {
+          audio: { url: audioUrl },
+          mimetype: 'audio/mpeg',
+          fileName: `${safeTitle}.mp3`,
+          ptt: false,
+          contextInfo: thumbnail
+            ? {
+                externalAdReply: {
+                  title: safeTitle.substring(0, 40),
+                  body: duration ? `Duration: ${duration}` : 'DML-MD',
+                  thumbnailUrl: thumbnail,
+                  sourceUrl: videoUrl,
+                  mediaType: 1,
+                  renderLargerThumbnail: true,
+                },
+              }
+            : undefined,
+        },
+        { quoted: m }
+      );
+
+      await client.sendMessage(
+        m.chat,
+        {
+          document: { url: audioUrl },
+          mimetype: 'audio/mpeg',
+          fileName: `${safeTitle}.mp3`,
+          caption: `╭━〔 🎶 NOW PLAYING 〕━⬣
+┃ 🎧 ${safeTitle}
+┃ ${duration ? `⏱️ ${duration}\n┃ ` : ''}⬇️ Download completed successfully
+┃ 📀 Format: MP3
+┃ 🎚️ Quality: 128kbps
+╰━━━━━━━━━━━━━━━━━━⬣
+> ⚡ Powered by Dml`,
+        },
+        { quoted: m }
+      );
 
     } catch (error) {
+      console.error('Play2 error:', error);
 
-      console.error('Play error:', error);
+      await client.sendMessage(m.chat, {
+        react: { text: '❌', key: m.key }
+      });
 
-      await client.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
-
-      await m.reply(`╭━━━〔 ⚠️ SYSTEM ERROR 〕━━━⬣
-┃ Something went wrong while processing
-┃ your request.
+      await m.reply(`╭━〔 🚨 PLAY ERROR 〕━⬣
+┃ Something went wrong while processing.
 ┃
-┃ Error: ${error.message}
+┃ Error:
+┃ ${error.message}
+┃
+┃ Please try again later.
 ╰━━━━━━━━━━━━━━━━━━⬣
-> DML-MD`);
+> 🛠️ DML-MD System`);
     }
   }
 };
