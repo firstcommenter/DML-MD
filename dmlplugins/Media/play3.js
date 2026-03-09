@@ -6,7 +6,7 @@ const playSessions = new Map();
 module.exports = {
   name: 'play3',
   aliases: ['ply', 'p3', 'pl3'],
-  description: 'Search song/video and download as audio, video, or document with buttons',
+  description: 'Search song/video and send only selected format using Gifted API buttons',
   run: async (context) => {
     const { client, m, text } = context;
 
@@ -14,58 +14,99 @@ module.exports = {
       const query = text ? text.trim() : '';
       const chatId = m.chat;
       const senderId = m.sender || m.key.participant || m.key.remoteJid;
+      const sessionKey = `${chatId}:${senderId}`;
 
-      const getSessionKey = () => `${chatId}:${senderId}`;
-
-      const sendError = async (msg) => {
+      const sendReact = async (emoji) => {
         await client.sendMessage(chatId, {
-          react: { text: '❌', key: m.key }
+          react: { text: emoji, key: m.key }
         });
-        return m.reply(msg);
       };
 
-      const sendAudio = async (videoUrl, title, thumbnail, duration) => {
-        const apiUrl = `https://api.giftedtech.co.ke/api/download/ytmp3v2?apikey=gifted&url=${encodeURIComponent(videoUrl)}&quality=128`;
-
-        const response = await fetch(apiUrl);
+      const parseJson = async (response, label) => {
         const raw = await response.text();
-
-        let data;
         try {
-          data = JSON.parse(raw);
+          return JSON.parse(raw);
         } catch {
-          throw new Error('Invalid MP3 API response');
+          throw new Error(`Invalid ${label} API response`);
         }
+      };
 
-        const result = data.result || data.results || data;
-        const audioUrl =
-          result.download_url ||
-          result.downloadUrl ||
-          result.url ||
-          result.audio ||
-          result.link;
+      const normalizeMediaUrl = (result) =>
+        result?.download_url ||
+        result?.downloadUrl ||
+        result?.url ||
+        result?.audio ||
+        result?.video ||
+        result?.link;
 
-        if (!audioUrl) throw new Error('Audio URL not found from API');
-
-        const safeTitle = (result.title || title || 'Unknown Song')
+      const safeName = (name) =>
+        (name || 'Unknown Media')
           .replace(/[<>:"/\\|?*]/g, '_')
           .trim();
 
-        await client.sendMessage(chatId, {
-          react: { text: '✅', key: m.key }
-        });
+      const getYoutubeInfo = async (input) => {
+        const isYoutubeLink =
+          /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)?)([a-zA-Z0-9_-]{11})/i.test(input);
+
+        let videoUrl = input;
+        let title = 'Unknown Song';
+        let thumbnail = '';
+        let duration = '';
+
+        if (isYoutubeLink) {
+          const idMatch = input.match(/([a-zA-Z0-9_-]{11})/i);
+          const videoId = idMatch ? idMatch[1] : null;
+
+          if (videoId) {
+            const info = await yts({ videoId });
+            if (info) {
+              videoUrl = info.url || input;
+              title = info.title || title;
+              thumbnail = info.thumbnail || '';
+              duration = info.timestamp || '';
+            }
+          }
+        } else {
+          const search = await yts(input);
+
+          if (!search?.videos?.length) {
+            return null;
+          }
+
+          const video = search.videos[0];
+          videoUrl = video.url;
+          title = video.title || title;
+          thumbnail = video.thumbnail || '';
+          duration = video.timestamp || '';
+        }
+
+        return { videoUrl, title, thumbnail, duration };
+      };
+
+      const sendAudioOnly = async ({ videoUrl, title, thumbnail, duration }) => {
+        const apiUrl = `https://api.giftedtech.co.ke/api/download/ytmp3v2?apikey=gifted&url=${encodeURIComponent(videoUrl)}&quality=128`;
+        const response = await fetch(apiUrl);
+        const data = await parseJson(response, 'MP3');
+        const result = data.result || data.results || data;
+        const audioUrl = normalizeMediaUrl(result);
+
+        if (!audioUrl) throw new Error('Audio URL not found from API');
+
+        const finalTitle = safeName(result.title || result.name || title);
+
+        await sendReact('✅');
 
         await client.sendMessage(
           chatId,
           {
             audio: { url: audioUrl },
             mimetype: 'audio/mpeg',
-            fileName: `${safeTitle}.mp3`,
+            fileName: `${finalTitle}.mp3`,
             ptt: false,
             contextInfo: thumbnail
               ? {
                   externalAdReply: {
-                    title: safeTitle.substring(0, 40),
+                    title: finalTitle.substring(0, 40),
                     body: duration ? `Duration: ${duration}` : 'DML-MD',
                     thumbnailUrl: thumbnail,
                     sourceUrl: videoUrl,
@@ -79,45 +120,27 @@ module.exports = {
         );
       };
 
-      const sendVideo = async (videoUrl, title, thumbnail, duration) => {
+      const sendVideoOnly = async ({ videoUrl, title, thumbnail, duration }) => {
         const apiUrl = `https://api.giftedtech.co.ke/api/download/ytmp4?apikey=gifted&url=${encodeURIComponent(videoUrl)}&quality=720p`;
-
         const response = await fetch(apiUrl);
-        const raw = await response.text();
-
-        let data;
-        try {
-          data = JSON.parse(raw);
-        } catch {
-          throw new Error('Invalid MP4 API response');
-        }
-
+        const data = await parseJson(response, 'MP4');
         const result = data.result || data.results || data;
-        const mp4Url =
-          result.download_url ||
-          result.downloadUrl ||
-          result.url ||
-          result.video ||
-          result.link;
+        const videoFileUrl = normalizeMediaUrl(result);
 
-        if (!mp4Url) throw new Error('Video URL not found from API');
+        if (!videoFileUrl) throw new Error('Video URL not found from API');
 
-        const safeTitle = (result.title || title || 'Unknown Video')
-          .replace(/[<>:"/\\|?*]/g, '_')
-          .trim();
+        const finalTitle = safeName(result.title || result.name || title);
 
-        await client.sendMessage(chatId, {
-          react: { text: '✅', key: m.key }
-        });
+        await sendReact('✅');
 
         await client.sendMessage(
           chatId,
           {
-            video: { url: mp4Url },
+            video: { url: videoFileUrl },
             mimetype: 'video/mp4',
-            fileName: `${safeTitle}.mp4`,
+            fileName: `${finalTitle}.mp4`,
             caption: `╭━〔 🎬 NOW PLAYING 〕━⬣
-┃ 📹 ${safeTitle}
+┃ 📹 ${finalTitle}
 ┃ ${duration ? `⏱️ ${duration}\n┃ ` : ''}📺 Quality: 720p
 ┃ ▶️ Sent as playable video
 ╰━━━━━━━━━━━━━━━━━━⬣
@@ -125,7 +148,7 @@ module.exports = {
             contextInfo: thumbnail
               ? {
                   externalAdReply: {
-                    title: safeTitle.substring(0, 40),
+                    title: finalTitle.substring(0, 40),
                     body: duration ? `Duration: ${duration}` : 'DML-MD',
                     thumbnailUrl: thumbnail,
                     sourceUrl: videoUrl,
@@ -139,45 +162,27 @@ module.exports = {
         );
       };
 
-      const sendDocument = async (videoUrl, title, duration) => {
+      const sendDocumentOnly = async ({ videoUrl, title, duration }) => {
         const apiUrl = `https://api.giftedtech.co.ke/api/download/ytmp4?apikey=gifted&url=${encodeURIComponent(videoUrl)}&quality=720p`;
-
         const response = await fetch(apiUrl);
-        const raw = await response.text();
-
-        let data;
-        try {
-          data = JSON.parse(raw);
-        } catch {
-          throw new Error('Invalid MP4 API response');
-        }
-
+        const data = await parseJson(response, 'MP4');
         const result = data.result || data.results || data;
-        const mp4Url =
-          result.download_url ||
-          result.downloadUrl ||
-          result.url ||
-          result.video ||
-          result.link;
+        const documentUrl = normalizeMediaUrl(result);
 
-        if (!mp4Url) throw new Error('Document video URL not found from API');
+        if (!documentUrl) throw new Error('Document URL not found from API');
 
-        const safeTitle = (result.title || title || 'Unknown Video')
-          .replace(/[<>:"/\\|?*]/g, '_')
-          .trim();
+        const finalTitle = safeName(result.title || result.name || title);
 
-        await client.sendMessage(chatId, {
-          react: { text: '✅', key: m.key }
-        });
+        await sendReact('✅');
 
         await client.sendMessage(
           chatId,
           {
-            document: { url: mp4Url },
+            document: { url: documentUrl },
             mimetype: 'video/mp4',
-            fileName: `${safeTitle}.mp4`,
+            fileName: `${finalTitle}.mp4`,
             caption: `╭━〔 📁 DOWNLOAD FILE READY 〕━⬣
-┃ 🎬 ${safeTitle}
+┃ 🎬 ${finalTitle}
 ┃ ${duration ? `⏱️ ${duration}\n┃ ` : ''}📺 Quality: 720p
 ┃ ⬇️ Sent as document file
 ╰━━━━━━━━━━━━━━━━━━⬣
@@ -187,16 +192,18 @@ module.exports = {
         );
       };
 
-      // Handle button response
+      // Button/command actions
       if (
         query === 'audio' ||
         query === 'video' ||
         query === 'file' ||
+        query === 'play2 audio' ||
+        query === 'play2 video' ||
+        query === 'play2 file' ||
         query === 'play2_audio' ||
         query === 'play2_video' ||
         query === 'play2_file'
       ) {
-        const sessionKey = getSessionKey();
         const saved = playSessions.get(sessionKey);
 
         if (!saved) {
@@ -209,26 +216,22 @@ module.exports = {
 > 🎧 DML-MD`);
         }
 
-        await client.sendMessage(chatId, {
-          react: { text: '⌛', key: m.key }
-        });
+        await sendReact('⌛');
 
-        const { videoUrl, title, thumbnail, duration } = saved;
-
-        if (query === 'audio' || query === 'play2_audio') {
-          await sendAudio(videoUrl, title, thumbnail, duration);
+        if (query === 'audio' || query === 'play2 audio' || query === 'play2_audio') {
+          await sendAudioOnly(saved);
           playSessions.delete(sessionKey);
           return;
         }
 
-        if (query === 'video' || query === 'play2_video') {
-          await sendVideo(videoUrl, title, thumbnail, duration);
+        if (query === 'video' || query === 'play2 video' || query === 'play2_video') {
+          await sendVideoOnly(saved);
           playSessions.delete(sessionKey);
           return;
         }
 
-        if (query === 'file' || query === 'play2_file') {
-          await sendDocument(videoUrl, title, duration);
+        if (query === 'file' || query === 'play2 file' || query === 'play2_file') {
+          await sendDocumentOnly(saved);
           playSessions.delete(sessionKey);
           return;
         }
@@ -247,36 +250,13 @@ module.exports = {
 > 🚀 Powered by Dml Tech`);
       }
 
-      await client.sendMessage(chatId, {
-        react: { text: '⌛', key: m.key }
-      });
+      await sendReact('⌛');
 
-      const isYoutubeLink =
-        /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)?)([a-zA-Z0-9_-]{11})/i.test(query);
+      const info = await getYoutubeInfo(query);
 
-      let videoUrl = query;
-      let title = 'Unknown Song';
-      let thumbnail = '';
-      let duration = '';
-
-      if (isYoutubeLink) {
-        const videoIdMatch = query.match(/([a-zA-Z0-9_-]{11})/i);
-        const videoId = videoIdMatch ? videoIdMatch[1] : null;
-
-        if (videoId) {
-          const info = await yts({ videoId });
-          if (info) {
-            videoUrl = info.url || query;
-            title = info.title || title;
-            thumbnail = info.thumbnail || '';
-            duration = info.timestamp || '';
-          }
-        }
-      } else {
-        const search = await yts(query);
-
-        if (!search?.videos?.length) {
-          return sendError(`╭━〔 🔎 NO RESULTS FOUND 〕━⬣
+      if (!info) {
+        await sendReact('❌');
+        return m.reply(`╭━〔 🔎 NO RESULTS FOUND 〕━⬣
 ┃ No matching results for:
 ┃ ➤ "${query}"
 ┃
@@ -285,42 +265,32 @@ module.exports = {
 ┃   • Artist name + song title
 ╰━━━━━━━━━━━━━━━━━━⬣
 > 🎵 DML Search Engine`);
-        }
-
-        const video = search.videos[0];
-        videoUrl = video.url;
-        title = video.title || title;
-        thumbnail = video.thumbnail || '';
-        duration = video.timestamp || '';
       }
 
-      const sessionKey = getSessionKey();
       playSessions.set(sessionKey, {
-        videoUrl,
-        title,
-        thumbnail,
-        duration,
+        videoUrl: info.videoUrl,
+        title: info.title,
+        thumbnail: info.thumbnail,
+        duration: info.duration,
         createdAt: Date.now()
       });
 
       setTimeout(() => {
         const current = playSessions.get(sessionKey);
-        if (current && current.videoUrl === videoUrl) {
+        if (current && current.videoUrl === info.videoUrl) {
           playSessions.delete(sessionKey);
         }
       }, 120000);
 
-      await client.sendMessage(chatId, {
-        react: { text: '✅', key: m.key }
-      });
+      await sendReact('✅');
 
       await client.sendMessage(
         chatId,
         {
-          image: { url: thumbnail || 'https://files.catbox.moe/9f6czl.jpg' },
+          image: { url: info.thumbnail || 'https://files.catbox.moe/9f6czl.jpg' },
           caption: `╭━〔 🎶 SEARCH RESULT 〕━⬣
-┃ 🎧 ${title}
-┃ ${duration ? `⏱️ ${duration}\n┃ ` : ''}🔗 Ready to download
+┃ 🎧 ${info.title}
+┃ ${info.duration ? `⏱️ ${info.duration}\n┃ ` : ''}🔗 Ready to download
 ╰━━━━━━━━━━━━━━━━━━⬣
 
 ╭━〔 📌 CHOOSE FORMAT 〕━⬣
@@ -331,17 +301,17 @@ module.exports = {
           footer: 'DML-MD Media System',
           buttons: [
             {
-              buttonId: `${query.startsWith('.') ? '' : ''}play2 audio`,
+              buttonId: 'play2 audio',
               buttonText: { displayText: '🎧 Audio' },
               type: 1
             },
             {
-              buttonId: `${query.startsWith('.') ? '' : ''}play2 video`,
+              buttonId: 'play2 video',
               buttonText: { displayText: '🎬 Video' },
               type: 1
             },
             {
-              buttonId: `${query.startsWith('.') ? '' : ''}play2 file`,
+              buttonId: 'play2 file',
               buttonText: { displayText: '📁 File' },
               type: 1
             }
