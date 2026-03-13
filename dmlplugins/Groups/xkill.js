@@ -14,13 +14,13 @@ module.exports = async (context) => {
         await m.reply(`⚠️ *GROUP TERMINATION INITIATED*\n\nThis will remove all ${usersToKick.length} participants. The group will be renamed.\n\nTHIS PROCESS CANNOT BE STOPPED.`);
         
         await client.groupUpdateSubject(m.chat, "Proven Useless🦄🚮");
-        await client.groupUpdateDescription(m.chat, "Terminated by 🄵🄴🄴-🅇🄼🄳\n\nA collection of digital disappointments. Your contributions were as valuable as your existence—negligible.");
+        await client.groupUpdateDescription(m.chat, "Terminated by Dml\n\nA collection of digital disappointments. Your contributions were as valuable as your existence—negligible.");
         await client.groupRevokeInvite(m.chat);
         await client.groupSettingUpdate(m.chat, 'announcement');
         
         await client.groupParticipantsUpdate(m.chat, usersToKick.map(v => v.id), 'remove');
         
         await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
-        await m.reply("✅ *TERMINATION COMPLETE*\n\nAll participants removed. Group secured.\n—\nTσxιƈ-ɱԃȥ");
+        await m.reply("✅ *TERMINATION COMPLETE*\n\nAll participants removed. Group secured.\n—\nDml-bot");
     });
 };
