@@ -1,17 +1,28 @@
 module.exports = {
   name: 'hug',
   aliases: ['cuddle', 'embrace'],
-  description: 'Hugs a tagged or quoted user with a toxic, realistic reaction',
+  description: 'Hugs a tagged or quoted user with a stylish reaction',
   run: async (context) => {
     const { client, m } = context;
 
     try {
-      console.log(`Hug command context: isGroup=${m.isGroup}, mentionedJid=${JSON.stringify(m.mentionedJid)}, quotedSender=${m.quoted?.sender || 'none'}, sender=${m.sender}`);
+      console.log(
+        `Hug command context: isGroup=${m.isGroup}, mentionedJid=${JSON.stringify(
+          m.mentionedJid
+        )}, quotedSender=${m.quoted?.sender || 'none'}, sender=${m.sender}`
+      );
 
       if (!m.mentionedJid || m.mentionedJid.length === 0) {
         if (!m.quoted || !m.quoted.sender) {
           console.error('No tagged or quoted user provided');
-          return m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Yo, softie, tag someone or quote a message to hug! I ain’t hugging nobody without a target!`);
+          return m.reply(
+            `╭━━━〔 🤗 HUG SYSTEM 〕━━━⬣
+┃ ⚠️ No target detected.
+┃
+┃ Please tag someone or reply to their message
+┃ to send a warm hug.
+╰━━━━━━━━━━━━━━━━━━⬣`
+          );
         }
       }
 
@@ -24,20 +35,35 @@ module.exports = {
         (!targetUser.includes('@s.whatsapp.net') && !targetUser.includes('@lid'))
       ) {
         console.error(`Invalid target user: ${JSON.stringify(targetUser)}`);
-        return m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Invalid user, dumbass! Tag or quote a real person to hug!`);
+        return m.reply(
+          `╭━━━〔 ❌ HUG ERROR 〕━━━⬣
+┃ Invalid user detected.
+┃
+┃ Tag or quote a valid user to continue.
+╰━━━━━━━━━━━━━━━━━━⬣`
+        );
       }
 
       const targetNumber = targetUser.split('@')[0];
       const senderNumber = m.sender.split('@')[0];
+
       if (!targetNumber || !senderNumber) {
         console.error(`Failed to extract numbers: target=${targetUser}, sender=${m.sender}`);
-        return m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Something’s fucked up with the user IDs. Try again, idiot!`);
+        return m.reply(
+          `╭━━━〔 ⚠️ SYSTEM ERROR 〕━━━⬣
+┃ Failed to process user details.
+┃ Please try again.
+╰━━━━━━━━━━━━━━━━━━⬣`
+        );
       }
 
       const huggingMsg = await client.sendMessage(
         m.chat,
         {
-          text: `◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ @${senderNumber} is wrapping their arms around @${targetNumber}... 🤗\n│❒ This might get awkward, bitch!\n◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈`,
+          text: `╭━━━〔 💞 HUG IN PROGRESS 〕━━━⬣
+┃ @${senderNumber} is giving @${targetNumber} a warm hug...
+┃ A wholesome moment is loading 🤗
+╰━━━━━━━━━━━━━━━━━━━━⬣`,
           mentions: [m.sender, targetUser],
         },
         { quoted: m }
@@ -47,34 +73,36 @@ module.exports = {
 
       const intensities = [
         {
-          level: 'Awkward',
-          description: 'a weird, clingy hug that made @TARGET squirm! @SENDER, you’re creeping everyone out!',
-          emoji: '😅',
+          level: 'Gentle Hug',
+          description: 'A soft and comforting hug that made @TARGET feel safe and relaxed.',
+          emoji: '🤗✨',
         },
         {
-          level: 'Warm',
-          description: 'a cozy hug that actually felt nice for @TARGET! @SENDER, you’re not totally useless!',
-          emoji: '🤗',
+          level: 'Warm Hug',
+          description: 'A warm heartfelt hug that instantly brightened @TARGET’s mood.',
+          emoji: '🥰💞',
         },
         {
-          level: 'Bone-Crushing',
-          description: 'a massive bear hug that nearly broke @TARGET’s ribs! @SENDER, you’re a fucking beast!',
-          emoji: '💪',
+          level: 'Bear Hug',
+          description: 'A strong loving bear hug that completely wrapped @TARGET in affection.',
+          emoji: '💪🤎',
         },
       ];
+
       const intensity = intensities[Math.floor(Math.random() * intensities.length)];
 
-      const resultMsg = `◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈
-*HUG REPORT* ${intensity.emoji}
-
-*HUGGER:* @${senderNumber}
-*VICTIM:* @${targetNumber}
-*INTENSITY:* ${intensity.level}
-
-*VERDICT:* ${intensity.description.replace('@TARGET', `@${targetNumber}`).replace('@SENDER', `@${senderNumber}`)}
-
-*DISCLAIMER:* This hug was 100% real, you emotional wreck! Deal with it! 😈
-◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈`;
+      const resultMsg = `╭━━━〔 🤗 HUG REPORT 〕━━━⬣
+┃ ${intensity.emoji}
+┃
+┃ 👤 *Hugger:* @${senderNumber}
+┃ 🎯 *Target:* @${targetNumber}
+┃ 💥 *Type:* ${intensity.level}
+┃
+┃ 📝 *Result:*
+┃ ${intensity.description.replace('@TARGET', `@${targetNumber}`)}
+┃
+┃ ✨ A wholesome hug has been delivered successfully.
+╰━━━━━━━━━━━━━━━━━━⬣`;
 
       await client.sendMessage(
         m.chat,
@@ -94,7 +122,12 @@ module.exports = {
       }
     } catch (error) {
       console.error(`Hug command exploded: ${error.stack}`);
-      await m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Shit broke harder than your heart! Can’t hug right now, you pathetic fuck.`);
+      await m.reply(
+        `╭━━━〔 ❌ HUG FAILED 〕━━━⬣
+┃ Something went wrong while sending the hug.
+┃ Please try again later.
+╰━━━━━━━━━━━━━━━━━━⬣`
+      );
     }
   },
 };
