@@ -132,34 +132,49 @@ async function startDml() {
   if (autobio) {
     const themes = [
       // Hustle mood
-      (d, t) => `⚡ ${botname}\n𝘐 𝘥𝘰𝘯'𝘵 𝘴𝘭𝘦𝘦𝘱, 𝘐 𝘨𝘳𝘪𝘯𝘥 • ${t}`,
+      (d, t) => `⚡ ${botname}\n𝘐 𝘥𝘰𝘯'𝘵 𝘴𝘭𝘦𝘦𝘱, 𝘐 𝘨𝘳𝘪𝘯𝘥 • ${d} ${t}`,
 
       // Lowkey cool
       (d, t) => `🌙 ${botname}\n𝘲𝘶𝘪𝘦𝘵 𝘣𝘶𝘵 𝘢𝘭𝘸𝘢𝘺𝘴 𝘩𝘦𝘳𝘦 • ${d} ${t}`,
 
       // Boss energy
-      (d, t) => `👑 ${botname}\n𝘉𝘰𝘴𝘴 𝘮𝘰𝘥𝘦 𝘢𝘤𝘵𝘪𝘷𝘢𝘵𝘦𝘥 🔛 ${t}`,
+      (d, t) => `👑 ${botname}\n𝘉𝘰𝘴𝘴 𝘮𝘰𝘥𝘦 𝘢𝘤𝘵𝘪𝘷𝘢𝘵𝘦𝘥 🔛 ${d} ${t}`,
 
       // Swahili drip
-      (d, t) => `🔥 ${botname}\n𝘔𝘵𝘢𝘫𝘪 𝘯𝘪 𝘶𝘫𝘶𝘻𝘪 • 𝘕𝘢𝘪𝘳𝘰𝘣𝘪 ${t}`,
+      (d, t) => `🔥 ${botname}\nWatu ni mtaji tosha  • Tanzania ${d} ${t}`,
 
       // Galaxy vibe
-      (d, t) => `🌌 ${botname}\n𝘰𝘶𝘵 𝘰𝘧 𝘵𝘩𝘪𝘴 𝘸𝘰𝘳𝘭𝘥 🚀 ${t}`,
+      (d, t) => `🌌 ${botname}\n𝘰𝘶𝘵 𝘰𝘧 𝘵𝘩𝘪𝘴 𝘸𝘰𝘳𝘭𝘥 🚀 ${d} ${t}`,
 
       // Unbothered
       (d, t) => `😎 ${botname}\n𝘶𝘯𝘣𝘰𝘵𝘩𝘦𝘳𝘦𝘥 & 𝘰𝘯𝘭𝘪𝘯𝘦 • ${d} ${t}`,
 
       // Late night feel
-      (d, t) => `🌃 ${botname}\n𝘶𝘱 𝘸𝘩𝘦𝘯 𝘵𝘩𝘦 𝘸𝘰𝘳𝘭𝘥 𝘴𝘭𝘦𝘦𝘱𝘴 • ${t}`,
+      (d, t) => `🌃 ${botname}\n𝘶𝘱 𝘸𝘩𝘦𝘯 𝘵𝘩𝘦 𝘸𝘰𝘳𝘭𝘥 𝘴𝘭𝘦𝘦𝘱𝘴 • ${d} ${t}`,
 
       // Ice cold
-      (d, t) => `🧊 ${botname}\n𝘤𝘰𝘰𝘭, 𝘤𝘢𝘭𝘮 & 𝘢𝘭𝘸𝘢𝘺𝘴 𝘰𝘯 • ${t}`,
+      (d, t) => `🧊 ${botname}\n𝘤𝘰𝘰𝘭, 𝘤𝘢𝘭𝘮 & 𝘢𝘭𝘸𝘢𝘺𝘴 𝘰𝘯 • ${d} ${t}`,
 
       // No cap
-      (d, t) => `💯 ${botname}\n𝘯𝘰 𝘤𝘢𝘱, 𝘐'𝘮 𝘢𝘭𝘸𝘢𝘺𝘴 𝘰𝘯𝘭𝘪𝘯𝘦 🕐 ${t}`,
+      (d, t) => `💯 ${botname}\n𝘯𝘰 𝘤𝘢𝘱, 𝘐'𝘮 𝘢𝘭𝘸𝘢𝘺𝘴 𝘰𝘯𝘭𝘪𝘯𝘦 • ${d} ${t}`,
 
-      // Tanzanian pride
-      (d, t) => `TZ ${botname}\nTanzania finest bot • ${t}`,
+      // Kenyan pride
+      (d, t) => `🇰🇪 ${botname}\nTanzania's finest bot • ${d} ${t}`,
+
+      // Motivation 1 — Keep going
+      (d, t) => `💪 ${botname}\n𝘍𝘢𝘭𝘭 7 𝘵𝘪𝘮𝘦𝘴, 𝘳𝘪𝘴𝘦 8 • ${d} ${t}`,
+
+      // Motivation 2 — Dream big
+      (d, t) => `🌠 ${botname}\n𝘋𝘳𝘦𝘢𝘮 𝘣𝘪𝘨, 𝘸𝘰𝘳𝘬 𝘩𝘢𝘳𝘥, 𝘴𝘵𝘢𝘺 𝘩𝘶𝘮𝘣𝘭𝘦 • ${d} ${t}`,
+
+      // Motivation 3 — Progress
+      (d, t) => `🎯 ${botname}\n𝘚𝘮𝘢𝘭𝘭 𝘴𝘵𝘦𝘱𝘴 𝘴𝘵𝘪𝘭𝘭 𝘮𝘰𝘷𝘦 𝘺𝘰𝘶 𝘧𝘰𝘳𝘸𝘢𝘳𝘥 • ${d} ${t}`,
+
+      // Motivation 4 — Believe
+      (d, t) => `✨ ${botname}\n𝘉𝘦𝘭𝘪𝘦𝘷𝘦 𝘪𝘵, 𝘣𝘶𝘪𝘭𝘥 𝘪𝘵, 𝘣𝘦𝘤𝘰𝘮𝘦 𝘪𝘵 • ${d} ${t}`,
+
+      // Motivation 5 — Never quit
+      (d, t) => `🔥 ${botname}\n𝘗𝘢𝘪𝘯 𝘪𝘴 𝘵𝘦𝘮𝘱𝘰𝘳𝘢𝘳𝘺, 𝘨𝘳𝘦𝘢𝘵𝘯𝘦𝘴𝘴 𝘪𝘴 𝘧𝘰𝘳𝘦𝘷𝘦𝘳 • ${d} ${t}`,
     ];
 
     let i = 0;
