@@ -1,17 +1,28 @@
 module.exports = {
   name: 'kiss',
   aliases: ['smooch', 'peck'],
-  description: 'Kisses a tagged or quoted user with a toxic, realistic reaction',
+  description: 'Kisses a tagged or quoted user with a stylish reaction',
   run: async (context) => {
     const { client, m } = context;
 
     try {
-      console.log(`Kiss command context: isGroup=${m.isGroup}, mentionedJid=${JSON.stringify(m.mentionedJid)}, quotedSender=${m.quoted?.sender || 'none'}, sender=${m.sender}`);
+      console.log(
+        `Kiss command context: isGroup=${m.isGroup}, mentionedJid=${JSON.stringify(
+          m.mentionedJid
+        )}, quotedSender=${m.quoted?.sender || 'none'}, sender=${m.sender}`
+      );
 
       if (!m.mentionedJid || m.mentionedJid.length === 0) {
         if (!m.quoted || !m.quoted.sender) {
           console.error('No tagged or quoted user provided');
-          return m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Yo, moron, tag someone or quote a message to kiss! I ain’t kissing nobody without a target!`);
+          return m.reply(
+            `╭━━━〔 💋 KISS SYSTEM 〕━━━⬣
+┃ ⚠️ No target detected.
+┃
+┃ Please tag someone or reply to their message
+┃ to send a kiss.
+╰━━━━━━━━━━━━━━━━━━⬣`
+          );
         }
       }
 
@@ -24,20 +35,35 @@ module.exports = {
         (!targetUser.includes('@s.whatsapp.net') && !targetUser.includes('@lid'))
       ) {
         console.error(`Invalid target user: ${JSON.stringify(targetUser)}`);
-        return m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Invalid user, dumbass! Tag or quote a real person to kiss!`);
+        return m.reply(
+          `╭━━━〔 ❌ KISS ERROR 〕━━━⬣
+┃ Invalid user detected.
+┃
+┃ Tag or quote a valid user to continue.
+╰━━━━━━━━━━━━━━━━━━⬣`
+        );
       }
 
       const targetNumber = targetUser.split('@')[0];
       const senderNumber = m.sender.split('@')[0];
+
       if (!targetNumber || !senderNumber) {
         console.error(`Failed to extract numbers: target=${targetUser}, sender=${m.sender}`);
-        return m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Something’s fucked up with the user IDs. Try again, idiot!`);
+        return m.reply(
+          `╭━━━〔 ⚠️ SYSTEM ERROR 〕━━━⬣
+┃ Failed to process user details.
+┃ Please try again.
+╰━━━━━━━━━━━━━━━━━━⬣`
+        );
       }
 
       const kissingMsg = await client.sendMessage(
         m.chat,
         {
-          text: `╭┈┈┈┈━━━━━━┈┈┈┈◈◈\n│❒ @${senderNumber} is puckering up to kiss @${targetNumber}... 💋\n│❒ Hope you’re ready for this, loser!\n╰┈┈┈┈━━━━━━┈┈┈┈◈`,
+          text: `╭━━〔 💞 KISS IN PROGRESS 〕━━⬣
+┃ @${senderNumber} is moving closer to @${targetNumber}...
+┃ A sweet moment is loading 💋
+╰━━━━━━━━━━━━━━━━━━━━⬣`,
           mentions: [m.sender, targetUser],
         },
         { quoted: m }
@@ -47,34 +73,36 @@ module.exports = {
 
       const intensities = [
         {
-          level: 'Awkward',
-          description: 'a cringey, sloppy peck that made @TARGET gag! @SENDER, you kiss like a dead fish!',
-          emoji: '😖',
+          level: 'Soft Kiss',
+          description: 'A gentle and shy kiss that left @TARGET smiling softly.',
+          emoji: '😊💋',
         },
         {
-          level: 'Sweet',
-          description: 'a decent smooch that got @TARGET blushing! @SENDER, not bad, but don’t get cocky!',
-          emoji: '😘',
+          level: 'Romantic Kiss',
+          description: 'A warm romantic kiss that made @TARGET blush instantly.',
+          emoji: '🥰💖',
         },
         {
-          level: 'Passionate',
-          description: 'a steamy kiss that left @TARGET speechless! @SENDER, you’re a fucking Casanova!',
+          level: 'Passionate Kiss',
+          description: 'A deep passionate kiss that left @TARGET completely speechless.',
           emoji: '🔥💋',
         },
       ];
+
       const intensity = intensities[Math.floor(Math.random() * intensities.length)];
 
-      const resultMsg = `╭┈┈┈┈━━━━━━┈┈┈┈◈
-*KISS REPORT* ${intensity.emoji}
-
-*KISSER:* @${senderNumber}
-*VICTIM:* @${targetNumber}
-*INTENSITY:* ${intensity.level}
-
-*VERDICT:* ${intensity.description.replace('@TARGET', `@${targetNumber}`).replace('@SENDER', `@${senderNumber}`)}
-
-*DISCLAIMER:* This kiss was 100% legit, you hopeless romantic! Deal with it! 😈
-╰┈┈┈┈━━━━━━┈┈┈┈◈◈`;
+      const resultMsg = `╭━━〔 💋 KISS REPORT 〕━━⬣
+┃ ${intensity.emoji}
+┃
+┃ 👤 *Kisser:* @${senderNumber}
+┃ 🎯 *Target:* @${targetNumber}
+┃ 💥 *Type:* ${intensity.level}
+┃
+┃ 📝 *Result:*
+┃ ${intensity.description.replace('@TARGET', `@${targetNumber}`)}
+┃
+┃ ✨ A memorable kiss has been delivered successfully.
+╰━━━━━━━━━━━━━━━━━━⬣`;
 
       await client.sendMessage(
         m.chat,
@@ -94,7 +122,12 @@ module.exports = {
       }
     } catch (error) {
       console.error(`Kiss command exploded: ${error.stack}`);
-      await m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Shit broke harder than your love life! Can’t kiss right now, you pathetic fuck.`);
+      await m.reply(
+        `╭━━━〔 ❌ KISS FAILED 〕━━━⬣
+┃ Something went wrong while sending the kiss.
+┃ Please try again later.
+╰━━━━━━━━━━━━━━━━━━⬣`
+      );
     }
   },
 };
