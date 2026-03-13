@@ -16,7 +16,7 @@ module.exports = {
       await client.sendMessage(
         m.chat,
         {
-          text: text || '@all',
+          text: `@all ${text || ''}`.trim(),
           mentions: members,
         },
         { quoted: m }
