@@ -140,13 +140,131 @@ async function startDml() {
     store.writeToFile("store.json");
   }, 3000);
 
+  // ╔══════════════════════════════════════════╗
+  // ║         ROTATING AUTOBIO THEMES          ║
+  // ╚══════════════════════════════════════════╝
   if (autobio) {
-    setInterval(() => {
-      const date = new Date();
-      client.updateProfileStatus(
-        `${botname} 𝐢𝐬 𝐚𝐜𝐭𝐢𝐯𝐞 𝟐𝟒/𝟕 𝙒𝘼𝙏𝙐 𝙉𝙄 𝙈𝙏𝘼𝙅𝙄 𝙏𝙊𝙎𝙃𝘼\n\n${date.toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })} 𝐈𝐭'𝐬 𝐚 ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })}.`
-      );
-    }, 10 * 1000);
+    const themes = [
+
+      // ── Theme 1: Classic Box ──
+      (date) =>
+        `╭━━━━━━━━━━━━━━━━━━━━━╮\n` +
+        `┃   ${botname} IS ACTIVE 24/7   ┃\n` +
+        `╰━━━━━━━━━━━━━━━━━━━━━╯\n\n` +
+        `🕐 ${date.toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })}\n` +
+        `📅 ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })}\n\n` +
+        `💬 𝙒𝘼𝙏𝙐 𝙉𝙄 𝙈𝙏𝘼𝙅𝙄 𝙏𝙊𝙎𝙃𝘼 🔥`,
+
+      // ── Theme 2: Neon Vibe ──
+      (date) =>
+        `⚡ ${botname} ⚡\n` +
+        `━━━━━━━━━━━━━━━━━━\n` +
+        `🔋 Status  ➤ ONLINE 🟢\n` +
+        `🌍 Zone    ➤ Nairobi EAT\n` +
+        `🕐 Time    ➤ ${date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Africa/Nairobi' })}\n` +
+        `📆 Day     ➤ ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })}\n` +
+        `━━━━━━━━━━━━━━━━━━\n` +
+        `💬 Always Here For You ✨`,
+
+      // ── Theme 3: Matrix / Hacker ──
+      (date) =>
+        `01001101 01000100 01001100\n` +
+        `> SYSTEM  : ${botname}\n` +
+        `> STATUS  : [● ACTIVE]\n` +
+        `> UPTIME  : 24/7 NON-STOP\n` +
+        `> TIME    : ${date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Africa/Nairobi' })}\n` +
+        `> DAY     : ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })}\n` +
+        `> MODE    : PUBLIC\n` +
+        `01001101 01000100 01001100`,
+
+      // ── Theme 4: Aesthetic Minimal ──
+      (date) =>
+        `${botname}\n` +
+        `────────────────────\n` +
+        `online  •  24 / 7\n\n` +
+        `${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })}\n` +
+        `${date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Africa/Nairobi' })}\n` +
+        `────────────────────\n` +
+        `𝘢𝘭𝘸𝘢𝘺𝘴 𝘩𝘦𝘳𝘦 𝘧𝘰𝘳 𝘺𝘰𝘶 🌙`,
+
+      // ── Theme 5: Galaxy / Space ──
+      (date) =>
+        `🌌 ══════ ${botname} ══════ 🌌\n` +
+        `✦ 𝐒𝐭𝐚𝐭𝐮𝐬  : 𝐎𝐍𝐋𝐈𝐍𝐄 🟢\n` +
+        `✦ 𝐓𝐢𝐦𝐞    : ${date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Africa/Nairobi' })} ⏰\n` +
+        `✦ 𝐃𝐚𝐲     : ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })} 📅\n` +
+        `✦ 𝐌𝐨𝐝𝐞    : 𝐏𝐔𝐁𝐋𝐈𝐂 🌍\n` +
+        `✦ 𝐕𝐢𝐛𝐞    : 𝐌𝐀𝐗𝐄𝐃 🚀\n` +
+        `🌌 ═══════════════════ 🌌`,
+
+      // ── Theme 6: Fire / Hype Mode ──
+      (date) =>
+        `🔥🔥🔥 ${botname} 🔥🔥🔥\n` +
+        `⚡━━━━━━━━━━━━━━━━━━━⚡\n` +
+        `💪 RUNNING NON-STOP!\n\n` +
+        `📍 Nairobi, Kenya\n` +
+        `🕐 ${date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Africa/Nairobi' })}\n` +
+        `📅 ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })}\n\n` +
+        `🔥 USINIAMBIE SIWEZI 🔥`,
+
+      // ── Theme 7: Royal / Crown ──
+      (date) =>
+        `👑 ───────────────── 👑\n` +
+        `   𝔻𝕄𝕃 𝔹𝕆𝕋 𝕊𝔼ℝ𝕍𝕀ℂ𝔼\n` +
+        `👑 ───────────────── 👑\n\n` +
+        `💎 Always Active & Ready\n` +
+        `⏰ ${date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Africa/Nairobi' })}\n` +
+        `🌟 ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })}\n\n` +
+        `👑 𝐵𝑜𝓈𝓈 𝐿𝑒𝓋𝑒𝓁 𝒮𝑒𝓇𝓋𝒾𝒸𝑒 👑`,
+
+      // ── Theme 8: Swahili Pride ──
+      (date) =>
+        `🇹🇿🇰🇪 ${botname} 🇹🇿🇰🇪\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n` +
+        `✅ Niko Mtandaoni Saa Zote\n` +
+        `⏰ ${date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Africa/Nairobi' })}\n` +
+        `📅 ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })}\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n` +
+        `🔥 MTAJI NI UJUZI 🔥`,
+
+      // ── Theme 9: Diamond VIP ──
+      (date) =>
+        `💠━━━━━━━━━━━━━━━━━━━💠\n` +
+        `   ✨ ${botname} ✨\n` +
+        `     VIP BOT SERVICE\n` +
+        `💠━━━━━━━━━━━━━━━━━━━💠\n` +
+        `⚡ Mode    : Public 🌍\n` +
+        `🟢 Status  : Online\n` +
+        `🕐 Time    : ${date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Africa/Nairobi' })}\n` +
+        `📅 Day     : ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi' })}\n` +
+        `💠━━━━━━━━━━━━━━━━━━━💠`,
+
+      // ── Theme 10: Anime / Cool ──
+      (date) =>
+        `「 ${botname} 」\n` +
+        `┌─────────────────────┐\n` +
+        `│ ⚔️  Status  : ONLINE  │\n` +
+        `│ 🌙 Mode    : Public  │\n` +
+        `│ ⏰ Time    : ${date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Nairobi' })}  │\n` +
+        `│ 📅 Day     : ${date.toLocaleString('en-US', { weekday: 'short', timeZone: 'Africa/Nairobi' })}     │\n` +
+        `└─────────────────────┘\n` +
+        `🗡️ 𝑵𝒆𝒗𝒆𝒓 𝑶𝒇𝒇𝒍𝒊𝒏𝒆 🗡️`,
+
+    ];
+
+    let themeIndex = 0;
+
+    setInterval(async () => {
+      try {
+        const date = new Date();
+        const bio = themes[themeIndex % themes.length](date);
+        await client.updateProfileStatus(bio);
+        console.log(chalk.cyan(`🎨 [AUTOBIO] Theme ${(themeIndex % themes.length) + 1} applied`));
+        themeIndex++;
+      } catch (error) {
+        console.error('❌ [AUTOBIO] Failed to update bio:', error.message);
+      }
+    }, 10 * 1000); // Every 10 seconds (safe WhatsApp limit)
   }
 
   const processedCalls = new Set();
