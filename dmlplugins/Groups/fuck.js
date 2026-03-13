@@ -80,22 +80,22 @@ module.exports = {
       const t = tiers[Math.floor(Math.random() * tiers.length)];
 
       const result =
-        `╔══════════════════════════════╗\n` +
-        `║  ${t.icon}  FUCK REPORT               ║\n` +
-        `╠══════════════════════════════╣\n` +
-        `║  RANK    ${t.rank.padEnd(20)}║\n` +
-        `║  POWER   ${t.bar.padEnd(20)}║\n` +
-        `╠══════════════════════════════╣\n` +
-        `║  FROM  » @${sender.padEnd(19)}║\n` +
-        `║  TO    » @${target.padEnd(19)}║\n` +
-        `╠══════════════════════════════╣\n` +
+        `╔════════════════════════════╗\n` +
+        `║  ${t.icon}  FUCK REPORT               \n` +
+        `╠════════════════════════════\n` +
+        `║  RANK    ${t.rank.padEnd(20)}\n` +
+        `║  POWER   ${t.bar.padEnd(20)}\n` +
+        `╠════════════════════════════\n` +
+        `║  FROM  » @${sender.padEnd(19)}\n` +
+        `║  TO    » @${target.padEnd(19)}\n` +
+        `╠════════════════════════════\n` +
         `║  ${t.line.slice(0, 28).padEnd(28)}║\n` +
-        `╠══════════════════════════════╣\n` +
-        `║  VERDICT                     ║\n` +
-        `║  ${t.verdict.slice(0, 28).padEnd(28)}║\n` +
-        `╠══════════════════════════════╣\n` +
-        `║  ⚠️  fictional & consensual   ║\n` +
-        `╚══════════════════════════════╝`;
+        `╠════════════════════════════\n` +
+        `║  VERDICT                     \n` +
+        `║  ${t.verdict.slice(0, 28).padEnd(28)}\n` +
+        `╠════════════════════════════\n` +
+        `║  ⚠️  fictional & consensual   \n` +
+        `╚════════════════════════════╝`;
 
       await client.sendMessage(
         m.chat,
