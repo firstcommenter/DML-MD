@@ -1,100 +1,119 @@
 module.exports = {
   name: 'fuck',
   aliases: ['screw', 'bang'],
-  description: 'Sends a toxic, realistic "fuck" reaction to a tagged or quoted user',
+  description: 'Sends a dml, realistic "fuck" reaction to a tagged or quoted user',
   run: async (context) => {
     const { client, m } = context;
 
+    // ── helpers ──────────────────────────────────────────────
+    const box = (lines) =>
+      `╔${'═'.repeat(30)}╗\n` +
+      lines.map((l) => `║  ${l.padEnd(28)}║`).join('\n') +
+      `\n╚${'═'.repeat(30)}╝`;
+
+    const err = (msg) => m.reply(box([`⚠️  ERROR`, ``, msg]));
+
+    // ── validation ───────────────────────────────────────────
     try {
-      console.log(`Fuck command context: isGroup=${m.isGroup}, mentionedJid=${JSON.stringify(m.mentionedJid)}, quotedSender=${m.quoted?.sender || 'none'}, sender=${m.sender}`);
+      if (!m.mentionedJid?.length && !m.quoted?.sender)
+        return err('Tag or quote someone first, perv.');
 
-      if (!m.mentionedJid || m.mentionedJid.length === 0) {
-        if (!m.quoted || !m.quoted.sender) {
-          console.error('No tagged or quoted user provided');
-          return m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Yo, perv, tag someone or quote a message to fuck! I ain’t doing this without a target!`);
-        }
-      }
-
-      const targetUser = m.mentionedJid[0] || (m.quoted ? m.quoted.sender : null);
-      console.log(`Target JID: ${targetUser}`);
+      const targetUser = m.mentionedJid?.[0] ?? m.quoted?.sender ?? null;
 
       if (
         !targetUser ||
         typeof targetUser !== 'string' ||
         (!targetUser.includes('@s.whatsapp.net') && !targetUser.includes('@lid'))
-      ) {
-        console.error(`Invalid target user: ${JSON.stringify(targetUser)}`);
-        return m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Invalid user, dumbass! Tag or quote a real person to fuck!`);
-      }
+      )
+        return err('Invalid user. Tag a real person!');
 
-      const targetNumber = targetUser.split('@')[0];
-      const senderNumber = m.sender.split('@')[0];
-      if (!targetNumber || !senderNumber) {
-        console.error(`Failed to extract numbers: target=${targetUser}, sender=${m.sender}`);
-        return m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Something’s fucked up with the user IDs. Try again, idiot!`);
-      }
+      const target = targetUser.split('@')[0];
+      const sender = m.sender.split('@')[0];
 
-      const fuckingMsg = await client.sendMessage(
+      if (!target || !sender)
+        return err('Broken user IDs. Try again.');
+
+      // ── intro message ───────────────────────────────────────
+      const introMsg = await client.sendMessage(
         m.chat,
         {
-          text: `◈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ @${senderNumber} is getting ready to fuck @${targetNumber}... 😈\n│❒ This is gonna be wild, bitch!\n◈┈┈┈┈┈┈┈┈┈┈┈┈◈`,
+          text: box([
+            `😈  INCOMING`,
+            ``,
+            `@${sender}`,
+            `  is about to clap @${target}...`,
+            ``,
+            `buckle up, bitch. 🍑💥`,
+          ]),
           mentions: [m.sender, targetUser],
         },
         { quoted: m }
       );
 
-      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000));
+      await new Promise((r) => setTimeout(r, 1200 + Math.random() * 1800));
 
-      const intensities = [
+      // ── result tiers ────────────────────────────────────────
+      const tiers = [
         {
-          level: 'Awkward',
-          description: 'a clumsy, embarrassing attempt that made @TARGET laugh their ass off! @SENDER, you’re a fucking disaster!',
-          emoji: '😂',
+          icon: '😂',
+          rank: 'F  —  DISASTER',
+          bar:  '▓░░░░░░░░░',
+          line: `@${target} laughed so hard they left the chat.`,
+          verdict: `@${sender}, you fumbled HARD. Certified disaster.`,
         },
         {
-          level: 'Steamy',
-          description: 'a hot and heavy session that got @TARGET all flustered! @SENDER, you’re not half bad!',
-          emoji: '🔥',
+          icon: '🔥',
+          rank: 'B  —  STEAMY',
+          bar:  '▓▓▓▓▓▓░░░░',
+          line: `@${target} is flustered and won't look anyone in the eye.`,
+          verdict: `@${sender}, not bad at all. Respectable heat. 🌡️`,
         },
         {
-          level: 'Legendary',
-          description: 'an earth-shattering fuck that left @TARGET in awe! @SENDER, you’re a goddamn sex god!',
-          emoji: '💦🔥',
+          icon: '💦🔥',
+          rank: 'S  —  LEGENDARY',
+          bar:  '▓▓▓▓▓▓▓▓▓▓',
+          line: `@${target} has ascended. They're not the same anymore.`,
+          verdict: `@${sender}, you broke physics. Absolute unit. 👑`,
         },
       ];
-      const intensity = intensities[Math.floor(Math.random() * intensities.length)];
 
-      const resultMsg = `◈┈┈┈┈┈┈┈┈┈┈┈┈◈
-*FUCK REPORT* ${intensity.emoji}
+      const t = tiers[Math.floor(Math.random() * tiers.length)];
 
-*INITIATOR:* @${senderNumber}
-*VICTIM:* @${targetNumber}
-*INTENSITY:* ${intensity.level}
-
-*VERDICT:* ${intensity.description.replace('@TARGET', `@${targetNumber}`).replace('@SENDER', `@${senderNumber}`)}
-
-*DISCLAIMER:* This was 100% consensual in this fictional world, you filthy animal! Cry about it! 😈
-◈┈┈┈┈┈┈┈┈┈┈┈┈◈`;
+      const result =
+        `╔══════════════════════════════╗\n` +
+        `║  ${t.icon}  FUCK REPORT               ║\n` +
+        `╠══════════════════════════════╣\n` +
+        `║  RANK    ${t.rank.padEnd(20)}║\n` +
+        `║  POWER   ${t.bar.padEnd(20)}║\n` +
+        `╠══════════════════════════════╣\n` +
+        `║  FROM  » @${sender.padEnd(19)}║\n` +
+        `║  TO    » @${target.padEnd(19)}║\n` +
+        `╠══════════════════════════════╣\n` +
+        `║  ${t.line.slice(0, 28).padEnd(28)}║\n` +
+        `╠══════════════════════════════╣\n` +
+        `║  VERDICT                     ║\n` +
+        `║  ${t.verdict.slice(0, 28).padEnd(28)}║\n` +
+        `╠══════════════════════════════╣\n` +
+        `║  ⚠️  fictional & consensual   ║\n` +
+        `╚══════════════════════════════╝`;
 
       await client.sendMessage(
         m.chat,
-        {
-          text: resultMsg,
-          mentions: [m.sender, targetUser],
-        },
+        { text: result, mentions: [m.sender, targetUser] },
         { quoted: m }
       );
 
-      if (fuckingMsg && fuckingMsg.key) {
-        try {
-          await client.sendMessage(m.chat, { delete: fuckingMsg.key });
-        } catch (deleteError) {
-          console.error(`Failed to delete fucking message: ${deleteError.stack}`);
-        }
+      // ── delete intro ────────────────────────────────────────
+      if (introMsg?.key) {
+        try { await client.sendMessage(m.chat, { delete: introMsg.key }); }
+        catch (e) { console.error('Delete failed:', e.message); }
       }
+
     } catch (error) {
-      console.error(`Fuck command exploded: ${error.stack}`);
-      await m.reply(`◈┈┈┈┈┈┈┈┈┈┈┈┈◈\n│❒ Shit broke harder than your bedframe! Can’t fuck right now, you unlucky bastard.`);
+      console.error(`Fuck command error: ${error.stack}`);
+      await m.reply(
+        box([`💀  SYSTEM CRASH`, ``, `Something broke worse than`, `your game. Try again.`])
+      );
     }
   },
 };
