@@ -56,7 +56,6 @@ async function initializeDatabase() {
             antilink: 'off',
             antidelete: 'false',
             antistatusmention: 'delete',
-            multiprefix: 'false',
             startmessage: 'true'
         };
 
