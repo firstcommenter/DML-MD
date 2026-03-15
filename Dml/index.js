@@ -131,61 +131,42 @@ async function startDml() {
   // ── DML AUTOBIO  ──
   if (autobio) {
     const themes = [
-      // Hustle mood
-    (d, t) => `⚡ ${botname}\n𝐈 𝐃𝐎𝐍'𝐓 𝐒𝐋𝐄𝐄𝐏, 𝐈 𝐆𝐑𝐈𝐍𝐃 • ${d} ${t}`,
-
-    // Lowkey cool
-    (d, t) => `🌙 ${botname}\n𝐐𝐔𝐈𝐄𝐓 𝐁𝐔𝐓 𝐀𝐋𝐖𝐀𝐘𝐒 𝐇𝐄𝐑𝐄 • ${d} ${t}`,
-
-    // Boss energy
-    (d, t) => `👑 ${botname}\n𝐁𝐎𝐒𝐒 𝐌𝐎𝐃𝐄 𝐀𝐂𝐓𝐈𝐕𝐀𝐓𝐄𝐃 🔛 ${d} ${t}`,
-
-    // Swahili drip
-    (d, t) => `🔥 ${botname}\n𝐖𝐀𝐓𝐔 𝐍𝐈 𝐌𝐓𝐀𝐉𝐈 𝐓𝐎𝐒𝐇𝐀 • 𝐓𝐀𝐍𝐙𝐀𝐍𝐈𝐀 ${d} ${t}`,
-
-    // Galaxy vibe
-    (d, t) => `🌌 ${botname}\n𝐎𝐔𝐓 𝐎𝐅 𝐓𝐇𝐈𝐒 𝐖𝐎𝐑𝐋𝐃 🚀 ${d} ${t}`,
-
-    // Unbothered
-    (d, t) => `😎 ${botname}\n𝐔𝐍𝐁𝐎𝐓𝐇𝐄𝐑𝐄𝐃 & 𝐎𝐍𝐋𝐈𝐍𝐄 • ${d} ${t}`,
-
-    // Late night feel
-    (d, t) => `🌃 ${botname}\n𝐔𝐏 𝐖𝐇𝐄𝐍 𝐓𝐇𝐄 𝐖𝐎𝐑𝐋𝐃 𝐒𝐋𝐄𝐄𝐏𝐒 • ${d} ${t}`,
-
-    // Ice cold
-    (d, t) => `🧊 ${botname}\n𝐂𝐎𝐎𝐋, 𝐂𝐀𝐋𝐌 & 𝐀𝐋𝐖𝐀𝐘𝐒 𝐎𝐍 • ${d} ${t}`,
-
-    // No cap
-    (d, t) => `💯 ${botname}\n𝐍𝐎 𝐂𝐀𝐏, 𝐈'𝐌 𝐀𝐋𝐖𝐀𝐘𝐒 𝐎𝐍𝐋𝐈𝐍𝐄 • ${d} ${t}`,
-
-    // Tanzanian pride
-    (d, t) => `🇹🇿 ${botname}\n𝐓𝐀𝐍𝐙𝐀𝐍𝐈𝐀'𝐒 𝐅𝐈𝐍𝐄𝐒𝐓 𝐁𝐎𝐓 • ${d} ${t}`,
-
-    // Motivation 1 — Keep going
-    (d, t) => `💪 ${botname}\n𝐅𝐀𝐋𝐋 7 𝐓𝐈𝐌𝐄𝐒, 𝐑𝐈𝐒𝐄 8 • ${d} ${t}`,
-
-    // Motivation 2 — Dream big
-    (d, t) => `🌠 ${botname}\n𝐃𝐑𝐄𝐀𝐌 𝐁𝐈𝐆, 𝐖𝐎𝐑𝐊 𝐇𝐀𝐑𝐃, 𝐒𝐓𝐀𝐘 𝐇𝐔𝐌𝐁𝐋𝐄 • ${d} ${t}`,
-
-    // Motivation 3 — Progress
-    (d, t) => `🎯 ${botname}\n𝐒𝐌𝐀𝐋𝐋 𝐒𝐓𝐄𝐏𝐒 𝐒𝐓𝐈𝐋𝐋 𝐌𝐎𝐕𝐄 𝐘𝐎𝐔 𝐅𝐎𝐑𝐖𝐀𝐑𝐃 • ${d} ${t}`,
-
-    // Motivation 4 — Believe
-    (d, t) => `✨ ${botname}\n𝐁𝐄𝐋𝐈𝐄𝐕𝐄 𝐈𝐓, 𝐁𝐔𝐈𝐋𝐃 𝐈𝐓, 𝐁𝐄𝐂𝐎𝐌𝐄 𝐈𝐓 • ${d} ${t}`,
-
-    // Motivation 5 — Never quit
-    (d, t) => `🔥 ${botname}\n𝐏𝐀𝐈𝐍 𝐈𝐒 𝐓𝐄𝐌𝐏𝐎𝐑𝐀𝐑𝐘, 𝐆𝐑𝐄𝐀𝐓𝐍𝐄𝐒𝐒 𝐈𝐒 𝐅𝐎𝐑𝐄𝐕𝐄𝐑 • ${d} ${t}`,
-
-    // Road to success — Always under construction
-    (d, t) => `🚧 ${botname}\n𝐓𝐇𝐄 𝐑𝐎𝐀𝐃 𝐓𝐎 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 𝐈𝐒 𝐀𝐋𝐖𝐀𝐘𝐒 𝐔𝐍𝐃𝐄𝐑 𝐂𝐎𝐍𝐒𝐓𝐑𝐔𝐂𝐓𝐈𝐎𝐍 • ${d} ${t}`,
-
-    (d, t) => `🛠️ ${botname}\n𝐄𝐕𝐄𝐑𝐘 𝐃𝐀𝐘 I 𝐏𝐀𝐕𝐄 𝐌𝐘 𝐖𝐀𝐘 𝐓𝐎 𝐆𝐑𝐄𝐀𝐓𝐍𝐄𝐒𝐒 • ${d} ${t}`,
-
-    (d, t) => `🔨 ${botname}\n𝐆𝐑𝐎𝐖𝐓𝐇 𝐈𝐒 𝐀 𝐂𝐎𝐍𝐒𝐓𝐀𝐍𝐓 𝐖𝐎𝐑𝐊𝐈𝐍𝐆 𝐒𝐈𝐓𝐄 • ${d} ${t}`,
-
-    (d, t) => `🏗️ ${botname}\n𝐁𝐔𝐈𝐋𝐃𝐈𝐍𝐆 𝐌𝐘 𝐃𝐑𝐄𝐀𝐌𝐒 𝐁𝐑𝐈𝐂𝐊 𝐁𝐘 𝐁𝐑𝐈𝐂𝐊 • ${d} ${t}`,
-
-    (d, t) => `🚀 ${botname}\n𝐓𝐇𝐄 𝐉𝐎𝐔𝐑𝐍𝐄𝐘 𝐈𝐒 𝐍𝐄𝐕𝐄𝐑 𝐅𝐈𝐍𝐈𝐒𝐇𝐄𝐃, 𝐀𝐍𝐃 𝐓𝐇𝐀𝐓'𝐒 𝐓𝐇𝐄 𝐁𝐄𝐀𝐔𝐓𝐘 • ${d} ${t}`,
+     // Hustle mood
+(d, t) => `⚡ ${botname}\n𝗜 𝗗𝗼𝗻'𝘁 𝗦𝗹𝗲𝗲𝗽, 𝗜 𝗚𝗿𝗶𝗻𝗱 • ${d} ${t}`,
+// Lowkey cool
+(d, t) => `🌙 ${botname}\n𝗤𝘂𝗶𝗲𝘁 𝗕𝘂𝘁 𝗔𝗹𝘄𝗮𝘆𝘀 𝗛𝗲𝗿𝗲 • ${d} ${t}`,
+// Boss energy
+(d, t) => `👑 ${botname}\n𝗕𝗼𝘀𝘀 𝗠𝗼𝗱𝗲 𝗔𝗰𝘁𝗶𝘃𝗮𝘁𝗲𝗱 🔛 ${d} ${t}`,
+// Swahili drip
+(d, t) => `🔥 ${botname}\n𝗪𝗮𝘁𝘂 𝗡𝗶 𝗠𝘁𝗮𝗷𝗶 𝗧𝗼𝘀𝗵𝗮 • 𝗧𝗮𝗻𝘇𝗮𝗻𝗶𝗮 ${d} ${t}`,
+// Galaxy vibe
+(d, t) => `🌌 ${botname}\n𝗢𝘂𝘁 𝗢𝗳 𝗧𝗵𝗶𝘀 𝗪𝗼𝗿𝗹𝗱 🚀 ${d} ${t}`,
+// Unbothered
+(d, t) => `😎 ${botname}\n𝗨𝗻𝗯𝗼𝘁𝗵𝗲𝗿𝗲𝗱 & 𝗢𝗻𝗹𝗶𝗻𝗲 • ${d} ${t}`,
+// Late night feel
+(d, t) => `🌃 ${botname}\n𝗨𝗽 𝗪𝗵𝗲𝗻 𝗧𝗵𝗲 𝗪𝗼𝗿𝗹𝗱 𝗦𝗹𝗲𝗲𝗽𝘀 • ${d} ${t}`,
+// Ice cold
+(d, t) => `🧊 ${botname}\n𝗖𝗼𝗼𝗹, 𝗖𝗮𝗹𝗺 & 𝗔𝗹𝘄𝗮𝘆𝘀 𝗢𝗻 • ${d} ${t}`,
+// No cap
+(d, t) => `💯 ${botname}\n𝗡𝗼 𝗖𝗮𝗽, 𝗜'𝗺 𝗔𝗹𝘄𝗮𝘆𝘀 𝗢𝗻𝗹𝗶𝗻𝗲 • ${d} ${t}`,
+// Tanzanian pride
+(d, t) => `🇹🇿 ${botname}\n𝗧𝗮𝗻𝘇𝗮𝗻𝗶𝗮'𝘀 𝗙𝗶𝗻𝗲𝘀𝘁 𝗕𝗼𝘁 • ${d} ${t}`,
+// Motivation 1 — Keep going
+(d, t) => `💪 ${botname}\n𝗙𝗮𝗹𝗹 𝟳 𝗧𝗶𝗺𝗲𝘀, 𝗥𝗶𝘀𝗲 𝟴 • ${d} ${t}`,
+// Motivation 2 — Dream big
+(d, t) => `🌠 ${botname}\n𝗗𝗿𝗲𝗮𝗺 𝗕𝗶𝗴, 𝗪𝗼𝗿𝗸 𝗛𝗮𝗿𝗱, 𝗦𝘁𝗮𝘆 𝗛𝘂𝗺𝗯𝗹𝗲 • ${d} ${t}`,
+// Motivation 3 — Progress
+(d, t) => `🎯 ${botname}\n𝗦𝗺𝗮𝗹𝗹 𝗦𝘁𝗲𝗽𝘀 𝗦𝘁𝗶𝗹𝗹 𝗠𝗼𝘃𝗲 𝗬𝗼𝘂 𝗙𝗼𝗿𝘄𝗮𝗿𝗱 • ${d} ${t}`,
+// Motivation 4 — Believe
+(d, t) => `✨ ${botname}\n𝗕𝗲𝗹𝗶𝗲𝘃𝗲 𝗜𝘁, 𝗕𝘂𝗶𝗹𝗱 𝗜𝘁, 𝗕𝗲𝗰𝗼𝗺𝗲 𝗜𝘁 • ${d} ${t}`,
+// Motivation 5 — Never quit
+(d, t) => `🔥 ${botname}\n𝗣𝗮𝗶𝗻 𝗜𝘀 𝗧𝗲𝗺𝗽𝗼𝗿𝗮𝗿𝘆, 𝗚𝗿𝗲𝗮𝘁𝗻𝗲𝘀𝘀 𝗜𝘀 𝗙𝗼𝗿𝗲𝘃𝗲𝗿 • ${d} ${t}`,
+// Road to success — Always under construction
+(d, t) => `🚧 ${botname}\n𝗧𝗵𝗲 𝗥𝗼𝗮𝗱 𝗧𝗼 𝗦𝘂𝗰𝗰𝗲𝘀𝘀 𝗜𝘀 𝗔𝗹𝘄𝗮𝘆𝘀 𝗨𝗻𝗱𝗲𝗿 𝗖𝗼𝗻𝘀𝘁𝗿𝘂𝗰𝘁𝗶𝗼𝗻 • ${d} ${t}`,
+(d, t) => `🛠️ ${botname}\n𝗘𝘃𝗲𝗿𝘆 𝗗𝗮𝘆 𝗜 𝗣𝗮𝘃𝗲 𝗠𝘆 𝗪𝗮𝘆 𝗧𝗼 𝗚𝗿𝗲𝗮𝘁𝗻𝗲𝘀𝘀 • ${d} ${t}`,
+(d, t) => `🔨 ${botname}\n𝗚𝗿𝗼𝘄𝘁𝗵 𝗜𝘀 𝗔 𝗖𝗼𝗻𝘀𝘁𝗮𝗻𝘁 𝗪𝗼𝗿𝗸𝗶𝗻𝗴 𝗦𝗶𝘁𝗲 • ${d} ${t}`,
+(d, t) => `🏗️ ${botname}\n𝗕𝘂𝗶𝗹𝗱𝗶𝗻𝗴 𝗠𝘆 𝗗𝗿𝗲𝗮𝗺𝘀 𝗕𝗿𝗶𝗰𝗸 𝗕𝘆 𝗕𝗿𝗶𝗰𝗸 • ${d} ${t}`,
+(d, t) => `🚀 ${botname}\n𝗧𝗵𝗲 𝗝𝗼𝘂𝗿𝗻𝗲𝘆 𝗜𝘀 𝗡𝗲𝘃𝗲𝗿 𝗙𝗶𝗻𝗶𝘀𝗵𝗲𝗱, 𝗔𝗻𝗱 𝗧𝗵𝗮𝘁'𝘀 𝗧𝗵𝗲 𝗕𝗲𝗮𝘂𝘁𝘆 • ${d} ${t}`,
   ];
 
     let i = 0;
