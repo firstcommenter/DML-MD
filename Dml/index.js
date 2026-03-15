@@ -158,8 +158,8 @@ async function startDml() {
       // No cap
       (d, t) => `💯 ${botname}\n𝘯𝘰 𝘤𝘢𝘱, 𝘐'𝘮 𝘢𝘭𝘸𝘢𝘺𝘴 𝘰𝘯𝘭𝘪𝘯𝘦 • ${d} ${t}`,
 
-      // Kenyan pride
-      (d, t) => `🇰🇪 ${botname}\nTanzania's finest bot • ${d} ${t}`,
+      // Tanzanian  pride
+      (d, t) => `🇹🇿 ${botname}\nTanzania's finest bot • ${d} ${t}`,
 
       // Motivation 1 — Keep going
       (d, t) => `💪 ${botname}\n𝘍𝘢𝘭𝘭 7 𝘵𝘪𝘮𝘦𝘴, 𝘳𝘪𝘴𝘦 8 • ${d} ${t}`,
