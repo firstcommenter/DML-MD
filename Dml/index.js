@@ -132,50 +132,61 @@ async function startDml() {
   if (autobio) {
     const themes = [
       // Hustle mood
-      (d, t) => `⚡ ${botname}\n𝘐 𝘥𝘰𝘯'𝘵 𝘴𝘭𝘦𝘦𝘱, 𝘐 𝘨𝘳𝘪𝘯𝘥 • ${d} ${t}`,
+    (d, t) => `⚡ ${botname}\n𝐈 𝐃𝐎𝐍'𝐓 𝐒𝐋𝐄𝐄𝐏, 𝐈 𝐆𝐑𝐈𝐍𝐃 • ${d} ${t}`,
 
-      // Lowkey cool
-      (d, t) => `🌙 ${botname}\n𝘲𝘶𝘪𝘦𝘵 𝘣𝘶𝘵 𝘢𝘭𝘸𝘢𝘺𝘴 𝘩𝘦𝘳𝘦 • ${d} ${t}`,
+    // Lowkey cool
+    (d, t) => `🌙 ${botname}\n𝐐𝐔𝐈𝐄𝐓 𝐁𝐔𝐓 𝐀𝐋𝐖𝐀𝐘𝐒 𝐇𝐄𝐑𝐄 • ${d} ${t}`,
 
-      // Boss energy
-      (d, t) => `👑 ${botname}\n𝘉𝘰𝘴𝘴 𝘮𝘰𝘥𝘦 𝘢𝘤𝘵𝘪𝘷𝘢𝘵𝘦𝘥 🔛 ${d} ${t}`,
+    // Boss energy
+    (d, t) => `👑 ${botname}\n𝐁𝐎𝐒𝐒 𝐌𝐎𝐃𝐄 𝐀𝐂𝐓𝐈𝐕𝐀𝐓𝐄𝐃 🔛 ${d} ${t}`,
 
-      // Swahili drip
-      (d, t) => `🔥 ${botname}\nWatu ni mtaji tosha  • Tanzania ${d} ${t}`,
+    // Swahili drip
+    (d, t) => `🔥 ${botname}\n𝐖𝐀𝐓𝐔 𝐍𝐈 𝐌𝐓𝐀𝐉𝐈 𝐓𝐎𝐒𝐇𝐀 • 𝐓𝐀𝐍𝐙𝐀𝐍𝐈𝐀 ${d} ${t}`,
 
-      // Galaxy vibe
-      (d, t) => `🌌 ${botname}\n𝘰𝘶𝘵 𝘰𝘧 𝘵𝘩𝘪𝘴 𝘸𝘰𝘳𝘭𝘥 🚀 ${d} ${t}`,
+    // Galaxy vibe
+    (d, t) => `🌌 ${botname}\n𝐎𝐔𝐓 𝐎𝐅 𝐓𝐇𝐈𝐒 𝐖𝐎𝐑𝐋𝐃 🚀 ${d} ${t}`,
 
-      // Unbothered
-      (d, t) => `😎 ${botname}\n𝘶𝘯𝘣𝘰𝘵𝘩𝘦𝘳𝘦𝘥 & 𝘰𝘯𝘭𝘪𝘯𝘦 • ${d} ${t}`,
+    // Unbothered
+    (d, t) => `😎 ${botname}\n𝐔𝐍𝐁𝐎𝐓𝐇𝐄𝐑𝐄𝐃 & 𝐎𝐍𝐋𝐈𝐍𝐄 • ${d} ${t}`,
 
-      // Late night feel
-      (d, t) => `🌃 ${botname}\n𝘶𝘱 𝘸𝘩𝘦𝘯 𝘵𝘩𝘦 𝘸𝘰𝘳𝘭𝘥 𝘴𝘭𝘦𝘦𝘱𝘴 • ${d} ${t}`,
+    // Late night feel
+    (d, t) => `🌃 ${botname}\n𝐔𝐏 𝐖𝐇𝐄𝐍 𝐓𝐇𝐄 𝐖𝐎𝐑𝐋𝐃 𝐒𝐋𝐄𝐄𝐏𝐒 • ${d} ${t}`,
 
-      // Ice cold
-      (d, t) => `🧊 ${botname}\n𝘤𝘰𝘰𝘭, 𝘤𝘢𝘭𝘮 & 𝘢𝘭𝘸𝘢𝘺𝘴 𝘰𝘯 • ${d} ${t}`,
+    // Ice cold
+    (d, t) => `🧊 ${botname}\n𝐂𝐎𝐎𝐋, 𝐂𝐀𝐋𝐌 & 𝐀𝐋𝐖𝐀𝐘𝐒 𝐎𝐍 • ${d} ${t}`,
 
-      // No cap
-      (d, t) => `💯 ${botname}\n𝘯𝘰 𝘤𝘢𝘱, 𝘐'𝘮 𝘢𝘭𝘸𝘢𝘺𝘴 𝘰𝘯𝘭𝘪𝘯𝘦 • ${d} ${t}`,
+    // No cap
+    (d, t) => `💯 ${botname}\n𝐍𝐎 𝐂𝐀𝐏, 𝐈'𝐌 𝐀𝐋𝐖𝐀𝐘𝐒 𝐎𝐍𝐋𝐈𝐍𝐄 • ${d} ${t}`,
 
-      // Tanzanian  pride
-      (d, t) => `🇹🇿 ${botname}\nTanzania's finest bot • ${d} ${t}`,
+    // Tanzanian pride
+    (d, t) => `🇹🇿 ${botname}\n𝐓𝐀𝐍𝐙𝐀𝐍𝐈𝐀'𝐒 𝐅𝐈𝐍𝐄𝐒𝐓 𝐁𝐎𝐓 • ${d} ${t}`,
 
-      // Motivation 1 — Keep going
-      (d, t) => `💪 ${botname}\n𝘍𝘢𝘭𝘭 7 𝘵𝘪𝘮𝘦𝘴, 𝘳𝘪𝘴𝘦 8 • ${d} ${t}`,
+    // Motivation 1 — Keep going
+    (d, t) => `💪 ${botname}\n𝐅𝐀𝐋𝐋 7 𝐓𝐈𝐌𝐄𝐒, 𝐑𝐈𝐒𝐄 8 • ${d} ${t}`,
 
-      // Motivation 2 — Dream big
-      (d, t) => `🌠 ${botname}\n𝘋𝘳𝘦𝘢𝘮 𝘣𝘪𝘨, 𝘸𝘰𝘳𝘬 𝘩𝘢𝘳𝘥, 𝘴𝘵𝘢𝘺 𝘩𝘶𝘮𝘣𝘭𝘦 • ${d} ${t}`,
+    // Motivation 2 — Dream big
+    (d, t) => `🌠 ${botname}\n𝐃𝐑𝐄𝐀𝐌 𝐁𝐈𝐆, 𝐖𝐎𝐑𝐊 𝐇𝐀𝐑𝐃, 𝐒𝐓𝐀𝐘 𝐇𝐔𝐌𝐁𝐋𝐄 • ${d} ${t}`,
 
-      // Motivation 3 — Progress
-      (d, t) => `🎯 ${botname}\n𝘚𝘮𝘢𝘭𝘭 𝘴𝘵𝘦𝘱𝘴 𝘴𝘵𝘪𝘭𝘭 𝘮𝘰𝘷𝘦 𝘺𝘰𝘶 𝘧𝘰𝘳𝘸𝘢𝘳𝘥 • ${d} ${t}`,
+    // Motivation 3 — Progress
+    (d, t) => `🎯 ${botname}\n𝐒𝐌𝐀𝐋𝐋 𝐒𝐓𝐄𝐏𝐒 𝐒𝐓𝐈𝐋𝐋 𝐌𝐎𝐕𝐄 𝐘𝐎𝐔 𝐅𝐎𝐑𝐖𝐀𝐑𝐃 • ${d} ${t}`,
 
-      // Motivation 4 — Believe
-      (d, t) => `✨ ${botname}\n𝘉𝘦𝘭𝘪𝘦𝘷𝘦 𝘪𝘵, 𝘣𝘶𝘪𝘭𝘥 𝘪𝘵, 𝘣𝘦𝘤𝘰𝘮𝘦 𝘪𝘵 • ${d} ${t}`,
+    // Motivation 4 — Believe
+    (d, t) => `✨ ${botname}\n𝐁𝐄𝐋𝐈𝐄𝐕𝐄 𝐈𝐓, 𝐁𝐔𝐈𝐋𝐃 𝐈𝐓, 𝐁𝐄𝐂𝐎𝐌𝐄 𝐈𝐓 • ${d} ${t}`,
 
-      // Motivation 5 — Never quit
-      (d, t) => `🔥 ${botname}\n𝘗𝘢𝘪𝘯 𝘪𝘴 𝘵𝘦𝘮𝘱𝘰𝘳𝘢𝘳𝘺, 𝘨𝘳𝘦𝘢𝘵𝘯𝘦𝘴𝘴 𝘪𝘴 𝘧𝘰𝘳𝘦𝘷𝘦𝘳 • ${d} ${t}`,
-    ];
+    // Motivation 5 — Never quit
+    (d, t) => `🔥 ${botname}\n𝐏𝐀𝐈𝐍 𝐈𝐒 𝐓𝐄𝐌𝐏𝐎𝐑𝐀𝐑𝐘, 𝐆𝐑𝐄𝐀𝐓𝐍𝐄𝐒𝐒 𝐈𝐒 𝐅𝐎𝐑𝐄𝐕𝐄𝐑 • ${d} ${t}`,
+
+    // Road to success — Always under construction
+    (d, t) => `🚧 ${botname}\n𝐓𝐇𝐄 𝐑𝐎𝐀𝐃 𝐓𝐎 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 𝐈𝐒 𝐀𝐋𝐖𝐀𝐘𝐒 𝐔𝐍𝐃𝐄𝐑 𝐂𝐎𝐍𝐒𝐓𝐑𝐔𝐂𝐓𝐈𝐎𝐍 • ${d} ${t}`,
+
+    (d, t) => `🛠️ ${botname}\n𝐄𝐕𝐄𝐑𝐘 𝐃𝐀𝐘 I 𝐏𝐀𝐕𝐄 𝐌𝐘 𝐖𝐀𝐘 𝐓𝐎 𝐆𝐑𝐄𝐀𝐓𝐍𝐄𝐒𝐒 • ${d} ${t}`,
+
+    (d, t) => `🔨 ${botname}\n𝐆𝐑𝐎𝐖𝐓𝐇 𝐈𝐒 𝐀 𝐂𝐎𝐍𝐒𝐓𝐀𝐍𝐓 𝐖𝐎𝐑𝐊𝐈𝐍𝐆 𝐒𝐈𝐓𝐄 • ${d} ${t}`,
+
+    (d, t) => `🏗️ ${botname}\n𝐁𝐔𝐈𝐋𝐃𝐈𝐍𝐆 𝐌𝐘 𝐃𝐑𝐄𝐀𝐌𝐒 𝐁𝐑𝐈𝐂𝐊 𝐁𝐘 𝐁𝐑𝐈𝐂𝐊 • ${d} ${t}`,
+
+    (d, t) => `🚀 ${botname}\n𝐓𝐇𝐄 𝐉𝐎𝐔𝐑𝐍𝐄𝐘 𝐈𝐒 𝐍𝐄𝐕𝐄𝐑 𝐅𝐈𝐍𝐈𝐒𝐇𝐄𝐃, 𝐀𝐍𝐃 𝐓𝐇𝐀𝐓'𝐒 𝐓𝐇𝐄 𝐁𝐄𝐀𝐔𝐓𝐘 • ${d} ${t}`,
+  ];
 
     let i = 0;
     setInterval(async () => {
