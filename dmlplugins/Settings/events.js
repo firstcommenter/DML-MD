@@ -32,7 +32,7 @@ module.exports = async (context) => {
 
       const value = args[0]?.toLowerCase();
       let groupSettings = await getGroupSettings(jid);
-      console.log('Dml-md: Group settings for', jid, ':', groupSettings);
+      console.log('🅳🅼🅻-🅼🅳: Group settings for', jid, ':', groupSettings);
       let isEnabled = groupSettings?.events === true || groupSettings?.events === 'true';
 
       if (value === 'on' || value === 'off') {
