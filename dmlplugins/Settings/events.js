@@ -80,7 +80,7 @@ module.exports = async (context) => {
         { quoted: m, ad: true }
       );
     } catch (error) {
-      console.error('Dml-Md: Error in events.js:', error.stack);
+      console.error('🅳🅼🅻-🅼🅳: Error in events.js:', error.stack);
       await client.sendMessage(
         m.chat,
         {
