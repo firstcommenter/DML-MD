@@ -56,7 +56,8 @@ async function initializeDatabase() {
             antilink: 'off',
             antidelete: 'false',
             antistatusmention: 'delete',
-            startmessage: 'true'
+            startmessage: 'true',
+            multiprefix: 'false'   // ← ADDED
         };
 
         for (const [key, value] of Object.entries(defaultSettings)) {
