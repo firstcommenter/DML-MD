@@ -41,10 +41,10 @@ module.exports = {
 
         // Professional menu text
         const menuText = `┌────────────────────┐
-│  🤖  *${botname}*
+│         🤖  *${botname}*
 └────────────────────┘
 
-👋 Hey *@${m.pushName}* — Welcome!
+👋 Hey *@${m.pushName}* Welcome! Your intelligent assistant is here, ready to assist you anytime.
 
 ▸ Prefix  : ${effectivePrefix}
 ▸ Mode    : ${mode}
