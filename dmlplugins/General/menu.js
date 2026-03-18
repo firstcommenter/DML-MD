@@ -40,30 +40,20 @@ module.exports = {
         };  
 
         // Professional menu text
-        const menuText = `
-╔══════════════════════╗
-║      🤖  *${botname}*  🤖
-╚══════════════════════╝
+        const menuText = `┌────────────────────┐
+│  🤖  *${botname}*
+└────────────────────┘
 
-👋 Hello *@${m.pushName}*  
-Welcome to your smart assistant
+👋 Hey *@${m.pushName}* — Welcome!
 
-╭─ ❖ BOT STATUS ❖ ─╮
-│ ⚡ Prefix : ${effectivePrefix}
-│ 🔰 Mode   : ${mode}
-│ 🧠 Engine : Baileys MD
-╰──────────────────╯
+▸ Prefix  : ${effectivePrefix}
+▸ Mode    : ${mode}
+▸ Engine  : Baileys MD
 
-╭─ ❖ MAIN COMMANDS ❖ ─╮
-│ 🌟 ${prefix}fullmenu
-│ 👨‍💻 ${prefix}dev
-│ 📡 ${prefix}ping
-│ ⚙ ${prefix}settings
-╰──────────────────────╯
+⚡ *Quick Commands*
+${prefix}menu  •  ${prefix}ping  •  ${prefix}dev  •  ${prefix}settings
 
-✨ Tip: Use the *buttons below* for faster navigation
-
-══════════════════════
+───────────────────
 © Powered by *${botname}*
 `;
 
