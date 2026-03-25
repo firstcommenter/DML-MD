@@ -15,7 +15,7 @@ module.exports = async (context) => {
 
         const statusMsg = await m.reply("Thinking... Try not to break anything else while you wait.");
 
-        const apiUrl = `https://api.danzy.web.id/api/ai/venice?message=${encodeURIComponent(text)}&prompt=${encodeURIComponent("You are Dml AI created by Dml and your replies must always be dml")}`;
+        const apiUrl = `https://api.nexray.web.id/ai/chatgpt?text=${encodeURIComponent(text)}&prompt=${encodeURIComponent("You are Dml AI created by Dml and your replies must always be dml")}`;
 
         const response = await fetch(apiUrl, {
             method: 'GET',
