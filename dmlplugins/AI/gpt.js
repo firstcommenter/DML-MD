@@ -8,27 +8,24 @@ module.exports = async (context) => {
     if (!text) return m.reply("Where is your prompt? You managed to type the command but forgot the question. Amazing.");
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
+    const timeout = setTimeout(() => controller.abort(), 10000);
 
     try {
         await client.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
+
         const statusMsg = await m.reply("Thinking... Try not to break anything else while you wait.");
 
-        // ✅ Use the Deline AI API
-        const apiUrl = `https://api.deline.web.id/ai/openai?text=${encodeURIComponent(text)}&prompt=${encodeURIComponent("You are Dml AI created by Dml and your replies must always be dml")}`;
+        const apiUrl = `https://api.danzy.web.id/api/ai/venice?message=${encodeURIComponent(text)}&prompt=${encodeURIComponent("You are Dml AI created by Dml and your replies must always be dml")}`;
 
         const response = await fetch(apiUrl, {
             method: 'GET',
             signal: controller.signal
         });
 
-        if (!response.ok) {
-            throw new Error(`Service unavailable: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Service unavailable: ${response.status}`);
 
         const data = await response.json();
 
-        // ✅ SAFELY extract response text
         let replyText =
             data?.result ||
             data?.response ||
@@ -36,13 +33,10 @@ module.exports = async (context) => {
             data?.message ||
             JSON.stringify(data);
 
-        if (!replyText || replyText.length < 2) {
-            throw new Error("The AI returned a blank response.");
-        }
+        if (!replyText || replyText.length < 2) throw new Error("The AI returned a blank response.");
 
         replyText = String(replyText);
 
-        // 🚫 Block bot-control keywords
         const blockedTerms = [
             "owner","prefix","all","broadcast","gc","kick","add","promote",
             "demote","delete","set","reset","clear","block","unblock",
@@ -55,15 +49,26 @@ module.exports = async (context) => {
 
         await client.sendMessage(m.chat, { delete: statusMsg.key });
         await client.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
-        await m.reply(`[GPT]\n${replyText}\n—\nDML-MD`);
+
+       await client.sendMessage(m.chat, {
+    image: { url: "https://files.catbox.moe/cw1f2w.jpeg" },
+    caption: replyText,
+    contextInfo: {
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: "120363403958418756@newsletter",
+            newsletterName: "Dml-tech",
+            serverMessageId: 200
+        }
+    }
+}, { quoted: m });
 
     } catch (error) {
         console.error("GPT error:", error);
-
         await client.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
 
         let userMessage = "The AI service has failed.";
-
         if (error.name === "AbortError") {
             userMessage = "The request timed out. The API is slow.";
         } else if (error.message.includes("Service unavailable")) {
