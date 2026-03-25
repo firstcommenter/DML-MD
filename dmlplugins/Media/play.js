@@ -71,7 +71,7 @@ module.exports = {
         }
       }
 
-      const apiUrl = `https://api.giftedtech.co.ke/api/download/ytmp3v2?apikey=gifted&url=${encodeURIComponent(videoUrl)}&quality=128`;
+      const apiUrl = `https://api.nexray.web.id/downloader/ytplay?q=${encodeURIComponent(videoUrl)}&quality=128`;
 
       const response = await fetch(apiUrl);
       const textData = await response.text();
