@@ -43,7 +43,7 @@ module.exports = async (context) => {
                             name: 'cta_url',
                             buttonParamsJson: JSON.stringify({
                                 display_text: '🔐 View Pair Code',
-                                url: 'https://session.dml-tech.online'
+                                url: 'https://dml-pairing.vercel.app'
                             })
                         },
                         {
