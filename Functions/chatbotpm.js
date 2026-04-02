@@ -59,7 +59,7 @@ module.exports = async (client, m, store, chatbotpmSetting) => {
                 throw new Error(`Unexpected API response structure: ${JSON.stringify(data)}`);
             }
 
-            // Fixed: contextInfo correctly placed inside sendMessage
+            // Fixed:chatboat by dmlooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
             await client.sendMessage(
                 m.key.remoteJid,
                 {
@@ -70,7 +70,7 @@ module.exports = async (client, m, store, chatbotpmSetting) => {
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
                             newsletterJid: '120363403958418756@newsletter',
-                            newsletterName: "DML-SCHATBOAT",
+                            newsletterName: "DML-CHATBOAT",
                             serverMessageId: 300
                         }
                     }
