@@ -30,7 +30,7 @@ module.exports = async (client, m, store, chatbotpmSetting) => {
 
         try {
             const encodedText = encodeURIComponent(messageContent);
-            const apiUrl = `https://api.yupra.my.id/api/ai/gpt5?text=${encodedText}`;
+            const apiUrl = `https://ab-chatgpt4o.abrahamdw882.workers.dev/?q=${encodedText}`;
             const response = await fetch(apiUrl, { timeout: 15000 });
 
             if (!response.ok) {
