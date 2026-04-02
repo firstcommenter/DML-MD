@@ -70,7 +70,7 @@ module.exports = async (client, m, store, chatbotpmSetting) => {
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
                             newsletterJid: '120363403958418756@newsletter',
-                            newsletterName: "DML-CHATBOAT",
+                            newsletterName: "DML-CHATBOT",
                             serverMessageId: 300
                         }
                     }
