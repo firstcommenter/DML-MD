@@ -30,7 +30,6 @@ module.exports = async (client, m, store, chatbotpmSetting) => {
             const encodedText = encodeURIComponent(messageContent);
             const apiUrl = `https://api.yupra.my.id/api/ai/gpt5?text=${encodedText}`;
 
-            // Fix 1: Use AbortController for timeout instead of fetch option
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 15000);
 
@@ -46,11 +45,8 @@ module.exports = async (client, m, store, chatbotpmSetting) => {
             }
 
             const data = await response.json();
-
-            // Fix 2: Log the actual response to debug structure issues
             console.log("ChatbotPM API response:", JSON.stringify(data));
 
-            // Fix 3: Handle multiple possible response structures
             const replyText =
                 data?.data ||
                 data?.result ||
@@ -63,14 +59,26 @@ module.exports = async (client, m, store, chatbotpmSetting) => {
                 throw new Error(`Unexpected API response structure: ${JSON.stringify(data)}`);
             }
 
+            // Fixed: contextInfo correctly placed inside sendMessage
             await client.sendMessage(
                 m.key.remoteJid,
-                { text: replyText },
+                {
+                    text: replyText,
+                    contextInfo: {
+                        mentionedJid: [m.sender],
+                        forwardingScore: 999,
+                        isForwarded: true,
+                        forwardedNewsletterMessageInfo: {
+                            newsletterJid: '120363403958418756@newsletter',
+                            newsletterName: "DML-SCHATBOAT",
+                            serverMessageId: 300
+                        }
+                    }
+                },
                 { quoted: m }
             );
 
         } catch (e) {
-            // Fix 4: Distinguish timeout errors from other errors
             const isTimeout = e.name === "AbortError";
             console.error(`DML-MD ChatbotPM Error [${isTimeout ? "TIMEOUT" : "FETCH"}]:`, e.message);
 
@@ -78,8 +86,8 @@ module.exports = async (client, m, store, chatbotpmSetting) => {
                 m.key.remoteJid,
                 {
                     text: isTimeout
-                        ? `╔══❰ *Chatbot Notice* ❱══\n║ ⏱️ Request timed out.\n║ 🔄 Please try again later.\n╚════════════════════╝`
-                        : `╔══❰ *Chatbot Notice* ❱══\n║ ⚠️ Oops! Something went wrong.\n║ 🕒 Please try again later.\n╚════════════════════╝`
+                        ? `╔══❰ *Chatbot Notice* ❱══\n║ ⏱️ Request timed out.\n║ 🔄 Please try again later.\n╚══════════════════════╝`
+                        : `╔══❰ *Chatbot Notice* ❱══\n║ ⚠️ Oops! Something went wrong.\n║ 🕒 Please try again later.\n╚══════════════════════╝`
                 },
                 { quoted: m }
             );
