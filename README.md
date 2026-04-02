@@ -70,6 +70,15 @@
   <img src="https://img.shields.io/badge/⚙️%20Deploy%20via%20Panel-0B0B45?style=for-the-badge&logo=github&logoColor=white&labelColor=0B0B45">
 </a>
 
+---
+
+### 🌟 Start Using Dml Minbot for Free
+🤖 Already deployed? Power up your experience with **dml Minbot**
+
+<a href="https://minbot.dml-tech.online">
+  <img src="https://img.shields.io/badge/🤖%20Start%20Using%20DML%20Minbot%20for%20Free-00b4d8?style=for-the-badge&logoColor=white">
+</a>
+
 </div>
 
 ---
@@ -81,6 +90,7 @@
     />
   </a>
 </p>
+
 ## 👥 Fork Tracker (Active Developers)
 
 > 🧠 *All developers who forked this repository can be viewed here:*
